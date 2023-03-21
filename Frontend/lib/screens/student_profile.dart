@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorx/screens/sign_In.dart';
+import 'package:tutorx/screens/student_sign_In.dart';
 
 import '../utils/auth.dart';
 
