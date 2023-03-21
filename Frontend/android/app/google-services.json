@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "349538231529",
+    "project_id": "tutorx-e492c",
+    "storage_bucket": "tutorx-e492c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349538231529:android:7aa74e0ca65f8b1a353c78",
+        "android_client_info": {
+          "package_name": "com.example.tutorx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349538231529-aro5sa3kgknhoqa4lfbns49bag9d7qqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxRBMukoNvSjSYtEtekW8VIiJIZSk8R2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349538231529-0eao9e2semfb9a8h7a89ugsdmj880oi0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349538231529-2fulfkdvl8m6520f0fmi217s129nco34.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tutorx"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349538231529:android:26d53ab8ae1fe05f353c78",
+        "android_client_info": {
+          "package_name": "com.seproject.tutorx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349538231529-aro5sa3kgknhoqa4lfbns49bag9d7qqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxRBMukoNvSjSYtEtekW8VIiJIZSk8R2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349538231529-0eao9e2semfb9a8h7a89ugsdmj880oi0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "349538231529-2fulfkdvl8m6520f0fmi217s129nco34.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tutorx"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

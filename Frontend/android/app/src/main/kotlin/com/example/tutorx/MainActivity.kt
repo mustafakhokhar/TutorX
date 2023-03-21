@@ -1,4 +1,4 @@
-package com.seproject.tutor_x
+package com.example.tutorx
 
 import io.flutter.embedding.android.FlutterActivity
 
