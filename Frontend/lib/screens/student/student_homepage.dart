@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class StudentHomepage extends StatelessWidget {
   final UserCredential userCredential;
 
-  const WelcomeScreen({required this.userCredential}) : super();
+  const StudentHomepage({required this.userCredential}) : super();
 
   @override
   Widget build(BuildContext context) {

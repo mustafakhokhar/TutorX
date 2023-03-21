@@ -1,13 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../utils/auth.dart';
 
-class GoogleSignInButton extends StatefulWidget {
+class ForgetPasswordButton extends StatefulWidget {
   @override
-  _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
+  _ForgetPasswordButton createState() => _ForgetPasswordButton();
 }
 
-class _GoogleSignInButtonState extends State<GoogleSignInButton> {
+class _ForgetPasswordButton extends State<ForgetPasswordButton> {
   bool _isSigningIn = false;
 
   @override
@@ -28,21 +26,20 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isSigningIn = true;
-                });
+                // setState(() {
+                //   _isSigningIn = true;
+                // });
+                // User? user =
+                // await Authentication.signInWithGoogle(context: context);
 
-                User? user =
-                    await Authentication.signInWithGoogle(context: context);
-
-                setState(() {
-                  _isSigningIn = false;
-                });
+                // setState(() {
+                //   _isSigningIn = false;
+                // });
 
                 // if (user != null) {
                 //   Navigator.of(context).pushReplacement(
                 //     MaterialPageRoute(
-                //       builder: (context) => WelcomeScreen(
+                //       builder: (context) => UserInfoScreen(
                 //         user: user,
                 //       ),
                 //     ),
@@ -55,14 +52,14 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image(
-                      image: AssetImage("lib/assets/google_logo.png"),
-                      height: 35.0,
-                    ),
+                    // Image(
+                    //   image: AssetImage("lib/assets/google_logo.png"),
+                    //   height: 35.0,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        'Sign in with Google',
+                        'Forget Password',
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,

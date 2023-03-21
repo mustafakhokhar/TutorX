@@ -1,14 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../screens/student_profile.dart';
-import '../utils/auth.dart';
 
-class StudentSignUp extends StatefulWidget {
+class StudentSignUpButton extends StatefulWidget {
   @override
-  _StudentSignUp createState() => _StudentSignUp();
+  _StudentSignUpButton createState() => _StudentSignUpButton();
 }
 
-class _StudentSignUp extends State<StudentSignUp> {
+class _StudentSignUpButton extends State<StudentSignUpButton> {
   bool _isSigningIn = false;
 
   @override

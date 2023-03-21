@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../utils/auth.dart';
+import 'package:tutorx/screens/common/log_in.dart';
 
-class GoogleSignInButton extends StatefulWidget {
+class EmailSignInButton extends StatefulWidget {
   @override
-  _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
+  _EmailSignInButton createState() => _EmailSignInButton();
 }
 
-class _GoogleSignInButtonState extends State<GoogleSignInButton> {
+class _EmailSignInButton extends State<EmailSignInButton> {
   bool _isSigningIn = false;
 
   @override
@@ -28,26 +27,11 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isSigningIn = true;
-                });
-
-                User? user =
-                    await Authentication.signInWithGoogle(context: context);
-
-                setState(() {
-                  _isSigningIn = false;
-                });
-
-                // if (user != null) {
-                //   Navigator.of(context).pushReplacement(
-                //     MaterialPageRoute(
-                //       builder: (context) => WelcomeScreen(
-                //         user: user,
-                //       ),
-                //     ),
-                //   );
-                // }
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -55,14 +39,14 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Image(
-                      image: AssetImage("lib/assets/google_logo.png"),
-                      height: 35.0,
-                    ),
+                    // Image(
+                    //   image: AssetImage("lib/assets/google_logo.png"),
+                    //   height: 35.0,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        'Sign in with Google',
+                        'Sign in with Email',
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,

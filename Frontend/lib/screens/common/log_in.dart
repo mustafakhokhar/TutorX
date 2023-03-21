@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/screens/student_profile.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
           // var newUser = userCredential.user as User;
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => WelcomeScreen(
+              builder: (context) => StudentHomepage(
                 userCredential: userCredential,
               ),
             ),

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tutorx/firebase_options.dart';
 
-import '../screens/student_profile.dart';
-
 class Authentication {
   static Future<FirebaseApp> initializeFirebase({
     required BuildContext context,

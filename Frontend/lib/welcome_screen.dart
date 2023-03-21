@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:tutorx/screens/student_sign_up.dart';
-import 'package:tutorx/utils/auth.dart';
-import 'package:tutorx/widgets/email_sign_in.dart';
+import 'package:tutorx/widgets/Google_Sign_In_Button.dart';
+import 'package:tutorx/widgets/Student_Sign_Up_Button.dart';
+import 'package:tutorx/widgets/Tutor_Sign_In_Button.dart';
+import 'package:tutorx/widgets/Email_Sign_In_Button.dart';
+import 'package:tutorx/widgets/Forget_password_Button.dart';
 
-import '../widgets/google_sign_in_button.dart';
-
-class SignInScreen extends StatefulWidget {
+class WelcomeScreen extends StatefulWidget {
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   EmailSignInButton(),
                   GoogleSignInButton(),
-                  StudentSignUp()
+                  Row(
+                    children: [
+                      StudentSignUpButton(),
+                      SizedBox(
+                        width: 55,
+                      ),
+                      ForgetPasswordButton()
+                    ],
+                  ),
+                  TutorSignInButton(),
                 ],
               )
               // FutureBuilder(

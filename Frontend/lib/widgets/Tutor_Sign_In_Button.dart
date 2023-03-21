@@ -1,16 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorx/screens/student_log_in.dart';
-import '../screens/email_signin_screen.dart';
-import '../screens/student_profile.dart';
-import '../utils/auth.dart';
 
-class EmailSignInButton extends StatefulWidget {
+class TutorSignInButton extends StatefulWidget {
   @override
-  _EmailSignInButton createState() => _EmailSignInButton();
+  _TutorSignInButton createState() => _TutorSignInButton();
 }
 
-class _EmailSignInButton extends State<EmailSignInButton> {
+class _TutorSignInButton extends State<TutorSignInButton> {
   bool _isSigningIn = false;
 
   @override
@@ -50,11 +46,6 @@ class _EmailSignInButton extends State<EmailSignInButton> {
                 //     ),
                 //   );
                 // }
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
-                );
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -69,7 +60,7 @@ class _EmailSignInButton extends State<EmailSignInButton> {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        'Sign in with Email',
+                        'Are you a Tutor?',
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
