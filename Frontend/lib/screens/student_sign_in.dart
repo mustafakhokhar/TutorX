@@ -56,28 +56,35 @@ class _SignInScreenState extends State<SignInScreen> {
                   ],
                 ),
               ),
-              FutureBuilder(
-                future: Authentication.initializeFirebase(context: context),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    print(snapshot.error);
-                    return Text('Error initializing Firebase');
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    return Column(
-                      children: [
-                        EmailSignInButton(),
-                        GoogleSignInButton(),
-                        StudentSignUp()
-                      ],
-                    );
-                  }
-                  return CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.orange,
-                    ),
-                  );
-                },
-              ),
+              Column(
+                children: [
+                  EmailSignInButton(),
+                  GoogleSignInButton(),
+                  StudentSignUp()
+                ],
+              )
+              // FutureBuilder(
+              //   future: Authentication.initializeFirebase(context: context),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.hasError) {
+              //       // print(snapshot.error);
+              //       return Text('Error initializing Firebase');
+              //     } else if (snapshot.connectionState == ConnectionState.done) {
+              //       return Column(
+              //         children: [
+              //           EmailSignInButton(),
+              //           GoogleSignInButton(),
+              //           StudentSignUp()
+              //         ],
+              //       );
+              //     }
+              //     return CircularProgressIndicator(
+              //       valueColor: AlwaysStoppedAnimation<Color>(
+              //         Colors.orange,
+              //       ),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),

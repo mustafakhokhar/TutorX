@@ -15,17 +15,17 @@ class Authentication {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     // print(firebaseApp);
-    User? user = FirebaseAuth.instance.currentUser;
+    // User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => UserInfoScreen(
-            user: user,
-          ),
-        ),
-      );
-    }
+    // if (user != null) {
+    //   Navigator.of(context).pushReplacement(
+    //     MaterialPageRoute(
+    //       builder: (context) => UserInfoScreen(
+    //         user: user,
+    //       ),
+    //     ),
+    //   );
+    // }
     return firebaseApp;
   }
 
@@ -39,22 +39,21 @@ class Authentication {
         await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-
       try {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
           ScaffoldMessenger.of(context).showSnackBar(
             Authentication.customSnackBar(
               content:
@@ -62,7 +61,6 @@ class Authentication {
             ),
           );
         } else if (e.code == 'invalid-credential') {
-          // handle the error here
           ScaffoldMessenger.of(context).showSnackBar(
             Authentication.customSnackBar(
               content: 'Error occurred while accessing credentials. Try again.',
@@ -70,13 +68,18 @@ class Authentication {
           );
         }
       } catch (e) {
-        // handle the error here
         ScaffoldMessenger.of(context).showSnackBar(
           Authentication.customSnackBar(
             content: 'Error occurred using Google Sign-In. Try again.',
           ),
         );
       }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        Authentication.customSnackBar(
+          content: 'Google Sign-In was cancelled. Try again.',
+        ),
+      );
     }
 
     return user;

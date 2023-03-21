@@ -27,9 +27,6 @@ class _MyAppState extends State<MyApp> {
       // Initialize FlutterFire:
       future: Authentication.initializeFirebase(context: context),
       builder: (context, snapshot) {
-        // Connects with firebase emulator instead of firebase cloud
-        // FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
-
         // Check for errors
         if (snapshot.hasError) {
           return const Text(
@@ -41,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
-            title: 'FlutterFire Samples',
+            // title: 'FlutterFire Samples',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.indigo,
@@ -50,6 +47,11 @@ class _MyAppState extends State<MyApp> {
             home: SignInScreen(),
           );
         }
+        return CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+            Colors.orange,
+          ),
+        );
         // Otherwise, show something whilst waiting for initialization to complete
         return const Text(
           'loading',
