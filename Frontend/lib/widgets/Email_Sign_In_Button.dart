@@ -32,6 +32,7 @@ class _EmailSignInButton extends State<EmailSignInButton> {
                     builder: (context) => LoginPage(),
                   ),
                 );
+                // Navigator.pushNamed(context, '/studentSignIn');
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

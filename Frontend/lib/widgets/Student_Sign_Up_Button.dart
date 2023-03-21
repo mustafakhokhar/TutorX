@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/student/student_sign_up.dart';
 
 class StudentSignUpButton extends StatefulWidget {
   @override
@@ -26,25 +27,11 @@ class _StudentSignUpButton extends State<StudentSignUpButton> {
                 ),
               ),
               onPressed: () async {
-                // setState(() {
-                //   _isSigningIn = true;
-                // });
-                // User? user =
-                // await Authentication.signInWithGoogle(context: context);
-
-                // setState(() {
-                //   _isSigningIn = false;
-                // });
-
-                // if (user != null) {
-                //   Navigator.of(context).pushReplacement(
-                //     MaterialPageRoute(
-                //       builder: (context) => UserInfoScreen(
-                //         user: user,
-                //       ),
-                //     ),
-                //   );
-                // }
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => StudentSignUpScreen(),
+                  ),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
