@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tutorx/routes.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
-// import 'package:tutorx/welcome_screen.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +32,9 @@ class _MyAppState extends State<MyApp> {
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
-            // title: 'FlutterFire Samples',
             debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            routes: appRoutes,
             theme: ThemeData(
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,

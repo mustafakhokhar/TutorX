@@ -46,7 +46,7 @@ class FirstScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 310),
+            SizedBox(height: 220),
             SizedBox(
               height: 52,
               width: 247,
@@ -61,7 +61,8 @@ class FirstScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => StudentSignUpScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => StudentSignUpScreen()),
                   );
                 },
                 child: Text(
@@ -91,7 +92,8 @@ class FirstScreen extends StatelessWidget {
                     ..onTap = () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => WelcomeScreen()),
                       );
                     })
             ]))
