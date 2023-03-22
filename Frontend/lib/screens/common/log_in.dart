@@ -41,7 +41,9 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    color: hexStringToColor('F2FF53'),
+                    color: Color(0xFFF2FF53),
+                    
+                    
                   ),
                   SizedBox(
                     width: 5,
@@ -51,7 +53,8 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: hexStringToColor('F2FF53'),
+                      color: Color(0xFFF2FF53),
+                      
                     ),
                   ),
                 ],
@@ -64,7 +67,8 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
-                  color: hexStringToColor('F2FF53'),
+                  color: Color(0xFFF2FF53),
+                  
                 ),
               ),
               SizedBox(
@@ -89,7 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(fontSize: 16),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: hexStringToColor('F2FF53'),
+                        primary: Color(0xFFF2FF53),
+                        
                         onPrimary: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
@@ -113,7 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(fontSize: 16),
                 ),
                 style: TextButton.styleFrom(
-                  primary: hexStringToColor('F2FF53'),
+                  primary: Color(0xFFF2FF53),
+                  
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),

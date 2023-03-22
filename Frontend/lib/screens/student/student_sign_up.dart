@@ -25,8 +25,8 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-          hexStringToColor("593CE8"),
-          hexStringToColor("000000"),
+          hexStringToColor("583BE8"),
+          hexStringToColor("312181"),
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: Padding(
             padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
@@ -40,7 +40,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
-                      color: hexStringToColor('F2FF53')),
+                      color: Color(0xFFF2FF53)),
                 ),
                 SizedBox(
                   height: 20,
@@ -71,34 +71,19 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      UserCredential userCredential = await FirebaseAuth
-                          .instance
-                          .createUserWithEmailAndPassword(
-                        email: _emailTextController.text.trim(),
-                        password: _passwordTextController.text.trim(),
-                      );
-
-                      // If the sign up is successful, navigate to the next screen
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => StudentHomepage(
-                            userCredential: userCredential,
-                          ),
-                        ),
-                      );
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'weak-password') {
-                        print('The password provided is too weak.');
-                      } else if (e.code == 'email-already-in-use') {
-                        print('The account already exists for that email.');
-                      }
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                  child: Text("Submit"),
+                  onPressed: () => _signup(),
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFF2FF53),
+                    onPrimary: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -107,19 +92,73 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   onPressed: () {
                     // Navigate to login screen
                     Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => WelcomeScreen(),
-                        ),
-                      );
+                      MaterialPageRoute(
+                        builder: (context) => WelcomeScreen(),
+                      ),
+                    );
                   },
-                  child: Text("Already have an account? Sign In"),
+                  child: Text(
+                    "Already have an account? Sign In",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  style: TextButton.styleFrom(
+                    primary: Color(0xFFF2FF53),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                  ),
                 ),
               ],
             )),
       ),
     );
   }
+
+void _signup() async {
+  print("CALLED");
+  try {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _emailTextController.text.trim(),
+      password: _passwordTextController.text.trim(),
+    );
+
+    // If the sign up is successful, navigate to the next screen
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => StudentHomepage(
+          userCredential: userCredential,
+        ),
+      ),
+    );
+  } on FirebaseAuthException catch (e) {
+    print(e);
+    String errorMessage;
+    if (e.code == 'weak-password') {
+      errorMessage = 'The password provided is too weak.';
+    } else if (e.code == 'email-already-in-use') {
+      errorMessage = 'The account already exists for that email.';
+    } else {
+      errorMessage = e.message ?? 'An error occurred while signing up.';
+    }
+    // Show error message on screen
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage),
+          backgroundColor: Colors.red,
+      ),
+    );
+  } catch (e) {
+    print(e);
+    // Show error message on screen
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('An error occurred while signing up.')),
+    );
+  }
 }
+
+}
+
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
   return TextField(
