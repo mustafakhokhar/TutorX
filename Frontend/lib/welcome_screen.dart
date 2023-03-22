@@ -69,15 +69,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   children: [
                     EmailSignInButton(),
                     GoogleSignInButton(),
-                    Row(
-                      children: [
-                        StudentSignUpButton(),
-                        SizedBox(
-                          width: 55,
-                        ),
-                        ForgetPasswordButton()
-                      ],
-                    ),
+                    StudentSignUpButton(),
+
+                    // Row(
+                    //   children: [
+                    //     StudentSignUpButton(),
+                    //     SizedBox(
+                    //     ),
+                        // ForgetPasswordButton()
+                    //   ],
+                    // ),
                     TutorSignInButton(),
                   ],
                 )

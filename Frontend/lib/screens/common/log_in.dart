@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/screens/common/forget_password.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,6 +60,17 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: _login,
                         child: Text('Login'),
                       ),
+                SizedBox(height: 8),
+                TextButton(
+                  onPressed: () { 
+                    Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => ForgetPasswordScreen()
+                    ),
+                  );
+                  },
+                  child: Text('Forgot password?'),
+                ),
               ],
             ),
           ),
@@ -65,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
 
   void _login() async {
     if (_formKey.currentState?.validate() == true) {
