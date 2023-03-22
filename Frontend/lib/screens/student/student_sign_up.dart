@@ -2,12 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/colors.dart';
+import '../../welcome_screen.dart';
 
 class StudentSignUpScreen extends StatefulWidget {
-  const StudentSignUpScreen({super.key});
+  const StudentSignUpScreen({Key? key}) : super(key: key);
 
   @override
-  State<StudentSignUpScreen> createState() => _StudentSignUpScreenState();
+  _StudentSignUpScreenState createState() => _StudentSignUpScreenState();
 }
 
 class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
@@ -99,13 +100,26 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   },
                   child: Text("Submit"),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Navigate to login screen
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => WelcomeScreen(),
+                        ),
+                      );
+                  },
+                  child: Text("Already have an account? Sign In"),
+                ),
               ],
             )),
       ),
     );
   }
 }
-
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
   return TextField(

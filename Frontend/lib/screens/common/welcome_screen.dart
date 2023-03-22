@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../welcome_screen.dart';
+import '../student/student_sign_up.dart';
 import 'log_in.dart';
 
 class Welcomescreen extends StatelessWidget {
@@ -60,7 +61,7 @@ class Welcomescreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                    MaterialPageRoute(builder: (context) => StudentSignUpScreen()),
                   );
                 },
                 child: Text(
@@ -90,7 +91,7 @@ class Welcomescreen extends StatelessWidget {
                     ..onTap = () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => WelcomeScreen()),
                       );
                     })
             ]))
