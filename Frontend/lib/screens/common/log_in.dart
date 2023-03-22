@@ -22,8 +22,8 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              hexStringToColor("593CE8"),
-              hexStringToColor("000000"),
+              hexStringToColor("583BE8"),
+              hexStringToColor("312181"),
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
- void _login() async {
+  void _login() async {
     print("CALLED");
     try {
       final UserCredential userCredential =
@@ -136,37 +136,36 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
       // If the sign in was successful, do something here
-       Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => StudentHomepage(
-                userCredential: userCredential,
-              ),
-            ),
-          );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => StudentHomepage(
+            userCredential: userCredential,
+          ),
+        ),
+      );
       print('Signed in user: ${userCredential.user!.uid}');
     } on FirebaseAuthException catch (e) {
-        print('Failed to authenticate: ${e.message}');
-        String errorMessage = '';
-        if (e.code == 'user-not-found') {
-          errorMessage = 'No user found for that email.';
-        } else if (e.code == 'wrong-password') {
-          errorMessage = 'Wrong password provided for that user.';
-        } else {
-          errorMessage = e.message!;
-        }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(errorMessage),
-            backgroundColor: Colors.red,
-          ),
-        );
+      print('Failed to authenticate: ${e.message}');
+      String errorMessage = '';
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else {
+        errorMessage = e.message!;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
   }
-
 }
 
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
