@@ -17,8 +17,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-        hexStringToColor("593CE8"),
-        hexStringToColor("000000"),
+        hexStringToColor("583BE8"),
+        hexStringToColor("312181"),
       ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
