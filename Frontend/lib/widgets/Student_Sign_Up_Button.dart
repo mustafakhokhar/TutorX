@@ -15,11 +15,11 @@ class _StudentSignUpButton extends State<StudentSignUpButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 0, 0, 0)),
             )
           : OutlinedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
+                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
@@ -44,12 +44,12 @@ class _StudentSignUpButton extends State<StudentSignUpButton> {
                     //   height: 35.0,
                     // ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 0),
                       child: Text(
                         'Sign Up',
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.black54,
+                          color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

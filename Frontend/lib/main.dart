@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorx/welcome_screen.dart';
+import 'package:tutorx/screens/common/first_screen.dart';
+// import 'package:tutorx/welcome_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 
 void main() async {
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            home: WelcomeScreen(),
+            home: FirstScreen(),
           );
         }
         return CircularProgressIndicator(

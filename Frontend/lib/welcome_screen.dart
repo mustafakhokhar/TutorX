@@ -17,8 +17,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-        hexStringToColor("593CE8"),
-        hexStringToColor("000000"),
+        hexStringToColor("583BE8"),
+        hexStringToColor("312181"),
       ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -41,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Flexible(
                         flex: 1,
                         child: Image.asset(
-                          'lib/assets/pngwing.png',
+                          'lib/assets/x.png',
                           height: 160,
                         ),
                       ),
@@ -50,16 +50,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         'TutorX',
                         style: TextStyle(
                           wordSpacing: 4,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.amberAccent,
+                          fontWeight: FontWeight.w800,
                           fontSize: 40,
+                          fontFamily: 'JakartaSans',
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                       ),
                       Text(
                         'Student Sign-In',
                         style: TextStyle(
-                          color: Colors.orange,
-                          fontSize: 25,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'JakartaSans',
+                          fontSize: 30,
                         ),
                       ),
                     ],
@@ -69,15 +72,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   children: [
                     EmailSignInButton(),
                     GoogleSignInButton(),
-                    Row(
-                      children: [
-                        StudentSignUpButton(),
-                        SizedBox(
-                          width: 55,
-                        ),
-                        ForgetPasswordButton()
-                      ],
-                    ),
+                    StudentSignUpButton(),
+
+                    // Row(
+                    //   children: [
+                    //     StudentSignUpButton(),
+                    //     SizedBox(
+                    //     ),
+                    // ForgetPasswordButton()
+                    //   ],
+                    // ),
                     TutorSignInButton(),
                   ],
                 )
