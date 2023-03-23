@@ -127,6 +127,36 @@ class Authentication {
     }
   }
 
+static Future<UserCredential?> signInWithEmail(
+      {required BuildContext context,
+      required String email,
+      required String password}) async {
+    try {
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print('Signed in user: ${userCredential.user!.uid}');
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      print('Failed to authenticate: ${e.message}');
+      String errorMessage = '';
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else {
+        errorMessage = e.message!;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
   //ADDITIONAL METHODS
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
