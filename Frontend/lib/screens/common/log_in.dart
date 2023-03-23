@@ -4,6 +4,8 @@ import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
+import 'package:tutorx/utils/auth.dart';
+
 
 
 class LoginPage extends StatefulWidget {
@@ -89,7 +91,28 @@ class _LoginPageState extends State<LoginPage> {
               _isLoading
                   ? CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: () => _login(),
+                      onPressed: () async {
+                    String email = _emailController.text;
+                    String password = _passwordController.text;
+
+                    UserCredential? userCredential =
+                        await Authentication.signInWithEmail(
+                      context:
+                          context, 
+                      email: email,
+                      password: password,
+                    );
+
+                    if (userCredential != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => StudentHomepage(
+                            userCredential: userCredential,
+                          ),
+                        ),
+                      );
+                    }
+                  },
                       child: Text(
                         "Submit",
                         style: TextStyle(fontSize: 16),
@@ -133,45 +156,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void _login() async {
-    print("CALLED");
-    try {
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      // If the sign in was successful, do something here
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => StudentHomepage(
-            userCredential: userCredential,
-          ),
-        ),
-      );
-      print('Signed in user: ${userCredential.user!.uid}');
-    } on FirebaseAuthException catch (e) {
-      print('Failed to authenticate: ${e.message}');
-      String errorMessage = '';
-      if (e.code == 'user-not-found') {
-        errorMessage = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        errorMessage = 'Wrong password provided for that user.';
-      } else {
-        errorMessage = e.message!;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 }
