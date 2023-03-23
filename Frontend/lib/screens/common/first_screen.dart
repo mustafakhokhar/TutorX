@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorx/welcome_screen.dart';
+import 'package:tutorx/screens/student/student_sign_up.dart';
 
-import '../../welcome_screen.dart';
-import '../student/student_sign_up.dart';
-import 'log_in.dart';
+
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -99,20 +99,6 @@ class FirstScreen extends StatelessWidget {
             ]))
           ],
         ),
-      ),
-    );
-  }
-}
-
-class LoginScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: Center(
-        child: Text('Login Page'),
       ),
     );
   }
