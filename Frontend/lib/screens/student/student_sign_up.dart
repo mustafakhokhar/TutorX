@@ -19,7 +19,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
   TextEditingController _fullnameTextController = TextEditingController();
   TextEditingController _phonenumberTextController = TextEditingController();
   TextEditingController _educationlevelTextController = TextEditingController();
-  var _auth = Authentication();
+
 
   @override
   Widget build(BuildContext context) {
