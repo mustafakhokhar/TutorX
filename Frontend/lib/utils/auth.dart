@@ -12,18 +12,6 @@ class Authentication {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    // print(firebaseApp);
-    // User? user = FirebaseAuth.instance.currentUser;
-
-    // if (user != null) {
-    //   Navigator.of(context).pushReplacement(
-    //     MaterialPageRoute(
-    //       builder: (context) => UserInfoScreen(
-    //         user: user,
-    //       ),
-    //     ),
-    //   );
-    // }
     return firebaseApp;
   }
 
@@ -83,16 +71,6 @@ class Authentication {
     return user;
   }
 
-  static SnackBar customSnackBar({required String content}) {
-    return SnackBar(
-      backgroundColor: Colors.black,
-      content: Text(
-        content,
-        style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
-      ),
-    );
-  }
-
   static Future<void> signOut({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -108,5 +86,55 @@ class Authentication {
         ),
       );
     }
+  }
+
+  static Future<UserCredential?> signUpWithEmail(
+      {required BuildContext context,
+      required String email,
+      required String password}) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+
+      if (e.code == 'weak-password') {
+        errorMessage = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        errorMessage = 'The account already exists for that email.';
+      } else {
+        errorMessage = e.message ?? 'An error occurred while signing up.';
+      }
+      // Show error message on screen
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      print(e);
+      // Show error message on screen
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred while signing up.'),
+        backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  //ADDITIONAL METHODS
+  static SnackBar customSnackBar({required String content}) {
+    return SnackBar(
+      backgroundColor: Colors.black,
+      content: Text(
+        content,
+        style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+      ),
+    );
   }
 }
