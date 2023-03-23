@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/colors.dart';
 import '../../welcome_screen.dart';
+import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/widgets/reusable_widgets.dart';
 
 class StudentSignUpScreen extends StatefulWidget {
   const StudentSignUpScreen({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
   TextEditingController _fullnameTextController = TextEditingController();
   TextEditingController _phonenumberTextController = TextEditingController();
   TextEditingController _educationlevelTextController = TextEditingController();
+  var _auth = Authentication();
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +74,28 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () => _signup(),
+                  onPressed: () async {
+                    String email = _emailTextController.text.trim();
+                    String password = _passwordTextController.text.trim();
+
+                    UserCredential? userCredential =
+                        await Authentication.signUpWithEmail(
+                      context:
+                          context, 
+                      email: email,
+                      password: password,
+                    );
+
+                    if (userCredential != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => StudentHomepage(
+                            userCredential: userCredential,
+                          ),
+                        ),
+                      );
+                    }
+                  },
                   child: Text(
                     "Submit",
                     style: TextStyle(fontSize: 16),
@@ -115,78 +139,4 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
     );
   }
 
-void _signup() async {
-  print("CALLED");
-  try {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: _emailTextController.text.trim(),
-      password: _passwordTextController.text.trim(),
-    );
-
-    // If the sign up is successful, navigate to the next screen
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => StudentHomepage(
-          userCredential: userCredential,
-        ),
-      ),
-    );
-  } on FirebaseAuthException catch (e) {
-    print(e);
-    String errorMessage;
-    if (e.code == 'weak-password') {
-      errorMessage = 'The password provided is too weak.';
-    } else if (e.code == 'email-already-in-use') {
-      errorMessage = 'The account already exists for that email.';
-    } else {
-      errorMessage = e.message ?? 'An error occurred while signing up.';
-    }
-    // Show error message on screen
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(errorMessage),
-          backgroundColor: Colors.red,
-      ),
-    );
-  } catch (e) {
-    print(e);
-    // Show error message on screen
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('An error occurred while signing up.')),
-    );
-  }
 }
-
-}
-
-TextField reusableTextField(String text, IconData icon, bool isPasswordType,
-    TextEditingController controller) {
-  return TextField(
-    controller: controller,
-    obscureText: isPasswordType,
-    enableSuggestions: !isPasswordType,
-    autocorrect: !isPasswordType,
-    cursorColor: Color.fromARGB(255, 0, 0, 0),
-    style: TextStyle(
-        color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold),
-    decoration: InputDecoration(
-      prefixIcon: Icon(
-        icon,
-        color: Color.fromARGB(255, 8, 8, 8),
-      ),
-      labelText: text,
-      labelStyle: TextStyle(
-          color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold),
-      filled: true,
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: Colors.white,
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
-    ),
-    keyboardType: isPasswordType
-        ? TextInputType.visiblePassword
-        : TextInputType.emailAddress,
-  );
-}
-// Test Test
