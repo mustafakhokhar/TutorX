@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/widgets/Sign_Out_Button.dart';
 import 'package:tutorx/utils/auth.dart';
-
+import 'package:tutorx/screens/common/map_temp.dart';
 
 class StudentHomepage extends StatelessWidget {
   final UserCredential userCredential;
@@ -29,15 +29,24 @@ class StudentHomepage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(),
+                    ),
+                  );
+                },
+                child: Text("MAPS PAGE")),
             SizedBox(height: 20.0),
             OutlinedButton(
                 onPressed: () async {
                   await Authentication.signOut(context: context);
-                  Navigator.of(context)
-              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/', (Route<dynamic> route) => false);
                 },
                 child: Text("Sign Out")),
-                // child: SignOutButton(),
+            // child: SignOutButton(),
           ],
         ),
       ),
