@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/screens/common/log_in.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   @override
@@ -7,41 +9,8 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
+
   final _emailController = TextEditingController();
-  bool _isLoading = false;
-
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      try {
-        await FirebaseAuth.instance.sendPasswordResetEmail(
-          email: _emailController.text,
-        );
-
-        setState(() {
-          _isLoading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Password reset email sent!'),
-            ),
-          );
-        });
-      } on FirebaseAuthException catch (e) {
-        setState(() {
-          _isLoading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(e.message!),
-            ),
-          );
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +21,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Form(
-          key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -70,10 +38,19 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
               SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _isLoading ? null : _submitForm,
-                child: _isLoading
-                    ? CircularProgressIndicator()
-                    : Text('Submit'),
+                onPressed: () async {
+                  Authentication.forgetPassword(
+                      context: context, email: _emailController.text);
+
+                  Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage()
+                        ),
+                      );
+                  
+                },
+                child:
+                    Text('Submit'),
               ),
             ],
           ),
