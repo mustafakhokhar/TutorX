@@ -1,3 +1,5 @@
+// import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -86,19 +88,18 @@ class Authentication {
         print('User is signed in using email');
         // IMPLEMENT FIREBASE SIGNOUT PROCEDURE
         await _auth.signOut();
-
       }
     } else {
       print('User is not signed in');
     }
-    
+
     // OLD CODE
     // final GoogleSignIn googleSignIn = GoogleSignIn();
 
     // try {
-      // if (!kIsWeb) {
-      //   await googleSignIn.signOut();
-      // }
+    // if (!kIsWeb) {
+    //   await googleSignIn.signOut();
+    // }
     //   await FirebaseAuth.instance.signOut();
     // } catch (e) {
     //   ScaffoldMessenger.of(context).showSnackBar(
@@ -175,6 +176,27 @@ class Authentication {
         SnackBar(
           content: Text(errorMessage),
           backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  static Future<void> forgetPassword(
+      {required BuildContext context, required String email}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password reset email sent!'),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message!),
         ),
       );
     }
