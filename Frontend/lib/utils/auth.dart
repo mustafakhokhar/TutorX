@@ -72,20 +72,41 @@ class Authentication {
   }
 
   static Future<void> signOut({required BuildContext context}) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    User? user = _auth.currentUser;
     final GoogleSignIn googleSignIn = GoogleSignIn();
-
-    try {
-      if (!kIsWeb) {
+    if (user != null) {
+      // Checking if the user is signed in using Google
+      if (user.providerData
+          .any((provider) => provider.providerId == 'google.com')) {
+        print('User is signed in using Google');
+        // IMPLEMENT GOOGLE SIGNOUT PROCEDURE
         await googleSignIn.signOut();
+      } else {
+        print('User is signed in using email');
+        // IMPLEMENT FIREBASE SIGNOUT PROCEDURE
+        await _auth.signOut();
+
       }
-      await FirebaseAuth.instance.signOut();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        Authentication.customSnackBar(
-          content: 'Error signing out. Try again.',
-        ),
-      );
+    } else {
+      print('User is not signed in');
     }
+    
+    // OLD CODE
+    // final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    // try {
+      // if (!kIsWeb) {
+      //   await googleSignIn.signOut();
+      // }
+    //   await FirebaseAuth.instance.signOut();
+    // } catch (e) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     Authentication.customSnackBar(
+    //       content: 'Error signing out. Try again.',
+    //     ),
+    //   );
+    // }
   }
 
   static Future<UserCredential?> signUpWithEmail(
@@ -120,14 +141,15 @@ class Authentication {
       print(e);
       // Show error message on screen
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred while signing up.'),
-        backgroundColor: Colors.red,
+        SnackBar(
+          content: Text('An error occurred while signing up.'),
+          backgroundColor: Colors.red,
         ),
       );
     }
   }
 
-static Future<UserCredential?> signInWithEmail(
+  static Future<UserCredential?> signInWithEmail(
       {required BuildContext context,
       required String email,
       required String password}) async {
@@ -157,6 +179,7 @@ static Future<UserCredential?> signInWithEmail(
       );
     }
   }
+
   //ADDITIONAL METHODS
   static SnackBar customSnackBar({required String content}) {
     return SnackBar(
