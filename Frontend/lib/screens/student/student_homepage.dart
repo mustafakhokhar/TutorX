@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/widgets/Sign_Out_Button.dart';
+import 'package:tutorx/utils/auth.dart';
+
 
 class StudentHomepage extends StatelessWidget {
   final UserCredential userCredential;
@@ -30,10 +32,12 @@ class StudentHomepage extends StatelessWidget {
             SizedBox(height: 20.0),
             OutlinedButton(
                 onPressed: () async {
-                  await _auth.signOut();
-                  Navigator.pop(context);
+                  await Authentication.signOut(context: context);
+                  Navigator.of(context)
+              .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
                 },
-                child: SignOutButton()),
+                child: Text("Sign Out")),
+                // child: SignOutButton(),
           ],
         ),
       ),
