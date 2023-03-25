@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/Tutor/tutor_login.dart';
+import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/colors.dart';
 import '../../welcome_screen.dart';
@@ -148,7 +149,7 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
                             if (userCredential != null) {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => StudentHomepage(
+                                  builder: (context) => MapScreen(
                                     userCredential: userCredential,
                                   ),
                                 ),

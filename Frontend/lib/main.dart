@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            home: TutorSignUpScreen(),
+            home: FirstScreen(),
             // home: MapScreen(),
           );
         }
