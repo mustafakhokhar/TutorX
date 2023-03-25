@@ -33,7 +33,8 @@ class StudentHomepage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => MapScreen(),
+                      builder: (context) =>
+                          MapScreen(userCredential: userCredential),
                     ),
                   );
                 },

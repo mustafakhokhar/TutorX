@@ -6,6 +6,8 @@ import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/auth.dart';
 
+import 'map_temp.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -99,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                         if (userCredential != null) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => StudentHomepage(
+                              builder: (context) => MapScreen(
                                 userCredential: userCredential,
                               ),
                             ),
