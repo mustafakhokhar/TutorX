@@ -40,6 +40,9 @@ dependencies:
   google_sign_in: ^6.0.2
   google_maps_flutter: ^2.2.5
   google_maps_flutter_web: ^0.4.0+7
+  location: ^4.3.0
+  flutter_svg: ^1.1.0
+  geolocator: ^7.2.0
 
 
 dev_dependencies:
@@ -87,6 +90,10 @@ flutter:
           weight: 600
         - asset: lib/assets/jakartaregular.ttf
           weight: 400
+        - asset: lib/assets/jakartamedium.ttf
+          weight: 500
+        - asset: lib/assets/jakartabold.ttf
+          weight: 700
           
   #   - family: Trajan Pro
   #     fonts:
