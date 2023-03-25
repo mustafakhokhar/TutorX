@@ -1,12 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorx/welcome_screen.dart';
-import 'package:tutorx/screens/student/student_sign_up.dart';
-
-import '../../welcome_screen.dart';
-import '../student/student_sign_up.dart';
-import 'asking_page.dart';
-import 'log_in.dart';
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -70,10 +63,7 @@ class FirstScreen extends StatelessWidget {
                           MaterialStateProperty.all(Color(0xFF583BE8)),
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AskingPage()),
-                      );
+                      Navigator.pushNamed(context, '/askingScreen');
                     },
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -106,11 +96,7 @@ class FirstScreen extends StatelessWidget {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WelcomeScreen()),
-                              );
+                              Navigator.pushNamed(context, '/signInOptions');
                             },
                         ),
                       ],

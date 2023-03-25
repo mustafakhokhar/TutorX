@@ -4,7 +4,6 @@ import 'package:tutorx/widgets/Google_Sign_In_Button.dart';
 import 'package:tutorx/widgets/Student_Sign_Up_Button.dart';
 import 'package:tutorx/widgets/Tutor_Sign_In_Button.dart';
 import 'package:tutorx/widgets/Email_Sign_In_Button.dart';
-import 'package:tutorx/widgets/Forget_password_Button.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -73,40 +72,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     EmailSignInButton(),
                     GoogleSignInButton(),
                     StudentSignUpButton(),
-
-                    // Row(
-                    //   children: [
-                    //     StudentSignUpButton(),
-                    //     SizedBox(
-                    //     ),
-                    // ForgetPasswordButton()
-                    //   ],
-                    // ),
                     TutorSignInButton(),
                   ],
                 )
-                // FutureBuilder(
-                //   future: Authentication.initializeFirebase(context: context),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasError) {
-                //       // print(snapshot.error);
-                //       return Text('Error initializing Firebase');
-                //     } else if (snapshot.connectionState == ConnectionState.done) {
-                //       return Column(
-                //         children: [
-                //           EmailSignInButton(),
-                //           GoogleSignInButton(),
-                //           StudentSignUp()
-                //         ],
-                //       );
-                //     }
-                //     return CircularProgressIndicator(
-                //       valueColor: AlwaysStoppedAnimation<Color>(
-                //         Colors.orange,
-                //       ),
-                //     );
-                //   },
-                // ),
               ],
             ),
           ),

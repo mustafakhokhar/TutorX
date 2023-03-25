@@ -16,11 +16,13 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 9, 9, 9)),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 9, 9, 9)),
             )
           : OutlinedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
@@ -28,16 +30,16 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isSigningIn = true;
-                });
+                // setState(() {
+                //   _isSigningIn = true;
+                // });
 
-                User? user =
-                    await Authentication.signInWithGoogle(context: context);
+                // User? user =
+                //     await Authentication.signInWithGoogle(context: context);
 
-                setState(() {
-                  _isSigningIn = false;
-                });
+                // setState(() {
+                //   _isSigningIn = false;
+                // });
 
                 // if (user != null) {
                 //   Navigator.of(context).pushReplacement(

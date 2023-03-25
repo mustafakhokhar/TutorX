@@ -6,8 +6,6 @@ import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/auth.dart';
 
-
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -22,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -46,8 +45,6 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pop(context);
                     },
                     color: Color(0xFFF2FF53),
-                    
-                    
                   ),
                   SizedBox(
                     width: 5,
@@ -58,7 +55,6 @@ class _LoginPageState extends State<LoginPage> {
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFFF2FF53),
-                      
                     ),
                   ),
                 ],
@@ -72,7 +68,6 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFF2FF53),
-                  
                 ),
               ),
               SizedBox(
@@ -92,40 +87,39 @@ class _LoginPageState extends State<LoginPage> {
                   ? CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: () async {
-                    String email = _emailController.text;
-                    String password = _passwordController.text;
+                        String email = _emailController.text;
+                        String password = _passwordController.text;
 
-                    UserCredential? userCredential =
-                        await Authentication.signInWithEmail(
-                      context:
-                          context, 
-                      email: email,
-                      password: password,
-                    );
+                        UserCredential? userCredential =
+                            await Authentication.signInWithEmail(
+                          context: context,
+                          email: email,
+                          password: password,
+                        );
 
-                    if (userCredential != null) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => StudentHomepage(
-                            userCredential: userCredential,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                      child: Text(
-                        "Submit",
-                        style: TextStyle(fontSize: 16),
-                      ),
+                        if (userCredential != null) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => StudentHomepage(
+                                userCredential: userCredential,
+                              ),
+                            ),
+                          );
+                          // Navigator.pushNamed(context, '/mapScreen');
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFF2FF53),
-                        
-                        onPrimary: Colors.black,
+                        backgroundColor: Color(0xFFF2FF53),
+                        foregroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                         padding:
                             EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                      ),
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
               SizedBox(
@@ -138,17 +132,16 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => ForgetPasswordScreen()));
                 },
-                child: Text(
-                  "Forgot password?",
-                  style: TextStyle(fontSize: 16),
-                ),
                 style: TextButton.styleFrom(
-                  primary: Color(0xFFF2FF53),
-                  
+                  // backgroundColor: Color(0xFFF2FF53),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                ),
+                child: Text(
+                  "Forgot password?",
+                  style: TextStyle(fontSize: 16, color: Color(0xFFF2FF53)),
                 ),
               ),
             ],

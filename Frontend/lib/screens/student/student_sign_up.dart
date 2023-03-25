@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/colors.dart';
-import '../../welcome_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 
@@ -19,7 +18,6 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
   TextEditingController _fullnameTextController = TextEditingController();
   TextEditingController _phonenumberTextController = TextEditingController();
   TextEditingController _educationlevelTextController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   height: 85,
                 ),
                 Text(
-                  "Sign up",
+                  "Student Sign up",
                   style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
@@ -80,8 +78,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
 
                     UserCredential? userCredential =
                         await Authentication.signUpWithEmail(
-                      context:
-                          context, 
+                      context: context,
                       email: email,
                       password: password,
                     );
@@ -96,17 +93,17 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                       );
                     }
                   },
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(fontSize: 16),
-                  ),
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFF2FF53),
-                    onPrimary: Colors.black,
+                    backgroundColor: Color(0xFFF2FF53),
+                    foregroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                  ),
+                  child: Text(
+                    "Submit",
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
                 SizedBox(
@@ -114,23 +111,18 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Navigate to login screen
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => WelcomeScreen(),
-                      ),
-                    );
+                    Navigator.pushNamed(context, '/signInOptions');
                   },
-                  child: Text(
-                    "Already have an account? Sign In",
-                    style: TextStyle(fontSize: 14),
-                  ),
                   style: TextButton.styleFrom(
-                    primary: Color(0xFFF2FF53),
+                    // backgroundColor: Color(0xFFF2FF53),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                  ),
+                  child: Text(
+                    "Already have an account? Sign In",
+                    style: TextStyle(fontSize: 14, color: Color(0xFFF2FF53)),
                   ),
                 ),
               ],
@@ -138,5 +130,4 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
       ),
     );
   }
-
 }

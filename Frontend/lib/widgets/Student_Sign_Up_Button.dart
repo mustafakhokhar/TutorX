@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tutorx/screens/student/student_sign_up.dart';
 
 class StudentSignUpButton extends StatefulWidget {
   @override
@@ -15,11 +14,13 @@ class _StudentSignUpButton extends State<StudentSignUpButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 0, 0, 0)),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 0, 0, 0)),
             )
           : OutlinedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
@@ -27,11 +28,7 @@ class _StudentSignUpButton extends State<StudentSignUpButton> {
                 ),
               ),
               onPressed: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => StudentSignUpScreen(),
-                  ),
-                );
+                Navigator.pushNamed(context, '/studentSignUpScreen');
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -39,10 +36,6 @@ class _StudentSignUpButton extends State<StudentSignUpButton> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // Image(
-                    //   image: AssetImage("lib/assets/google_logo.png"),
-                    //   height: 35.0,
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(left: 0),
                       child: Text(

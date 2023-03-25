@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TutorSignInButton extends StatefulWidget {
@@ -15,11 +14,13 @@ class _TutorSignInButton extends State<TutorSignInButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 0, 0, 0)),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 0, 0, 0)),
             )
           : OutlinedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
@@ -53,10 +54,6 @@ class _TutorSignInButton extends State<TutorSignInButton> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    // Image(
-                    //   image: AssetImage("lib/assets/google_logo.png"),
-                    //   height: 35.0,
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
