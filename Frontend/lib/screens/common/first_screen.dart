@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/common/asking_page_SignIn.dart';
 import 'package:tutorx/welcome_screen.dart';
 import 'package:tutorx/screens/student/student_sign_up.dart';
-
+import 'package:tutorx/screens/common/asking_page_Signup.dart';
 import '../../welcome_screen.dart';
 import '../student/student_sign_up.dart';
-import 'asking_page.dart';
+import 'asking_page_Signup.dart';
 import 'log_in.dart';
 
 class FirstScreen extends StatelessWidget {
@@ -72,7 +73,8 @@ class FirstScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AskingPage()),
+                        MaterialPageRoute(
+                            builder: (context) => AskingPageSignUp()),
                       );
                     },
                     child: Padding(
@@ -109,7 +111,7 @@ class FirstScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => WelcomeScreen()),
+                                    builder: (context) => AskingPageSignIn()),
                               );
                             },
                         ),

@@ -83,6 +83,7 @@ flutter:
     - family: JakartaSans
       fonts:
         - asset: lib/assets/jakartaextrabold.ttf
+          weight: 800
         - asset: lib/assets/jakartasemibold.ttf
           weight: 600
         - asset: lib/assets/jakartaregular.ttf

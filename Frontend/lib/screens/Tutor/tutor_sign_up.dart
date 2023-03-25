@@ -6,14 +6,14 @@ import '../../welcome_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 
-class StudentSignUpScreen extends StatefulWidget {
-  const StudentSignUpScreen({Key? key}) : super(key: key);
+class TutorSignUpScreen extends StatefulWidget {
+  const TutorSignUpScreen({super.key});
 
   @override
-  _StudentSignUpScreenState createState() => _StudentSignUpScreenState();
+  State<TutorSignUpScreen> createState() => _TutorSignUpScreen();
 }
 
-class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
+class _TutorSignUpScreen extends State<TutorSignUpScreen> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _fullnameTextController = TextEditingController();
@@ -38,7 +38,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   height: 85,
                 ),
                 Text(
-                  "Sign up",
+                  "Tutor Sign up",
                   style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
@@ -64,6 +64,11 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                 ),
                 reusableTextField("Password", Icons.lock_outline, true,
                     _passwordTextController),
+                SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Education Level", Icons.person_2_outlined,
+                    false, _educationlevelTextController),
                 SizedBox(
                   height: 20,
                 ),

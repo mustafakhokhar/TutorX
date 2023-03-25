@@ -16,11 +16,13 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
       padding: const EdgeInsets.only(bottom: 16.0),
       child: _isSigningIn
           ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 9, 9, 9)),
+              valueColor:
+                  AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 9, 9, 9)),
             )
           : OutlinedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
+                backgroundColor:
+                    MaterialStateProperty.all(Color.fromARGB(255, 0, 0, 0)),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
@@ -64,7 +66,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                       child: Text(
                         'Sign in with Google',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 14,
+                          fontFamily: 'JakartaSans',
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
