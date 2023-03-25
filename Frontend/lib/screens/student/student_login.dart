@@ -158,6 +158,5 @@ class _StudentSignInState extends State<StudentSignIn> {
         ],
       ),
     );
-    ;
   }
 }

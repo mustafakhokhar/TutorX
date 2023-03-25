@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tutorx/routes.dart';
+import 'package:tutorx/screens/Tutor/tutor_sign_up.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
+import 'package:tutorx/screens/student/student_sign_up.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/welcome_screen.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
@@ -41,7 +43,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            home: FirstScreen(),
+            home: TutorSignUpScreen(),
             // home: MapScreen(),
           );
         }
