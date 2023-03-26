@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tutorx/utils/navbar.dart';
-import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -89,14 +88,6 @@ class _MapScreenState extends State<MapScreen> {
                       onPressed: () {
                         // handle button press here
                       },
-                      child: Text(
-                        'Find Tutor',
-                        style: TextStyle(
-                          fontFamily: 'JakartaSans',
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
                       style: ButtonStyle(
                         fixedSize:
                             MaterialStateProperty.all<Size>(Size(150, 52)),
@@ -107,6 +98,14 @@ class _MapScreenState extends State<MapScreen> {
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0),
                           ),
+                        ),
+                      ),
+                      child: Text(
+                        'Find Tutor',
+                        style: TextStyle(
+                          fontFamily: 'JakartaSans',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
