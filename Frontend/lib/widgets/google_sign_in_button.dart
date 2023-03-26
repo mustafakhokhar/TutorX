@@ -30,16 +30,16 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isSigningIn = true;
-                });
+                // setState(() {
+                //   _isSigningIn = true;
+                // });
 
-                User? user =
-                    await Authentication.signInWithGoogle(context: context);
+                // User? user =
+                //     await Authentication.signInWithGoogle(context: context);
 
-                setState(() {
-                  _isSigningIn = false;
-                });
+                // setState(() {
+                //   _isSigningIn = false;
+                // });
 
                 // if (user != null) {
                 //   Navigator.of(context).pushReplacement(

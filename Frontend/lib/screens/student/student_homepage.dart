@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/widgets/Sign_Out_Button.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
 

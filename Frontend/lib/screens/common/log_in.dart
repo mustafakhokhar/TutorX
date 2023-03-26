@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -121,6 +122,10 @@ class _LoginPageState extends State<LoginPage> {
                         padding:
                             EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                       ),
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
               SizedBox(
                 height: 20,
@@ -132,16 +137,16 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => ForgetPasswordScreen()));
                 },
-                child: Text(
-                  "Forgot password?",
-                  style: TextStyle(fontSize: 16),
-                ),
                 style: TextButton.styleFrom(
                   primary: Color(0xFFF2FF53),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+                ),
+                child: Text(
+                  "Forgot password?",
+                  style: TextStyle(fontSize: 16, color: Color(0xFFF2FF53)),
                 ),
               ),
             ],

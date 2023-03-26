@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/asking_page_SignIn.dart';
-import 'package:tutorx/welcome_screen.dart';
+// import 'package:tutorx/welcome_screen.dart';
 import 'package:tutorx/screens/student/student_sign_up.dart';
 import 'package:tutorx/screens/common/asking_page_Signup.dart';
-import '../../welcome_screen.dart';
+// import '../../welcome_screen.dart';
 import '../student/student_sign_up.dart';
 import 'asking_page_Signup.dart';
 import 'log_in.dart';

@@ -4,7 +4,6 @@ import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/student_login.dart';
 import 'package:tutorx/utils/colors.dart';
-import '../../welcome_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 

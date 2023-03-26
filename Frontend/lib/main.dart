@@ -4,7 +4,7 @@ import 'package:tutorx/screens/Tutor/tutor_sign_up.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/student/student_sign_up.dart';
 import 'package:tutorx/utils/auth.dart';
-import 'package:tutorx/welcome_screen.dart';
+// import 'package:tutorx/welcome_screen.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_login.dart';
 
