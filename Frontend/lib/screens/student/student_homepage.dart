@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/screens/common/map_temp.dart';
 
 class StudentHomepage extends StatelessWidget {
   final UserCredential userCredential;
@@ -29,7 +30,12 @@ class StudentHomepage extends StatelessWidget {
             ),
             OutlinedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/mapScreen');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          MapScreen(userCredential: userCredential),
+                    ),
+                  );
                 },
                 child: Text("MAPS PAGE")),
             SizedBox(height: 20.0),

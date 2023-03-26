@@ -6,6 +6,8 @@ import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/auth.dart';
 
+import 'map_temp.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -100,17 +102,20 @@ class _LoginPageState extends State<LoginPage> {
                         if (userCredential != null) {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => StudentHomepage(
+                              builder: (context) => MapScreen(
                                 userCredential: userCredential,
                               ),
                             ),
                           );
-                          // Navigator.pushNamed(context, '/mapScreen');
                         }
                       },
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 16),
+                      ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFF2FF53),
-                        foregroundColor: Colors.black,
+                        primary: Color(0xFFF2FF53),
+                        onPrimary: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -133,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                       builder: (context) => ForgetPasswordScreen()));
                 },
                 style: TextButton.styleFrom(
-                  // backgroundColor: Color(0xFFF2FF53),
+                  primary: Color(0xFFF2FF53),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),

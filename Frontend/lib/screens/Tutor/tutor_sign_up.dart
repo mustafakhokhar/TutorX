@@ -1,20 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/Tutor/tutor_login.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
-import 'package:tutorx/screens/student/student_login.dart';
 import 'package:tutorx/utils/colors.dart';
+import '../../welcome_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 
-class StudentSignUpScreen extends StatefulWidget {
-  const StudentSignUpScreen({Key? key}) : super(key: key);
+class TutorSignUpScreen extends StatefulWidget {
+  const TutorSignUpScreen({super.key});
 
   @override
-  _StudentSignUpScreenState createState() => _StudentSignUpScreenState();
+  State<TutorSignUpScreen> createState() => _TutorSignUpScreen();
 }
 
-class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
+class _TutorSignUpScreen extends State<TutorSignUpScreen> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _fullnameTextController = TextEditingController();
@@ -111,6 +112,15 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                       height: 20,
                     ),
                     SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        child: reusableTextField(
+                            "Education level",
+                            Icons.lock_outline,
+                            true,
+                            _educationlevelTextController)),
+                    SizedBox(height: 20),
+                    SizedBox(
                         width: 200,
                         height: 50,
                         child: ElevatedButton(
@@ -161,15 +171,12 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                             ),
                           ),
                         )),
-                    SizedBox(
-                      height: 20,
-                    ),
                     Center(
                         child: TextButton(
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => StudentSignIn(),
+                            builder: (context) => TutorSignIn(),
                           ),
                         );
                       },

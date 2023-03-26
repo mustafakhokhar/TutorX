@@ -1,44 +1,136 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:tutorx/utils/navbar.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final UserCredential userCredential;
+  const MapScreen({required this.userCredential}) : super();
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<MapScreen> createState() =>
+      _MapScreenState(userCredential: userCredential);
 }
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
-  String maptheme = '';
-  final LatLng _center = const LatLng(31.4707, 74.4098);
 
-  @override
+  String map_theme = '';
+  LatLng? _center; // Make _center nullable
+  final UserCredential userCredential;
+  Location _location = Location();
+
+  void _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition();
+    setState(() {
+      _center = LatLng(position.latitude, position.longitude);
+      print(_center);
+    });
+  }
+
+  void _onMapCreated(GoogleMapController _cntlr) {
+    mapController = _cntlr;
+    _cntlr.setMapStyle(map_theme);
+    _location.onLocationChanged.listen((l) {
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
+        ),
+      );
+    });
+  }
+
+  _MapScreenState({required this.userCredential});
+  Map<String, Marker> _markers = {};
+
   void initState() {
+    _getCurrentLocation();
     super.initState();
     DefaultAssetBundle.of(context)
         .load('lib/assets/maptheme.json')
         .then((value) {
-      maptheme = utf8.decode(value.buffer.asUint8List());
+      map_theme = utf8.decode(value.buffer.asUint8List());
     });
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-    controller.setMapStyle(maptheme);
-  }
-
+  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 16.0,
+      key: _scaffoldState,
+      drawer: NavBar(userCredential: userCredential),
+      body: _center == null // Check if _center is null
+          ? Placeholder() // Show a placeholder until _center is updated
+          : Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center!, // Use _center with null safety operator
+                    zoom: 16.0,
+                  ),
+                  markers: _markers.values.toSet(),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 74,
+                  child: SizedBox(
+                    height: 52,
+                    width: 150,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // handle button press here
+                      },
+                      child: Text(
+                        'Find Tutor',
+                        style: TextStyle(
+                          fontFamily: 'JakartaSans',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        fixedSize:
+                            MaterialStateProperty.all<Size>(Size(150, 52)),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Color(0xFF583BE8)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          _scaffoldState.currentState?.openDrawer();
+        },
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 3, color: Colors.white),
+          borderRadius: BorderRadius.circular(100),
         ),
+        child: Icon(
+          Icons.menu,
+          size: 32,
+          color: Colors.white,
+        ), // add the hamburger menu icon here
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      backgroundColor: Colors.black,
     );
   }
 }
