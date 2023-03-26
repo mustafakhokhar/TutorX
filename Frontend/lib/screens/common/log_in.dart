@@ -109,10 +109,6 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         }
                       },
-                      child: Text(
-                        "Submit",
-                        style: TextStyle(fontSize: 16),
-                      ),
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFFF2FF53),
                         onPrimary: Colors.black,
