@@ -31,9 +31,9 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  void _onMapCreated(GoogleMapController _cntlr) {
-    mapController = _cntlr;
-    _cntlr.setMapStyle(map_theme);
+  void _onMapCreated(GoogleMapController cntlr) {
+    mapController = cntlr;
+    cntlr.setMapStyle(map_theme);
     _location.onLocationChanged.listen((l) {
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
@@ -46,6 +46,7 @@ class _MapScreenState extends State<MapScreen> {
   _MapScreenState({required this.userCredential});
   Map<String, Marker> _markers = {};
 
+  @override
   void initState() {
     _getCurrentLocation();
     super.initState();
