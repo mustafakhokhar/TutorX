@@ -34,7 +34,7 @@ class StudentFindingTutorLoadingScreenState
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow), // change color
                   ),
                 ),
-                SizedBox(height: 16.0), // add some spacing
+                SizedBox(height: 16.0), // add some spacingg
                 Padding(
                   padding: EdgeInsets.only(top: 60.0), // add top padding
                   child: Text(
