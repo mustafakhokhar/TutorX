@@ -101,10 +101,12 @@ class _TutorSignInState extends State<TutorSignIn> {
                               );
 
                               if (userCredential != null) {
+                                String uid_temp = (userCredential.user?.uid)!;
+
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => TutorHomepage(
-                                      email: email,
+                                      user_uid: uid_temp,
                                     ),
                                   ),
                                 );

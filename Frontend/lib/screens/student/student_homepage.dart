@@ -7,12 +7,12 @@ import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
 class StudentHompage extends StatefulWidget {
-  final String email;
-  const StudentHompage({required this.email}) : super();
+  final String user_uid;
+  const StudentHompage({required this.user_uid}) : super();
 
   @override
   State<StudentHompage> createState() =>
-      _StudentHompageState(email: email);
+      _StudentHompageState(user_uid: user_uid);
 }
 
 class _StudentHompageState extends State<StudentHompage> {
@@ -20,7 +20,7 @@ class _StudentHompageState extends State<StudentHompage> {
 
   String map_theme = '';
   LatLng? _center; // Make _center nullable
-  final String email;
+  final String user_uid;
   Location _location = Location();
 
   void _getCurrentLocation() async {
@@ -43,7 +43,7 @@ class _StudentHompageState extends State<StudentHompage> {
     });
   }
 
-  _StudentHompageState({required this.email});
+  _StudentHompageState({required this.user_uid});
   Map<String, Marker> _markers = {};
 
   @override
@@ -62,7 +62,7 @@ class _StudentHompageState extends State<StudentHompage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
-      drawer: NavBar(email: email),
+      drawer: NavBar(user_uid: user_uid),
       body: _center == null // Check if _center is null
           ? Placeholder() // Show a placeholder until _center is updated
           : Stack(

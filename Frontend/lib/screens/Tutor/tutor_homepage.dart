@@ -4,25 +4,25 @@ import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
 
 class TutorHomepage extends StatelessWidget {
-  final String email;
+  final String user_uid;
 
-  const TutorHomepage({required this.email}) : super();
+  const TutorHomepage({required this.user_uid}) : super();
 
   @override
   Widget build(BuildContext context) {
-    // final User? user = email.user;
+    // final User? user = user_uid.user;
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome $email'),
+        title: Text('Welcome $user_uid'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Welcome $email',
+              'Welcome $user_uid',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -30,10 +30,12 @@ class TutorHomepage extends StatelessWidget {
             ),
             OutlinedButton(
                 onPressed: () {
+
+
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>
-                          MapScreen(email: email),
+                          MapScreen(user_uid: user_uid),
                     ),
                   );
                 },

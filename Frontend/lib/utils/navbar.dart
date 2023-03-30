@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/utils/auth.dart';
 
 class NavBar extends StatelessWidget {
-  final String email;
+  final String user_uid;
 
-  const NavBar({super.key, required this.email});
+  const NavBar({super.key, required this.user_uid});
 
   @override
   Widget build(BuildContext context) {
-    // final User? user = email.user;
+    // final User? user = user_uid.user;
     final FirebaseAuth _auth = FirebaseAuth.instance;
     return Drawer(
       backgroundColor: Colors.black,
@@ -18,7 +18,7 @@ class NavBar extends StatelessWidget {
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black),
             accountName: Text(
-              email,
+              user_uid,
               style: TextStyle(
                   fontSize: 23,
                   fontFamily: 'JakartaSans',

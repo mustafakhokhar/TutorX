@@ -102,10 +102,12 @@ class _StudentSignInState extends State<StudentSignIn> {
                               );
 
                               if (userCredential != null) {
+                                // print(.runtimeType);
+                                String uid_temp = (userCredential.user?.uid)!;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => StudentHompage(
-                                        email: email),
+                                        user_uid: uid_temp),
                                   ),
                                 );
                               }
