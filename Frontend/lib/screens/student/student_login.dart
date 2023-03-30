@@ -105,7 +105,7 @@ class _StudentSignInState extends State<StudentSignIn> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => StudentHompage(
-                                        userCredential: userCredential),
+                                        email: email),
                                   ),
                                 );
                               }

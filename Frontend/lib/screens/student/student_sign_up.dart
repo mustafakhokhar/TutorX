@@ -140,7 +140,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => MapScreen(
-                                    userCredential: userCredential,
+                                    email: email,
                                   ),
                                 ),
                               );
