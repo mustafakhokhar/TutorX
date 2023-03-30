@@ -113,7 +113,9 @@ class _StudentHompageState extends State<StudentHompage> {
                                   SizedBox(
                                     height: 52,
                                     child: ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        // Put ROUTE FOR ONLINE here
+                                      },
                                       style: ButtonStyle(
                                         fixedSize:
                                             MaterialStateProperty.all<Size>(
@@ -144,7 +146,9 @@ class _StudentHompageState extends State<StudentHompage> {
                                   SizedBox(
                                     height: 52,
                                     child: ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        // Put ROUTE FOR In-Person here
+                                      },
                                       style: ButtonStyle(
                                         fixedSize:
                                             MaterialStateProperty.all<Size>(
