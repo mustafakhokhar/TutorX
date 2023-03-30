@@ -5,21 +5,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tutorx/utils/navbar.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:tutorx/widgets/mode_of_teaching_dialog.dart';
 
 class MapScreen extends StatefulWidget {
   final UserCredential userCredential;
   const MapScreen({required this.userCredential}) : super();
 
   @override
-  State<MapScreen> createState() =>
-      _MapScreenState(userCredential: userCredential);
+  State<MapScreen> createState() => _MapTempState(userCredential: userCredential);
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapTempState extends State<MapScreen> {
   late GoogleMapController mapController;
 
   String map_theme = '';
-  LatLng? _center; // Make _center nullable
+  LatLng? _center;
   final UserCredential userCredential;
   Location _location = Location();
 
@@ -43,7 +43,7 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  _MapScreenState({required this.userCredential});
+  _MapTempState({required this.userCredential});
   Map<String, Marker> _markers = {};
 
   @override
@@ -58,13 +58,14 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
       drawer: NavBar(userCredential: userCredential),
-      body: _center == null // Check if _center is null
-          ? Placeholder() // Show a placeholder until _center is updated
+      body: _center == null
+          ? Placeholder()
           : Stack(
               children: [
                 GoogleMap(
@@ -73,7 +74,7 @@ class _MapScreenState extends State<MapScreen> {
                   myLocationButtonEnabled: false,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: _center!, // Use _center with null safety operator
+                    target: _center!,
                     zoom: 16.0,
                   ),
                   markers: _markers.values.toSet(),
@@ -87,7 +88,12 @@ class _MapScreenState extends State<MapScreen> {
                     width: 150,
                     child: ElevatedButton(
                       onPressed: () {
-                        // handle button press here
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ModeOfTeachingDialog();
+                          },
+                        );
                       },
                       style: ButtonStyle(
                         fixedSize:
@@ -127,7 +133,7 @@ class _MapScreenState extends State<MapScreen> {
           Icons.menu,
           size: 32,
           color: Colors.white,
-        ), // add the hamburger menu icon here
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       backgroundColor: Colors.black,

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/student/find_tutor_screen.dart';
+import 'package:tutorx/screens/student/find_tutor_screen_online.dart';
+import 'package:tutorx/widgets/mode_of_teaching_dialog.dart';
 
 class StudentHomepage extends StatelessWidget {
   final UserCredential userCredential;
@@ -46,7 +49,18 @@ class StudentHomepage extends StatelessWidget {
                       '/', (Route<dynamic> route) => false);
                 },
                 child: Text("Sign Out")),
-            // child: SignOutButton(),
+            // Add the ElevatedButton to navigate to FindTutorScreen
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => FindTutorScreen(),
+                  ),
+                );
+              },
+              child: Text('Go to Find Tutor Screen'),
+            ),
           ],
         ),
       ),
