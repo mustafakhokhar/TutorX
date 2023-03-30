@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 
 class NavBar extends StatelessWidget {
@@ -103,8 +104,12 @@ class NavBar extends StatelessWidget {
             textColor: Colors.white,
             onTap: () async {
               await Authentication.signOut(context: context);
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/', (Route<dynamic> route) => false);
+              // Navigator.of(context).pushNamedAndRemoveUntil(
+              //     '/', (Route<dynamic> route) => false);
+              Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FirstScreen(),
+                        ),);
             },
           )
         ],
