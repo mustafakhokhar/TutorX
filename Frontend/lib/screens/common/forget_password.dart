@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/screens/student/student_login.dart';
 import 'package:tutorx/utils/auth.dart';
-import 'package:tutorx/screens/common/log_in.dart';
+// import 'package:tutorx/screens/common/log_in.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
                   Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => LoginPage()
+                          builder: (context) => StudentSignIn()
                         ),
                       );
                   

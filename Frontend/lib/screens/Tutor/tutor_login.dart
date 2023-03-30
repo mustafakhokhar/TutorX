@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
+
 
 class TutorSignIn extends StatefulWidget {
   const TutorSignIn({super.key});
@@ -102,7 +103,7 @@ class _TutorSignInState extends State<TutorSignIn> {
                               if (userCredential != null) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => StudentHomepage(
+                                    builder: (context) => TutorHomepage(
                                       userCredential: userCredential,
                                     ),
                                   ),
