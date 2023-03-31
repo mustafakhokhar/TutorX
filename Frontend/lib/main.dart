@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
         });
       }
       print(isLoggedin);
-      print(user);
+      // print(user);
      });
   }
 
