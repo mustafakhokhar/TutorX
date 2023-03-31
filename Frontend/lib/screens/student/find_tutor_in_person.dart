@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 
 class FindTutorScreenInPerson extends StatefulWidget {
   const FindTutorScreenInPerson({Key? key}) : super(key: key);
@@ -98,6 +99,12 @@ class _FindTutorScreenState extends State<FindTutorScreenInPerson> {
                 child: ElevatedButton(
                   onPressed: () {
                     // Implement find tutor functionality here
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StudentFindingTutorLoadingScreen(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
