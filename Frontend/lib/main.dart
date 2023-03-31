@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:tutorx/routes.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
-// import 'package:tutorx/screens/Tutor/tutor_loading_for_bid.dart';
-// import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tutorx/firebase_options.dart';
+
 
 // import 'package:tutorx/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
