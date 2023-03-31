@@ -5,6 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tutorx/utils/navbar.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:tutorx/screens/student/find_tutor_in_person.dart';
+
 
 class StudentHompage extends StatefulWidget {
   final String user_uid;
@@ -115,6 +117,7 @@ class _StudentHompageState extends State<StudentHompage> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         // Put ROUTE FOR ONLINE here
+                                        
                                       },
                                       style: ButtonStyle(
                                         fixedSize:
@@ -134,11 +137,11 @@ class _StudentHompageState extends State<StudentHompage> {
                                       child: Text(
                                         'Online',
                                         style: TextStyle(
-                                          fontFamily: 'JakartaSans',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 0, 0, 0)
-                                        ),
+                                            fontFamily: 'JakartaSans',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Color.fromARGB(255, 0, 0, 0)),
                                       ),
                                     ),
                                   ),
@@ -148,6 +151,12 @@ class _StudentHompageState extends State<StudentHompage> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         // Put ROUTE FOR In-Person here
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FindTutorScreenInPerson(),
+                                          ),
+                                        );
                                       },
                                       style: ButtonStyle(
                                         fixedSize:
@@ -167,12 +176,11 @@ class _StudentHompageState extends State<StudentHompage> {
                                       child: Text(
                                         'In-Person',
                                         style: TextStyle(
-                                          fontFamily: 'JakartaSans',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 0, 0, 0)
-
-                                        ),
+                                            fontFamily: 'JakartaSans',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                Color.fromARGB(255, 0, 0, 0)),
                                       ),
                                     ),
                                   ),
