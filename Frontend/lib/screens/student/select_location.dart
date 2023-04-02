@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart' as gogplace;
+import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/location_services.dart';
 import 'package:tutorx/utils/navbar.dart';
 import 'package:location/location.dart';
@@ -197,47 +198,56 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                 ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: predictions.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(predictions[index].description.toString()),
-                        onTap: () async {
-                          var latitude;
-                          var longitude;
-                          final placeId = predictions[index].placeId!;
-                          final details =
-                              await _googlePlace.details.get(placeId);
-                          if (details != null &&
-                              details.result != null &&
-                              mounted) {
-                            if (startFocusNode.hasFocus) {
-                              setState(() {
-                                startPosition = details.result;
-                                _searchController.text = details.result!.name!;
-                                predictions = [];
-                                latitude =
-                                    details.result!.geometry!.location!.lat;
-                                longitude =
-                                    details.result!.geometry!.location!.lng;
-                                print(latitude);
-                                print(longitude);
-                                _markercoord = LatLng(latitude, longitude);
-                              });
-                            }
-                          }
-                          // print(startPosition);
-                          _addMarker(_markercoord!);
-                        },
-                        leading: CircleAvatar(
-                          child: Icon(
-                            Icons.pin_drop,
-                            color: Colors.white,
-                          ),
-                        ),
-                      );
-                    }),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 180, 0, 0),
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: predictions.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                            color: Colors.black,
+                            child: ListTile(
+                              tileColor: Colors.black,
+                              title: Text(
+                                  predictions[index].description.toString()),
+                              onTap: () async {
+                                var latitude;
+                                var longitude;
+                                final placeId = predictions[index].placeId!;
+                                final details =
+                                    await _googlePlace.details.get(placeId);
+                                if (details != null &&
+                                    details.result != null &&
+                                    mounted) {
+                                  if (startFocusNode.hasFocus) {
+                                    setState(() {
+                                      startPosition = details.result;
+                                      _searchController.text =
+                                          details.result!.name!;
+                                      predictions = [];
+                                      latitude = details
+                                          .result!.geometry!.location!.lat;
+                                      longitude = details
+                                          .result!.geometry!.location!.lng;
+                                      print(latitude);
+                                      print(longitude);
+                                      _markercoord =
+                                          LatLng(latitude, longitude);
+                                    });
+                                  }
+                                }
+                                // print(startPosition);
+                                _addMarker(_markercoord!);
+                              },
+                              leading: CircleAvatar(
+                                child: Icon(
+                                  Icons.pin_drop,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ));
+                      }),
+                ),
                 Positioned(
                   top: 800,
                   left: 0,
@@ -252,7 +262,6 @@ class _MapScreenState extends State<MapScreen> {
                           MaterialPageRoute(
                             builder: (context) =>
                                 StudentFindingTutorLoadingScreen(),
-                               
                           ),
                         );
                       },
@@ -279,14 +288,22 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
-          _scaffoldState.currentState?.openDrawer();
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  // StudentFindingTutorLoadingScreen(),
+                  StudentHompage(
+                user_uid: '',
+              ),
+            ),
+          );
         },
         shape: RoundedRectangleBorder(
           side: BorderSide(width: 3, color: Colors.white),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Icon(
-          Icons.menu,
+          Icons.arrow_back,
           size: 32,
           color: Colors.white,
         ), // add the hamburger menu icon here
