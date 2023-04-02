@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 
 class NavBar extends StatelessWidget {
-  final UserCredential userCredential;
+  final String user_uid;
 
-  const NavBar({super.key, required this.userCredential});
+  const NavBar({super.key, required this.user_uid});
 
   @override
   Widget build(BuildContext context) {
-    final User? user = userCredential.user;
+    // final User? user = user_uid.user;
     final FirebaseAuth _auth = FirebaseAuth.instance;
     return Drawer(
       backgroundColor: Colors.black,
@@ -18,7 +19,7 @@ class NavBar extends StatelessWidget {
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black),
             accountName: Text(
-              '${user?.email}',
+              user_uid,
               style: TextStyle(
                   fontSize: 23,
                   fontFamily: 'JakartaSans',
@@ -103,8 +104,12 @@ class NavBar extends StatelessWidget {
             textColor: Colors.white,
             onTap: () async {
               await Authentication.signOut(context: context);
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/', (Route<dynamic> route) => false);
+              // Navigator.of(context).pushNamedAndRemoveUntil(
+              //     '/', (Route<dynamic> route) => false);
+              Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => FirstScreen(),
+                        ),);
             },
           )
         ],

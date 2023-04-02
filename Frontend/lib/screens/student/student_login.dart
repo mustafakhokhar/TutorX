@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
@@ -101,10 +102,12 @@ class _StudentSignInState extends State<StudentSignIn> {
                               );
 
                               if (userCredential != null) {
+                                // print(.runtimeType);
+                                String uid_temp = (userCredential.user?.uid)!;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => MapScreen(
-                                        userCredential: userCredential),
+                                    builder: (context) => StudentHompage(
+                                        user_uid: uid_temp),
                                   ),
                                 );
                               }

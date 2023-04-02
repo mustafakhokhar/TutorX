@@ -7,12 +7,12 @@ import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MapScreen extends StatefulWidget {
-  final UserCredential userCredential;
-  const MapScreen({required this.userCredential}) : super();
+  final String user_uid;
+  const MapScreen({required this.user_uid}) : super();
 
   @override
   State<MapScreen> createState() =>
-      _MapScreenState(userCredential: userCredential);
+      _MapScreenState(user_uid: user_uid);
 }
 
 class _MapScreenState extends State<MapScreen> {
@@ -20,7 +20,7 @@ class _MapScreenState extends State<MapScreen> {
 
   String map_theme = '';
   LatLng? _center; // Make _center nullable
-  final UserCredential userCredential;
+  final String user_uid;
   Location _location = Location();
 
   void _getCurrentLocation() async {
@@ -43,7 +43,7 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
-  _MapScreenState({required this.userCredential});
+  _MapScreenState({required this.user_uid});
   Map<String, Marker> _markers = {};
 
   @override
@@ -62,7 +62,7 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
-      drawer: NavBar(userCredential: userCredential),
+      drawer: NavBar(user_uid: user_uid),
       body: _center == null // Check if _center is null
           ? Placeholder() // Show a placeholder until _center is updated
           : Stack(

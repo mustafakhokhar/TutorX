@@ -137,10 +137,12 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                             );
 
                             if (userCredential != null) {
+                                String uid_temp = (userCredential.user?.uid)!;
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => MapScreen(
-                                    userCredential: userCredential,
+                                    user_uid: uid_temp,
                                   ),
                                 ),
                               );
