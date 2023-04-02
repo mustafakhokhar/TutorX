@@ -2,6 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/student/select_location.dart';
 
 class InPersonMode extends StatelessWidget {
   const InPersonMode({super.key});
@@ -55,36 +56,6 @@ class InPersonMode extends StatelessWidget {
                                                       ),
                                                     ),
                                                     SizedBox(height: 40),
-                                                    TextFormField(
-                                                      //LOCATION SELECTOR LOGIC HERE
-                                                      decoration:
-                                                          InputDecoration(
-                                                        hintText:
-                                                            'Select your location',
-                                                        hintStyle: TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    0,
-                                                                    0,
-                                                                    0)),
-                                                        filled: true,
-                                                        fillColor: Colors.white,
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          borderSide:
-                                                              BorderSide.none,
-                                                        ),
-                                                      ),
-                                                      style: TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 16),
                                                     DropdownButtonFormField<
                                                         String>(
                                                       items: [
@@ -194,7 +165,8 @@ class InPersonMode extends StatelessWidget {
                                                               .push(
                                                             MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  StudentFindingTutorLoadingScreen(),
+                                                                  // StudentFindingTutorLoadingScreen(),
+                                                                  MapScreen(user_uid: '',),
                                                             ),
                                                           );
                                                         },
@@ -220,7 +192,7 @@ class InPersonMode extends StatelessWidget {
                                                           ),
                                                         ),
                                                         child: Text(
-                                                          'Find Tutor',
+                                                          'Select Location',
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   'JakartaSans',
