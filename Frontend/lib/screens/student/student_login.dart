@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+<<<<<<< Updated upstream
 import 'package:tutorx/screens/common/map_temp.dart';
+=======
+import 'package:tutorx/screens/student/select_location.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
+>>>>>>> Stashed changes
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
