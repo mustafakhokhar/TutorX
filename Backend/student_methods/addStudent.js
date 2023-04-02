@@ -3,7 +3,7 @@ const studentSignUp = require('../student')
 const studentData = [];
 
 const addStudent = async (req,res)=>{
-    console.log("Result:", req.body);
+    console.log("BACKEND RECIEVED:", req.body);
 
     let studentData = studentSignUp(req.body);
      try {
@@ -14,22 +14,6 @@ const addStudent = async (req,res)=>{
         'status': error.message
       })
      }
-  
-    // const temp = {
-    //   id: studentData.length + 1,
-    //   fullname: req.body.fullname,
-    //   email: req.body.email,
-    //   number: req.body.number,
-    // };
-    // ``;
-    // studentData.push(temp);
-    // console.log("Final", temp);
-  
-    // res.status(200).send({
-    //   status_code: 200,
-    //   message: "Student added sucessfully",
-    //   student: temp,
-    // });
 }
 
 module.exports = addStudent;
