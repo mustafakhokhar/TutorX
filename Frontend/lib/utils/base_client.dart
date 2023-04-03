@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 const String baseUrl = "http://10.130.146.56:3000";
 
@@ -19,9 +20,13 @@ class BaseClient {
     } else {}
   }
 
-  Future<dynamic> post(String api, Map sdata) async {
+  Future<dynamic> post(String api, dynamic object) async {
     var url = Uri.parse(baseUrl + api);
-    var response = await client.post(url, body: sdata);
+    var _payload = json.encode(object);
+    var _headers = {
+      'Content-Type': 'application/json',
+    };
+    var response = await client.post(url, body: _payload, headers: _headers);
 
     if (response.statusCode == 201) {
       return response.body;

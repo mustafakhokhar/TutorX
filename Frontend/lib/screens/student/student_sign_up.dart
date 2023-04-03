@@ -8,6 +8,7 @@ import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
+import 'package:tutorx/models/user_model.dart';
 
 class StudentSignUpScreen extends StatefulWidget {
   const StudentSignUpScreen({Key? key}) : super(key: key);
@@ -142,26 +143,30 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                             //     .get("/students")
                             //     .catchError((err) {});
                             // if (response == null) return;
+                            // var users = userFromJson(response)
 
                             if (userCredential != null) {
                               String uid_temp = (userCredential.user?.uid)!;
 
-                              var studentSignUpData = {
-                                "uid": uid_temp,
-                                "fullname": _fullnameTextController.text,
-                                "student": true
-                              };
-                              BaseClient()
-                                  .post("/user", studentSignUpData)
+                              var user = Users(
+                                  uid: uid_temp,
+                                  fullname: _fullnameTextController.text,
+                                  student: true);
+
+                              var response = await BaseClient()
+                                  .post("/user", user)
                                   .catchError((err) {});
 
-                              // Navigator.of(context).push(
-                              //   MaterialPageRoute(
-                              //     builder: (context) => StudentHompage(
-                              //       user_uid: uid_temp,
-                              //     ),
-                              //   ),
-                              // );
+                              if (response == null) return;
+                              debugPrint("successful");
+
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => StudentHompage(
+                                    user_uid: uid_temp,
+                                  ),
+                                ),
+                              );
                             }
                           },
                           child: Padding(

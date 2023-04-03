@@ -19,7 +19,8 @@ router.post('/', async(req, res)=> {
         student: req.body.student,
         educationLevel: req.body.educationLevel,
     })
-    console.log(user);
+    // console.log(req);
+    console.log(req.body);
     console.log("here");
     try{
         const newUser = await user.save()
