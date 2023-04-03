@@ -106,8 +106,8 @@ class _StudentSignInState extends State<StudentSignIn> {
                                 String uid_temp = (userCredential.user?.uid)!;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => StudentHompage(
-                                        user_uid: uid_temp),
+                                    builder: (context) =>
+                                        StudentHompage(user_uid: uid_temp),
                                   ),
                                 );
                               }

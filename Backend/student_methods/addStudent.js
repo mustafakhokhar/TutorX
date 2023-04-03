@@ -1,4 +1,4 @@
-const studentSignUp = require('../student')
+const studentSignUp = require('../Models/student')
 // POST API
 const studentData = [];
 

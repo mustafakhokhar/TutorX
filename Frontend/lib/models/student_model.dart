@@ -1,7 +1,8 @@
 class StudentInfo {
+  final String? uid;
   final String? fullname;
-  final String? email;
-  final int? number;
+  final bool? student;
+  final String? educationLevel;
 
-  StudentInfo({this.fullname, this.email, this.number});
+  StudentInfo({this.uid, this.fullname, this.student, this.educationLevel});
 }

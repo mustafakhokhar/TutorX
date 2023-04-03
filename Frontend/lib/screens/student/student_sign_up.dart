@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/student_login.dart';
 import 'package:tutorx/utils/api.dart';
+import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
@@ -136,25 +138,31 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                               password: password,
                             );
 
+                            // var response = await BaseClient()
+                            //     .get("/students")
+                            //     .catchError((err) {});
+                            // if (response == null) return;
+
                             if (userCredential != null) {
-                                String uid_temp = (userCredential.user?.uid)!;
+                              String uid_temp = (userCredential.user?.uid)!;
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MapScreen(
-                                    user_uid: uid_temp,
-                                  ),
-                                ),
-                              );
+                              var studentSignUpData = {
+                                "uid": uid_temp,
+                                "fullname": _fullnameTextController.text,
+                                "student": true
+                              };
+                              BaseClient()
+                                  .post("/user", studentSignUpData)
+                                  .catchError((err) {});
+
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => StudentHompage(
+                              //       user_uid: uid_temp,
+                              //     ),
+                              //   ),
+                              // );
                             }
-
-                            var studentSignUpData = {
-                              "fullname": _fullnameTextController.text,
-                              "email": _emailTextController.text,
-                              "number": _phonenumberTextController.text,
-                              "password": _passwordTextController.text
-                            };
-                            API.addStudentDetails(studentSignUpData);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
