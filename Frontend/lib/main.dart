@@ -1,13 +1,16 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/routes.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tutorx/firebase_options.dart';
-
-
+import 'package:tutorx/utils/base_client.dart';
 // import 'package:tutorx/welcome_screen.dart';
 
 void main() async {
@@ -26,7 +29,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var auth = FirebaseAuth.instance;
   var isLoggedin = false;
-  var current_user ;
+  var check = false;
+  var current_user;
 
   checkIfLoggedIn() async {
     auth.authStateChanges().listen((User? user) {
@@ -36,9 +40,19 @@ class _MyAppState extends State<MyApp> {
           isLoggedin = true;
         });
       }
-      print(isLoggedin);
+
+      // print(isLoggedin);
       // print(user);
-     });
+    });
+    var uid = auth.currentUser?.uid;
+    print(uid);
+    var response = await BaseClient().get("/user/$uid").catchError((err) {});
+    var user = usersFromJson(response);
+    if (user.student) {
+      check = true;
+    } else {
+      check = false;
+    }
   }
 
   @override
@@ -46,7 +60,6 @@ class _MyAppState extends State<MyApp> {
     checkIfLoggedIn();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +77,6 @@ class _MyAppState extends State<MyApp> {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             initialRoute: '/',
@@ -74,7 +86,12 @@ class _MyAppState extends State<MyApp> {
               brightness: Brightness.dark,
             ),
             // home: FirstScreen(),
-            home: isLoggedin ? StudentHompage(user_uid: current_user.uid):FirstScreen(),
+
+            home: isLoggedin
+                ? (check
+                    ? StudentHompage(user_uid: current_user.uid)
+                    : TutorHomepage(user_uid: current_user.uid))
+                : FirstScreen(),
             // home: TutorLoadingBidScreen(),
           );
         }

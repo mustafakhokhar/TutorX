@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -109,20 +111,17 @@ class _TutorSignInState extends State<TutorSignIn> {
                                 if (response == null) return;
                                 debugPrint("successful");
 
-                                var user = usersFromJson(response);
-                                print("\n");
-                                print("\n");
-                                print(user[1].toString());
-                                print("\n");
-                                print("\n");
+                                var user = jsonDecode(response);
 
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => TutorHomepage(
-                                      user_uid: uidTemp,
+                                if (user["student"] == false) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => TutorHomepage(
+                                        user_uid: uidTemp,
+                                      ),
                                     ),
-                                  ),
-                                );
+                                  );
+                                }
                               }
                             },
                             child: Padding(

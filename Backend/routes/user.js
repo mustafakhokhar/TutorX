@@ -14,6 +14,7 @@ router.get('/',async (req, res)=> {
 
 router.get('/:id', async(req,res)=>{
     try{
+        console.log("here")
         const id = req.params.id;
         const user = await Users.findOne({uid : id})
         res.json(user)
