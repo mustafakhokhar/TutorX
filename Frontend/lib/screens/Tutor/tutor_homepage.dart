@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/utils/auth.dart';
-import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/student/select_location.dart';
 
 class TutorHomepage extends StatelessWidget {
   final String user_uid;
