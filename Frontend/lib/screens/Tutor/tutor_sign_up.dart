@@ -5,6 +5,8 @@ import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
+import 'package:tutorx/utils/base_client.dart';
+import 'package:tutorx/models/user_model.dart';
 
 class TutorSignUpScreen extends StatefulWidget {
   const TutorSignUpScreen({super.key});
@@ -145,12 +147,23 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
                             );
 
                             if (userCredential != null) {
-                                String uid_temp = (userCredential.user?.uid)!;
-                              
+                              String uidTemp = (userCredential.user?.uid)!;
+                              var user = Users(
+                                  uid: uidTemp,
+                                  fullname: _fullnameTextController.text,
+                                  student: false);
+
+                              var response = await BaseClient()
+                                  .post("/user", user)
+                                  .catchError((err) {});
+
+                              if (response == null) return;
+                              debugPrint("successful");
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => MapScreen(
-                                    user_uid: uid_temp,
+                                    user_uid: uidTemp,
                                   ),
                                 ),
                               );

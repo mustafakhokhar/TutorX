@@ -5,7 +5,8 @@ import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
-
+import 'package:tutorx/utils/base_client.dart';
+import 'package:tutorx/models/user_model.dart';
 
 class TutorSignIn extends StatefulWidget {
   const TutorSignIn({super.key});
@@ -101,12 +102,24 @@ class _TutorSignInState extends State<TutorSignIn> {
                               );
 
                               if (userCredential != null) {
-                                String uid_temp = (userCredential.user?.uid)!;
+                                String uidTemp = (userCredential.user?.uid)!;
+                                var response = await BaseClient()
+                                    .get("/user/$uidTemp")
+                                    .catchError((err) {});
+                                if (response == null) return;
+                                debugPrint("successful");
+
+                                var user = usersFromJson(response);
+                                print("\n");
+                                print("\n");
+                                print(user[1].toString());
+                                print("\n");
+                                print("\n");
 
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => TutorHomepage(
-                                      user_uid: uid_temp,
+                                      user_uid: uidTemp,
                                     ),
                                   ),
                                 );

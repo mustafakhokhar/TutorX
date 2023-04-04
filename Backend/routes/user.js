@@ -12,6 +12,17 @@ router.get('/',async (req, res)=> {
     }
 })
 
+router.get('/:id', async(req,res)=>{
+    try{
+        const id = req.params.id;
+        const user = await Users.findOne({uid : id})
+        res.json(user)
+    }
+    catch(err){
+
+    }
+})
+
 router.post('/', async(req, res)=> {
     const user = new Users({
         uid: req.body.uid,
