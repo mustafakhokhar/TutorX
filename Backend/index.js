@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 // const addStudent = require("./student_methods/addStudent");
 // const getAllStudents = require("./student_methods/getAllStudents")
 const userRouter = require("./routes/user")
+const activeTutorsRouter = require("./routes/active_tutors")
 
 const app = express();
 
@@ -29,6 +30,7 @@ mongoose.connect("mongodb+srv://mustafa:helloworld@tutorxcluster.42lny5j.mongodb
     // app.use("/api/student/add_student_details",addStudent)
     // app.use("/api/student/get_all_students",getAllStudents)
     app.use("/user", userRouter)
+    app.use("/activeTutors", activeTutorsRouter)
   }).catch((error)=>{
     console.log(error.message);
   });

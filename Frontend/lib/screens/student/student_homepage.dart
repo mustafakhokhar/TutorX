@@ -67,7 +67,11 @@ class _StudentHompageState extends State<StudentHompage> {
       key: _scaffoldState,
       drawer: NavBar(user_uid: user_uid),
       body: _center == null // Check if _center is null
-          ? Placeholder() // Show a placeholder until _center is updated
+          ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.black,
+              ),
+            ) // Show a placeholder until _center is updated
           : Stack(
               children: [
                 GoogleMap(
