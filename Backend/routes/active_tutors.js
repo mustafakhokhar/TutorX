@@ -72,7 +72,7 @@ router.delete("/:id", async (req, res)=>{
 })
 
 async function findTutorsWithinRadius(longitude, latitude, radius) {
-  console.log(longitude, latitude);
+  // console.log(longitude, latitude);
   const tutors = await ActiveTutors.aggregate([
     {
       $geoNear: {
@@ -86,7 +86,15 @@ async function findTutorsWithinRadius(longitude, latitude, radius) {
       },
     },
   ]);
-  return tutors;
+  const mappedTutor = tutors.map((tutor) => {
+    return {
+      uid: tutor.uid,
+      longitude: tutor.location.coordinates[0],
+      latitude: tutor.location.coordinates[1],
+      distance: tutor.distance
+    };
+  });
+  return mappedTutor;
 }
 
 module.exports = router;
