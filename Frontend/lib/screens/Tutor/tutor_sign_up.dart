@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/screens/Tutor/tutor_login.dart';
 import 'package:tutorx/screens/student/select_location.dart';
 import 'package:tutorx/utils/colors.dart';
@@ -24,6 +25,16 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> StoreUserDetailsInCache(String uid) async {
+      var response = await BaseClient().get("/user/$uid").catchError((err) {});
+      var user = usersFromJson(response);
+      // print('Here: ${user.fullname}');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('fullname', user.fullname);
+      await prefs.setString('uid', user.uid);
+      await prefs.setBool('student', user.student);
+      await prefs.setBool('isLoggedIn', true);
+    }
     return Scaffold(
         backgroundColor: Colors.black,
         body: Stack(children: [
@@ -157,14 +168,14 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
                                   .post("/user", user)
                                   .catchError((err) {});
 
-                              if (response == null) return;
-                              debugPrint("successful");
+                              // if (response == null) return;
+                              // debugPrint("successful");
+                                await StoreUserDetailsInCache(uidTemp);
+
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => MapScreen(
-                                    user_uid: uidTemp,
-                                  ),
+                                  builder: (context) => MapScreen(),
                                 ),
                               );
                             }

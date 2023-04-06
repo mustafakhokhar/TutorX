@@ -2,28 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 
 class NavBar extends StatelessWidget {
-  final String user_uid;
-
-  const NavBar({super.key, required this.user_uid});
+  const NavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final User? user = user_uid.user;
     final FirebaseAuth _auth = FirebaseAuth.instance;
+    Future<void> ClearUserDetailsFromCache() async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('fullname', '');
+      await prefs.setString('uid', '');
+      await prefs.setBool('student', false);
+      await prefs.setBool('isLoggedIn', false);
+    }
+
     return Drawer(
       backgroundColor: Colors.black,
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black),
-            accountName: Text(
-              user_uid,
-              style: TextStyle(
-                  fontSize: 23,
-                  fontFamily: 'JakartaSans',
-                  fontWeight: FontWeight.w700),
+            accountName: FutureBuilder<String>(
+              future: SharedPreferencesUtils.getUserName(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    snapshot.data!,
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontFamily: 'JakartaSans',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                } else {
+                  return Text('');
+                }
+              },
             ),
             accountEmail: null,
             currentAccountPicture: CircleAvatar(
@@ -106,10 +123,17 @@ class NavBar extends StatelessWidget {
               await Authentication.signOut(context: context);
               // Navigator.of(context).pushNamedAndRemoveUntil(
               //     '/', (Route<dynamic> route) => false);
+              ClearUserDetailsFromCache();
+              // Navigator.pushNamedAndRemoveUntil(
+              //   context,
+              //   '/firstScreen',
+              //   (Route<dynamic> route) => false,
+              // );
               Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => FirstScreen(),
-                        ),);
+                MaterialPageRoute(
+                  builder: (context) => FirstScreen(),
+                ),
+              );
             },
           )
         ],

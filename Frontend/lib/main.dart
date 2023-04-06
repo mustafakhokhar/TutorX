@@ -1,18 +1,12 @@
-import 'dart:convert';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/routes.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
-import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tutorx/firebase_options.dart';
-import 'package:tutorx/utils/base_client.dart';
-// import 'package:tutorx/welcome_screen.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,44 +22,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var auth = FirebaseAuth.instance;
-  var isLoggedin = false;
-  // late bool check;
-  var current_user;
-  var uid_1;
-  int check = 2;
-  // var uid;
-
-  checkIfLoggedIn() async {
-    auth.authStateChanges().listen((User? user) async {
-      if (user != null && mounted) {
-        setState(() {
-          current_user = auth.currentUser;
-          isLoggedin = true;
-        });
-        var uid = auth.currentUser?.uid;
-        print(uid);
-        var response =
-            await BaseClient().get("/user/$uid").catchError((err) {});
-        var user = usersFromJson(response);
-        if (user.student) {
-          setState(() {
-            check = 1;
-          });
-          print('Student it is');
-        } else {
-          setState(() {
-            check = 0;
-          });
-          print('Tutor it is');
-        }
-      }
-    });
-  }
 
   @override
   void initState() {
-    checkIfLoggedIn();
     super.initState();
   }
 
@@ -95,24 +54,40 @@ class _MyAppState extends State<MyApp> {
             ),
             // home: FirstScreen(),
 
-            home: isLoggedin
-                ? ((check == 1)
-                    ? StudentHompage(user_uid: current_user.uid)
-                    : ((check == 2)
-                        ? CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.black,
-                            ),
-                          )
-                        : TutorHomepage()))
-                // TutorHomepage(user_uid: current_user.uid)))
-                : FirstScreen(),
-            // home: TutorLoadingBidScreen(),
+            home: FutureBuilder<bool>(
+              future: SharedPreferencesUtils.getisLoggedIn(),
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                if (snapshot.hasData) {
+                  bool isLoggedIn = snapshot.data!;
+                  if (isLoggedIn) {
+                    return FutureBuilder<bool>(
+                        future: SharedPreferencesUtils.getisStudent(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<bool> snapshot) {
+                          if (snapshot.hasData) {
+                            bool isStudent = snapshot.data!;
+                            // print(isLoggedIn);
+                            // print(isStudent);
+                            return isStudent
+                                ? StudentHompage()
+                                : TutorHomepage();
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        });
+                  } else {
+                    return FirstScreen();
+                  }
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
           );
         }
         return CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(
-            Colors.black,
+            Color.fromARGB(255, 179, 15, 15),
           ),
         );
         // Otherwise, show something whilst waiting for initialization to complete
@@ -120,3 +95,4 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+

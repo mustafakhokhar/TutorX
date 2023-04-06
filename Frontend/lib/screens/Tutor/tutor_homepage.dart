@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/Tutor/two_buttons.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/screens/student/select_location.dart';
-import 'package:tutorx/utils/navbar.dart';
+import 'package:tutorx/widgets/navbar.dart';
 
 import 'homepage_button_tutor.dart';
 
@@ -20,10 +20,11 @@ class TutorHomepage extends StatelessWidget {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: Scaffold(
         key: _scaffoldState,
-        drawer: NavBar(user_uid: ''),
+        drawer: NavBar(),
         body: Center(
             child: Container(
           margin: EdgeInsets.fromLTRB(0, 150, 0, 434),
