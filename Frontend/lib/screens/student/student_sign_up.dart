@@ -163,9 +163,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => StudentHompage(
-                                    user_uid: uid_temp,
-                                  ),
+                                  builder: (context) => StudentHompage(),
                                 ),
                               );
                             }

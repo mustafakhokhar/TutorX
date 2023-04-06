@@ -23,7 +23,7 @@ class TutorHomepage extends StatelessWidget {
       theme: ThemeData.dark(),
       home: Scaffold(
         key: _scaffoldState,
-        drawer: NavBar(user_uid: ''),
+        drawer: NavBar(),
         body: Center(
             child: Container(
           margin: EdgeInsets.fromLTRB(0, 150, 0, 434),

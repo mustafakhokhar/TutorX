@@ -166,7 +166,7 @@ class InPersonMode extends StatelessWidget {
                                                             MaterialPageRoute(
                                                               builder: (context) =>
                                                                   // StudentFindingTutorLoadingScreen(),
-                                                                  MapScreen(user_uid: '',),
+                                                                  MapScreen(),
                                                             ),
                                                           );
                                                         },

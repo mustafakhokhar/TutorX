@@ -162,9 +162,7 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => MapScreen(
-                                    user_uid: uidTemp,
-                                  ),
+                                  builder: (context) => MapScreen(),
                                 ),
                               );
                             }
