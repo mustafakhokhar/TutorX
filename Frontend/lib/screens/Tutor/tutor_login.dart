@@ -117,8 +117,8 @@ class _TutorSignInState extends State<TutorSignIn> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) => TutorHomepage(
-                                        user_uid: uidTemp,
-                                      ),
+                                          // user_uid: uidTemp,
+                                          ),
                                     ),
                                   );
                                 }
