@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/asking_page_SignIn.dart';
 import 'package:tutorx/screens/common/asking_page_Signup.dart';
+import 'package:tutorx/utils/base_client.dart';
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -65,6 +66,12 @@ class FirstScreen extends StatelessWidget {
                           MaterialStateProperty.all(Color(0xFF583BE8)),
                     ),
                     onPressed: () {
+                      // var response = await BaseClient()
+                      //     .get("/students")
+                      //     .catchError((err) {});
+                      // if (response == null) return;
+                      // // debugPrint('successful:');
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
