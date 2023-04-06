@@ -124,12 +124,16 @@ class NavBar extends StatelessWidget {
               // Navigator.of(context).pushNamedAndRemoveUntil(
               //     '/', (Route<dynamic> route) => false);
               ClearUserDetailsFromCache();
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/firstScreen',
-                (Route<dynamic> route) => false,
+              // Navigator.pushNamedAndRemoveUntil(
+              //   context,
+              //   '/firstScreen',
+              //   (Route<dynamic> route) => false,
+              // );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FirstScreen(),
+                ),
               );
-              
             },
           )
         ],

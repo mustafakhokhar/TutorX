@@ -20,6 +20,7 @@ class TutorHomepage extends StatelessWidget {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: Scaffold(
         key: _scaffoldState,
