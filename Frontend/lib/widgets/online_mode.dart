@@ -13,6 +13,11 @@ class OnlineMode extends StatelessWidget {
         // Put ROUTE FOR ONLINE here
         showModalBottomSheet(
           context: context,
+          shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical( 
+            top: Radius.circular(30.0),
+          ),
+        ),
           isScrollControlled: true,
           builder: (BuildContext context) {
             return Container(

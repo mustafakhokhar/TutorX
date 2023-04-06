@@ -12,17 +12,19 @@ class AskingSignIn extends StatelessWidget {
       onTap: () {
         showModalBottomSheet(
             context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30.0),
+              ),
+            ),
             builder: (BuildContext context) {
               return Container(
                 height: MediaQuery.of(context).size.height * 0.5,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        hexStringToColor("583BE8"),
-                        hexStringToColor("312181"),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter),
+                  gradient: LinearGradient(colors: [
+                    hexStringToColor("583BE8"),
+                    hexStringToColor("312181"),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -50,8 +52,8 @@ class AskingSignIn extends StatelessWidget {
                         height: 60,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
@@ -89,8 +91,8 @@ class AskingSignIn extends StatelessWidget {
                         height: 60,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                               ),

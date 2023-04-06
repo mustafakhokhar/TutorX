@@ -3,7 +3,6 @@ import 'package:tutorx/screens/Tutor/tutor_sign_up.dart';
 import 'package:tutorx/screens/student/student_sign_up.dart';
 import 'package:tutorx/utils/colors.dart';
 
-
 class AskingSignup extends StatelessWidget {
   const AskingSignup({Key? key});
 
@@ -11,32 +10,34 @@ class AskingSignup extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      backgroundColor:
-                          MaterialStateProperty.all(Color(0xFF583BE8)),
-                    ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        backgroundColor: MaterialStateProperty.all(Color(0xFF583BE8)),
+      ),
       onPressed: () {
         showModalBottomSheet(
             context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30.0),
+              ),
+            ),
             builder: (BuildContext context) {
               return Container(
                 height: MediaQuery.of(context).size.height * 0.5,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        hexStringToColor("583BE8"),
-                        hexStringToColor("312181"),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter),
+                  gradient: LinearGradient(colors: [
+                    hexStringToColor("583BE8"),
+                    hexStringToColor("312181"),
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   ),
+                  // color: Colors.transparent,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -60,8 +61,8 @@ class AskingSignup extends StatelessWidget {
                         height: 60,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
@@ -99,8 +100,8 @@ class AskingSignup extends StatelessWidget {
                         height: 60,
                         child: ElevatedButton(
                           style: ButtonStyle(
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
@@ -136,19 +137,19 @@ class AskingSignup extends StatelessWidget {
             });
       },
       child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 16.0,
-                        horizontal: 32.0,
-                      ),
-                      child: Text(
-                        'Get Started',
-                        style: TextStyle(
-                          fontFamily: 'JakartaSans',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
+        padding: EdgeInsets.symmetric(
+          vertical: 16.0,
+          horizontal: 32.0,
+        ),
+        child: Text(
+          'Get Started',
+          style: TextStyle(
+            fontFamily: 'JakartaSans',
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+          ),
+        ),
+      ),
     );
   }
 }
