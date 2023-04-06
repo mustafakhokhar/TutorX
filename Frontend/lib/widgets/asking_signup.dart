@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tutorx/screens/Tutor/tutor_sign_up.dart';
 import 'package:tutorx/screens/student/student_sign_up.dart';
 import 'package:tutorx/utils/colors.dart';
-import 'package:tutorx/widgets/signup_student.dart';
+
 
 class AskingSignup extends StatelessWidget {
   const AskingSignup({Key? key});
@@ -70,12 +70,11 @@ class AskingSignup extends StatelessWidget {
                                 Color.fromARGB(255, 0, 0, 0)),
                           ),
                           onPressed: () {
-                            signup_student();
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => StudentSignUpScreen()),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StudentSignUpScreen()),
+                            );
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
