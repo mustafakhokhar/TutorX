@@ -53,14 +53,14 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/find", (req, res) => {
+router.post("/find", async (req, res) => {
   const longitude = req.body.longitude;
   const latitude = req.body.latitude;
-
-  res.json(findTutorsWithinRadius(longitude, latitude, 5000));
+  res.json(await findTutorsWithinRadius(longitude, latitude, 5000));
 });
 
 async function findTutorsWithinRadius(longitude, latitude, radius) {
+  console.log(longitude, latitude);
   const tutors = await ActiveTutors.aggregate([
     {
       $geoNear: {

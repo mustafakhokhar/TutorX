@@ -113,15 +113,15 @@ class _TutorSignInState extends State<TutorSignIn> {
 
                                 var user = jsonDecode(response);
 
-                                if (user["student"] == false) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => TutorHomepage(
-                                        user_uid: uidTemp,
-                                      ),
-                                    ),
-                                  );
-                                }
+                                // if (user["student"] == false) {
+                                //   Navigator.of(context).push(
+                                //     MaterialPageRoute(
+                                //       builder: (context) => TutorHomepage(
+                                //         user_uid: uidTemp,
+                                //       ),
+                                //     ),
+                                //   );
+                                // }
                               }
                             },
                             child: Padding(

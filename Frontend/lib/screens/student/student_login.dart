@@ -104,16 +104,16 @@ class _StudentSignInState extends State<StudentSignIn> {
                                 password: password,
                               );
 
-                              if (userCredential != null) {
-                                // print(.runtimeType);
-                                String uid_temp = (userCredential.user?.uid)!;
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        StudentHompage(user_uid: uid_temp),
-                                  ),
-                                );
-                              }
+                              // if (userCredential != null) {
+                              //   // print(.runtimeType);
+                              //   String uid_temp = (userCredential.user?.uid)!;
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           StudentHompage(user_uid: uid_temp),
+                              //     ),
+                              //   );
+                              // }
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(

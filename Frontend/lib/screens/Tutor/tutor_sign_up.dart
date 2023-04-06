@@ -160,13 +160,13 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
                               if (response == null) return;
                               debugPrint("successful");
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MapScreen(
-                                    user_uid: uidTemp,
-                                  ),
-                                ),
-                              );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => MapScreen(
+                              //       user_uid: uidTemp,
+                              //     ),
+                              //   ),
+                              // );
                             }
                           },
                           child: Padding(

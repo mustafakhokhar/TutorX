@@ -161,13 +161,13 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                               if (response == null) return;
                               debugPrint("successful");
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => StudentHompage(
-                                    user_uid: uid_temp,
-                                  ),
-                                ),
-                              );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => StudentHompage(
+                              //       user_uid: uid_temp,
+                              //     ),
+                              //   ),
+                              // );
                             }
                           },
                           child: Padding(
