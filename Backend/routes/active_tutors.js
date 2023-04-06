@@ -59,6 +59,18 @@ router.post("/find", async (req, res) => {
   res.json(await findTutorsWithinRadius(longitude, latitude, 5000));
 });
 
+router.delete("/:id", async (req, res)=>{
+  try{
+    const deletedTutor = await ActiveTutors.findOneAndRemove({uid: req.params.id})
+    if (!deletedTutor) {
+      return res.status(404).json({ message: "Active Tutor not found" });
+    }
+    res.json({message: "Deleted Active Tutor"})
+  } catch(err){
+    res.status(500).json({message: err.message})
+  }
+})
+
 async function findTutorsWithinRadius(longitude, latitude, radius) {
   console.log(longitude, latitude);
   const tutors = await ActiveTutors.aggregate([
