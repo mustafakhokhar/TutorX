@@ -10,8 +10,8 @@ class Button extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: SizedBox(
-            height: 200,
-            width: 200,
+            height: 150,
+            width: 150,
             child: PlayButton(
               // pauseIcon: Icon(Icons.pause, color: Colors.black, size: 90),
               pauseIcon: Text(

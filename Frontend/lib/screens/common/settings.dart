@@ -1,22 +1,32 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/screens/student/student_login.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
-import 'package:tutorx/widgets/reusable_widgets.dart';
 
-// import 'package:tutorx/screens/common/log_in.dart';
+class settings extends StatefulWidget {
+  const settings({super.key});
 
-class ForgetPasswordScreen extends StatefulWidget {
   @override
-  _ForgetPasswordScreenState createState() => _ForgetPasswordScreenState();
+  State<settings> createState() => _settings();
 }
 
-class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final _emailController = TextEditingController();
-
+class _settings extends State<settings> {
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    Future<void> DeleteUserDetailsFromCache() async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('fullname');
+      await prefs.remove('uid');
+      await prefs.remove('student');
+      await prefs.remove('isLoggedIn');
+      print("Cache Clear");
+    }
+
     return Scaffold(
         backgroundColor: Colors.black,
         body: Stack(children: [
@@ -42,22 +52,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       height: 50,
                     ),
                     Text(
-                      "Change your Password",
+                      "Settings",
                       style: TextStyle(
                           fontSize: 32,
                           fontFamily: 'JakartaSans',
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFF2FF53)),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Enter your email",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'JakartaSans',
-                          fontWeight: FontWeight.w600,
                           color: Color(0xFFF2FF53)),
                     ),
                     SizedBox(
@@ -66,12 +65,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.85,
                       height: MediaQuery.of(context).size.height * 0.08,
-                      child: reusableTextField(
-                        'Email',
-                        Icons.person_2_outlined,
-                        false,
-                        _emailController,
-                      ),
+                      child: Container(),
                     ),
                     SizedBox(
                       height: 20,
@@ -91,13 +85,38 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 Color.fromARGB(255, 0, 0, 0)),
                           ),
                           onPressed: () async {
-                            Authentication.forgetPassword(
-                                context: context, email: _emailController.text);
+                            // Get the current user
+                            final User? user =
+                                FirebaseAuth.instance.currentUser;
 
+                            if (user == null) {
+                              // User is not signed in
+                              return;
+                            }
+
+                            // Delete the user's account
+                            await user.delete();
+
+                            // Sign out the user
+                            await Authentication.signOut(context: context);
+
+                            // Delete stored user data from SharedPreferences
+                            DeleteUserDetailsFromCache();
+
+                            // Delete stored user data from MongoDB
+                            var response = await BaseClient()
+                                .delete("/user/${user.uid}")
+                                .catchError((err) {
+                              print(err);
+                            });
+
+                            // Navigate back to first screen
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) => StudentSignIn()),
+                                builder: (context) => FirstScreen(),
+                              ),
                             );
+                            print("Delettion of User: Successful");
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -105,7 +124,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                               horizontal: 32.0,
                             ),
                             child: Text(
-                              'Submit',
+                              'Delete Account',
                               style: TextStyle(
                                 fontFamily: 'JakartaSans',
                                 fontWeight: FontWeight.w600,
@@ -117,42 +136,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Center()
                   ])))
         ]));
   }
 }
-
-
-
-
-
-
-              // TextFormField(
-              //   controller: _emailController,
-              //   decoration: InputDecoration(
-              //     labelText: 'Email',
-              //   ),
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Please enter your email';
-              //     }
-              //     return null;
-              //   },
-              // ),
-              // SizedBox(height: 16),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     Authentication.forgetPassword(
-              //         context: context, email: _emailController.text);
-
-              //     Navigator.of(context).push(
-              //           MaterialPageRoute(
-              //             builder: (context) => StudentSignIn()
-              //           ),
-              //         );
-                  
-              //   },
-              //   child:
-              //       Text('Submit'),
-              //

@@ -138,8 +138,7 @@ class _StudentSignInState extends State<StudentSignIn> {
                                   await StoreUserDetailsInCache(uid_temp);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          StudentHompage(),
+                                      builder: (context) => StudentHompage(),
                                     ),
                                   );
                                 } else {
@@ -147,7 +146,8 @@ class _StudentSignInState extends State<StudentSignIn> {
                                       context: context);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("The user is not a Student!!"),
+                                      content:
+                                          Text("The user is not a Student!!"),
                                       backgroundColor: Colors.red,
                                     ),
                                   );

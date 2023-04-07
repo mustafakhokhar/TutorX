@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/Tutor/tutor_login.dart';
 import 'package:tutorx/screens/student/select_location.dart';
 import 'package:tutorx/utils/colors.dart';
@@ -35,6 +36,7 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
       await prefs.setBool('student', user.student);
       await prefs.setBool('isLoggedIn', true);
     }
+
     return Scaffold(
         backgroundColor: Colors.black,
         body: Stack(children: [
@@ -170,14 +172,20 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
                               // if (response == null) return;
                               // debugPrint("successful");
-                                await StoreUserDetailsInCache(uidTemp);
-
+                              await StoreUserDetailsInCache(uidTemp);
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => MapScreen(),
+                                  builder: (context) => TutorHomepage(),
                                 ),
                               );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => MapScreen(
+                              //       user_uid: uidTemp,
+                              //     ),
+                              //   ),
+                              // );
                             }
                           },
                           child: Padding(

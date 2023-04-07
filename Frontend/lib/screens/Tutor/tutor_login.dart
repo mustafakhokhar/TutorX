@@ -24,7 +24,6 @@ class _TutorSignInState extends State<TutorSignIn> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-
     Future<void> StoreUserDetailsInCache(String uid) async {
       var response = await BaseClient().get("/user/$uid").catchError((err) {});
       var user = usersFromJson(response);
@@ -131,8 +130,7 @@ class _TutorSignInState extends State<TutorSignIn> {
                                   await StoreUserDetailsInCache(uid_temp);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          TutorHomepage(),
+                                      builder: (context) => TutorHomepage(),
                                     ),
                                   );
                                 } else {
@@ -140,11 +138,21 @@ class _TutorSignInState extends State<TutorSignIn> {
                                       context: context);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("The user is not a Tutor!!"),
+                                      content:
+                                          Text("The user is not a Tutor!!"),
                                       backgroundColor: Colors.red,
                                     ),
                                   );
                                 }
+                                // if (user["student"] == false) {
+                                //   Navigator.of(context).push(
+                                //     MaterialPageRoute(
+                                //       builder: (context) => TutorHomepage(
+                                //         user_uid: uidTemp,
+                                //       ),
+                                //     ),
+                                //   );
+                                // }
                               }
                             },
                             child: Padding(
