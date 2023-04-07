@@ -69,6 +69,7 @@ class StudentFindingTutorLoadingScreenState
                   ),
                   onPressed: () {
                     // Add your onPressed logic here
+                    Navigator.of(context).pop();
                   },
                   child: Text(
                     'CANCEL',
