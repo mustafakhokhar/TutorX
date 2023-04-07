@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
+import 'package:tutorx/screens/common/settings.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
@@ -114,7 +115,13 @@ class NavBar extends StatelessWidget {
             ),
             iconColor: Color(0xFFF2FF53),
             textColor: Colors.white,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => settings(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.logout),
