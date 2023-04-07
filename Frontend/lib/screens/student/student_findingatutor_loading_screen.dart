@@ -47,7 +47,7 @@ class StudentFindingTutorLoadingScreenState
                   child: Text(
                     'Finding Tutors . . .',
                     style: TextStyle(
-                      fontSize: width * 0.075,
+                      fontSize: width * 0.06,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFFF2FF53),
                       fontFamily: 'JakartaSans',
