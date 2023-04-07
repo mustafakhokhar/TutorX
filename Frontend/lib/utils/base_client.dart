@@ -33,6 +33,26 @@ class BaseClient {
     } else {}
   }
 
-  Future<dynamic> put(String api) async {}
-  Future<dynamic> delete(String api) async {}
+  // pass id
+  Future<dynamic> put(String api, dynamic object) async {
+    var url = Uri.parse(baseUrl + api);
+    var _payload = json.encode(object);
+    var _headers = {
+      'Content-Type': 'application/json',
+    };
+    var response = await client.put(url, body: _payload, headers: _headers);
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {}
+  }
+
+  Future<dynamic> delete(String api) async {
+    var url = Uri.parse(baseUrl + api);
+    var response = await client.delete(url);
+    // var response = await client.get(url, headers: _headers)
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {}
+  }
 }

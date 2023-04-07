@@ -53,14 +53,26 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/find", (req, res) => {
+router.post("/find", async (req, res) => {
   const longitude = req.body.longitude;
   const latitude = req.body.latitude;
-
-  res.json(findTutorsWithinRadius(longitude, latitude, 5000));
+  res.json(await findTutorsWithinRadius(longitude, latitude, 5000));
 });
 
+router.delete("/:id", async (req, res)=>{
+  try{
+    const deletedTutor = await ActiveTutors.findOneAndRemove({uid: req.params.id})
+    if (!deletedTutor) {
+      return res.status(404).json({ message: "Active Tutor not found" });
+    }
+    res.json({message: "Deleted Active Tutor"})
+  } catch(err){
+    res.status(500).json({message: err.message})
+  }
+})
+
 async function findTutorsWithinRadius(longitude, latitude, radius) {
+  // console.log(longitude, latitude);
   const tutors = await ActiveTutors.aggregate([
     {
       $geoNear: {
@@ -74,7 +86,15 @@ async function findTutorsWithinRadius(longitude, latitude, radius) {
       },
     },
   ]);
-  return tutors;
+  const mappedTutor = tutors.map((tutor) => {
+    return {
+      uid: tutor.uid,
+      longitude: tutor.location.coordinates[0],
+      latitude: tutor.location.coordinates[1],
+      distance: tutor.distance
+    };
+  });
+  return mappedTutor;
 }
 
 module.exports = router;

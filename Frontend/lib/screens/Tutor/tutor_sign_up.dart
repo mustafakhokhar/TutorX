@@ -35,6 +35,7 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
       await prefs.setBool('student', user.student);
       await prefs.setBool('isLoggedIn', true);
     }
+
     return Scaffold(
         backgroundColor: Colors.black,
         body: Stack(children: [
@@ -170,14 +171,20 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
                               // if (response == null) return;
                               // debugPrint("successful");
-                                await StoreUserDetailsInCache(uidTemp);
-
+                              await StoreUserDetailsInCache(uidTemp);
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => MapScreen(),
                                 ),
                               );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => MapScreen(
+                              //       user_uid: uidTemp,
+                              //     ),
+                              //   ),
+                              // );
                             }
                           },
                           child: Padding(
