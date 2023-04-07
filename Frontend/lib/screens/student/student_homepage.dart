@@ -2,20 +2,21 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tutorx/utils/navbar.dart';
+import 'package:tutorx/widgets/navbar.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tutorx/screens/student/find_tutor_in_person.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:tutorx/widgets/mode_teaching.dart';
 
+
 class StudentHompage extends StatefulWidget {
-  final String user_uid;
-  const StudentHompage({required this.user_uid}) : super();
+  // const StudentHompage({required this.user_uid}) : super();
+  const StudentHompage({super.key});
 
   @override
   State<StudentHompage> createState() =>
-      _StudentHompageState(user_uid: user_uid);
+      _StudentHompageState();
 }
 
 class _StudentHompageState extends State<StudentHompage> {
@@ -23,7 +24,7 @@ class _StudentHompageState extends State<StudentHompage> {
 
   String map_theme = '';
   LatLng? _center; // Make _center nullable
-  final String user_uid;
+
   Location _location = Location();
 
   void _getCurrentLocation() async {
@@ -46,7 +47,7 @@ class _StudentHompageState extends State<StudentHompage> {
     });
   }
 
-  _StudentHompageState({required this.user_uid});
+  _StudentHompageState();
   Map<String, Marker> _markers = {};
 
   @override
@@ -65,9 +66,13 @@ class _StudentHompageState extends State<StudentHompage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
-      drawer: NavBar(user_uid: user_uid),
+      drawer: NavBar(),
       body: _center == null // Check if _center is null
-          ? Placeholder() // Show a placeholder until _center is updated
+          ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.black,
+              ),
+            ) // Show a placeholder until _center is updated
           : Stack(
               children: [
                 GoogleMap(
