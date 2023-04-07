@@ -33,8 +33,8 @@ mongoose.connect("mongodb+srv://mustafa:helloworld@tutorxcluster.42lny5j.mongodb
     // app.use("/api/student/get_all_students",getAllStudents)
     app.use("/user", userRouter)
     app.use("/activeTutors", activeTutorsRouter)
-    app.use("/pendingTutions", pendingTuitions)
-    app.use("/confirmedTutions", pendingTuitions)
+    app.use("/pendingTuitions", pendingTuitions)
+    app.use("/confirmedTuitions", pendingTuitions)
   }).catch((error)=>{
     console.log(error.message);
   });
