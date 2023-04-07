@@ -5,6 +5,8 @@ import 'package:tutorx/utils/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
+import '../screens/common/my_account.dart';
+
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
 
@@ -67,7 +69,13 @@ class NavBar extends StatelessWidget {
             ),
             iconColor: Color(0xFFF2FF53),
             textColor: Colors.white,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => myAccount(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.history),
