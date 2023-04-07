@@ -11,11 +11,18 @@ class StudentFindingTutorLoadingScreen extends StatefulWidget {
 class StudentFindingTutorLoadingScreenState
     extends State<StudentFindingTutorLoadingScreen> {
   
-  double circleWidth = 100.0;
-  double circleHeight = 100.0;
+  double circleSize = 0.0;
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen size
+    final size = MediaQuery.of(context).size;
+    final double height = size.height;
+    final double width = size.width;
+
+    // Set the circle size based on the screen size
+    circleSize = width * 0.4;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -27,20 +34,20 @@ class StudentFindingTutorLoadingScreenState
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: circleWidth,
-                  height: circleHeight,
+                  width: circleSize,
+                  height: circleSize,
                   child: CircularProgressIndicator(
-                    strokeWidth: 10.0, // increase border width
+                    strokeWidth: circleSize * 0.06, // increase border width
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow), // change color
                   ),
                 ),
-                SizedBox(height: 16.0), // add some spacingg
+                SizedBox(height: height * 0.03), // add some spacing
                 Padding(
-                  padding: EdgeInsets.only(top: 60.0), // add top padding
+                  padding: EdgeInsets.only(top: height * 0.05), // add top padding
                   child: Text(
                     'Finding Tutors . . .',
                     style: TextStyle(
-                      fontSize: 30.0,
+                      fontSize: width * 0.075,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFFF2FF53),
                       fontFamily: 'JakartaSans',
@@ -51,20 +58,20 @@ class StudentFindingTutorLoadingScreenState
             ),
           ),
           Positioned(
-            left: 16.0,
-            right: 16.0,
-            bottom: 80.0, // push button upwards
+            left: width * 0.05,
+            right: width * 0.05,
+            bottom: height * 0.1, // push button upwards
             child: SizedBox(
-              width: 1.0, // adjust width of the button
-              height: 70.0,
+              width: width * 0.9, // adjust width of the button
+              height: height * 0.1,
               child: Padding(
-                padding: EdgeInsets.only(top: 8.0), // add top padding
+                padding: EdgeInsets.only(top: height * 0.01), // add top padding
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFF2FF53),
                     onPrimary: Colors.black,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(height * 0.05),
                     ),
                   ),
                   onPressed: () {
@@ -73,7 +80,7 @@ class StudentFindingTutorLoadingScreenState
                   child: Text(
                     'CANCEL',
                     style: TextStyle(
-                      fontSize: 30.0,
+                      fontSize: width * 0.08,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                       fontFamily: 'JakartaSans',
