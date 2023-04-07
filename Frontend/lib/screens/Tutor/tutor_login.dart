@@ -38,6 +38,7 @@ class _TutorSignInState extends State<TutorSignIn> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Your background widgets here

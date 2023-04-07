@@ -45,6 +45,7 @@ class _StudentSignInState extends State<StudentSignIn> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Your background widgets here
