@@ -1,22 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart' as gogplace;
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/location_services.dart';
-import 'package:tutorx/utils/navbar.dart';
+import 'package:tutorx/widgets/navbar.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 
 class MapScreen extends StatefulWidget {
-  final String user_uid;
-  const MapScreen({required this.user_uid}) : super();
+  const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState(user_uid: user_uid);
+  State<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
@@ -34,7 +32,6 @@ class _MapScreenState extends State<MapScreen> {
 
   String map_theme = '';
   LatLng? _center; // Make _center nullable
-  final String user_uid;
   Location _location = Location();
 
   void _getCurrentLocation() async {
@@ -93,7 +90,7 @@ class _MapScreenState extends State<MapScreen> {
     // }
   }
 
-  _MapScreenState({required this.user_uid});
+  _MapScreenState();
   Map<String, Marker> _markers = {};
   late gogplace.GooglePlace _googlePlace;
   List<gogplace.AutocompletePrediction> predictions = [];
@@ -292,9 +289,7 @@ class _MapScreenState extends State<MapScreen> {
             MaterialPageRoute(
               builder: (context) =>
                   // StudentFindingTutorLoadingScreen(),
-                  StudentHompage(
-                user_uid: '',
-              ),
+                  StudentHompage(),
             ),
           );
         },

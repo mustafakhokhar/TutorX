@@ -47,6 +47,7 @@ dependencies:
   dio: ^4.0.0
   flutter_polyline_points: ^0.2.6
   google_place: ^0.4.7
+  shared_preferences: ^2.0.6
 
 
 
