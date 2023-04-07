@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 
@@ -14,10 +12,10 @@ class OnlineMode extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical( 
-            top: Radius.circular(30.0),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30.0),
+            ),
           ),
-        ),
           isScrollControlled: true,
           builder: (BuildContext context) {
             return Container(

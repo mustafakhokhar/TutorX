@@ -1,6 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/select_location.dart';
 

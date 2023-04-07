@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:tutorx/widgets/online_mode.dart';
 import 'package:tutorx/widgets/inperson_mode.dart';
 

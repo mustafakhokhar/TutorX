@@ -5,10 +5,6 @@ import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
-import 'package:tutorx/widgets/reusable_widgets.dart';
-import 'package:tutorx/models/user_model.dart';
-
-import '../../utils/shared_preferences_utils.dart';
 
 class settings extends StatefulWidget {
   const settings({super.key});
