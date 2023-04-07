@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/Tutor/two_buttons.dart';
-import 'package:tutorx/utils/auth.dart';
-import 'package:tutorx/screens/student/select_location.dart';
 import 'package:tutorx/widgets/navbar.dart';
 
 import 'homepage_button_tutor.dart';
@@ -27,7 +25,7 @@ class TutorHomepage extends StatelessWidget {
         drawer: NavBar(),
         body: Center(
             child: Container(
-          margin: EdgeInsets.fromLTRB(0, 150, 0, 434),
+          margin: EdgeInsets.fromLTRB(0, 150, 0, 200),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Expanded(
               child: Button(),
