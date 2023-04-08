@@ -1,8 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/screens/student/select_location.dart';
+import 'package:tutorx/screens/student/student_login.dart';
+import 'package:tutorx/utils/api.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
+import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/models/user_model.dart';
 
@@ -117,6 +123,12 @@ class _myAccountstate extends State<myAccount> {
                           onPressed: () async {
                             print("Button pressed");
                             String name = _fullnameTextController.text.trim();
+
+                            // var response = await BaseClient()
+                            //     .get("/students")
+                            //     .catchError((err) {});
+                            // if (response == null) return;
+                            // var users = userFromJson(response)
 
                             String uid = await SharedPreferencesUtils.getUID();
                             print(uid);

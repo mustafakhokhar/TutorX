@@ -5,6 +5,8 @@ import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/screens/common/my_account.dart';
 
+import '../screens/common/my_account.dart';
+
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
 

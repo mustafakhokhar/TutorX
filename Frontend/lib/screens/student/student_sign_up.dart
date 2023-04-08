@@ -32,6 +32,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
+        resizeToAvoidBottomInset: false,
         body: Stack(children: [
           // Your background widgets here
           Positioned(

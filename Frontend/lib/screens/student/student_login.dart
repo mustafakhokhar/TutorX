@@ -25,6 +25,7 @@ class _StudentSignInState extends State<StudentSignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Your background widgets here
