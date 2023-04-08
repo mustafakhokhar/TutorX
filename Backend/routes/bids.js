@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // GET a specific bid by ID
 router.get("/:id", async (req, res) => {
   try {
-    const bid = await bidsModel.findOne({student_id: req.params.id});
+    const bid = await bidsModel.find({student_id: req.params.id});
     res.json(bid);
   } catch (err) {
     res.json({ message: err });
@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
 // DELETE a bid by ID
 router.delete("/:id", async (req, res) => {
   try {
-    const removedBid = await bidsModel.findOneAndDelete({student_id: req.params.id});
+    const removedBid = await bidsModel.deleteMany({student_id: req.params.id});
     res.json(removedBid);
   } catch (err) {
     res.json({ message: err });
