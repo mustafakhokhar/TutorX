@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // GET a specific bid by ID
 router.get("/:id", async (req, res) => {
   try {
-    const bid = await bidsModel.findOne({student_id: req.params.id});
+    const bid = await bidsModel.find({student_id: req.params.id});
     res.json(bid);
   } catch (err) {
     res.json({ message: err });
