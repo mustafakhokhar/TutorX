@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'dart:math' show pi;
 
 import '../../models/active_tutors_model.dart';
@@ -26,6 +27,29 @@ class _ButtonState extends State<Button> {
       // print(_center);
     });
   }
+
+  void _showOverlay(BuildContext context) {
+    
+  showDialog(
+    context: context,
+     builder: (_) => OffersScreen(),//AlertDialog(
+    //   title: Text('Overlayed Page'),
+    //   content: Text('This is an overlayed page.'),
+    //   actions: [
+    //     ElevatedButton(
+    //       onPressed: () {
+    //         // Navigator.of(context).pop();
+    //         setState(() {
+      
+    // isPlaying = false;
+    // });
+    //       },
+    //       child: Text('Close'),
+    //     ),
+    //   ],
+    // ),
+  );
+}
 
   @override
   void initState() {
@@ -78,6 +102,7 @@ class _ButtonState extends State<Button> {
                       print(err);
                     });
                   } else {
+                    _showOverlay(context);
                     print('Finding Tutor');
                     String uid = await SharedPreferencesUtils.getUID();
                     print(uid);
