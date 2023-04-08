@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
+import 'package:tutorx/utils/base_client.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 
 class OnlineMode extends StatelessWidget {
-  const OnlineMode({super.key});
+  // const OnlineMode({super.key});
+  final _centre;
+  const OnlineMode(this._centre, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String topic = '';
+    String subject = '';
     return ElevatedButton(
       onPressed: () {
         // Put ROUTE FOR ONLINE here
@@ -69,6 +76,7 @@ class OnlineMode extends StatelessWidget {
                       ],
                       onChanged: (value) {
                         // Handle subject selection
+                        subject = value!;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -86,6 +94,9 @@ class OnlineMode extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     TextFormField(
+                      onChanged: (value) {
+                        topic = value;
+                      },
                       decoration: InputDecoration(
                         hintText: 'Enter your topic',
                         hintStyle:
@@ -105,7 +116,20 @@ class OnlineMode extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          var uid = await SharedPreferencesUtils.getUID();
+
+                          var Tuition = PendingTuitions(
+                            studentId: uid,
+                            topic: topic,
+                            subject: subject,
+                            longitude: _centre.longitude!,
+                            latitude: _centre.latitude!,
+                          );
+
+                          var response = await BaseClient().post("/pendingTuitions",Tuition).catchError((err) {});
+                          // print(response.toString());
+
                           //LOADING SCREEN ROUTE
                           Navigator.of(context).push(
                             MaterialPageRoute(

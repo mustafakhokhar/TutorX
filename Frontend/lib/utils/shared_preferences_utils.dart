@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/utils/base_client.dart';
@@ -31,6 +33,18 @@ class SharedPreferencesUtils {
     return uid;
   }
 
+  // static Future<double> getLat() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   double lat = (prefs.getDouble('latitude') ?? 0);
+  //   return lat;
+  // }
+
+  // static Future<double> getLong() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   double long = (prefs.getDouble('longitude') ?? 0);
+  //   return long;
+  // }
+
   static Future<void> StoreUserDetailsInCache(String uid) async {
       var response = await BaseClient().get("/user/$uid").catchError((err) {});
       var user = usersFromJson(response);
@@ -48,5 +62,14 @@ class SharedPreferencesUtils {
       await prefs.setString('uid', '');
       await prefs.setBool('student', false);
       await prefs.setBool('isLoggedIn', false);
+      // await prefs.setDouble('latitude', 0);
+      // await prefs.setDouble('longitude', 0);
     }
+
+  // static Future<void> StoreLatLong(lat,long) async {
+  //     final prefs = await SharedPreferences.getInstance();
+  //     await prefs.setDouble('latitude', lat);
+  //     await prefs.setDouble('longitude', long);
+  //   }
+  
 }

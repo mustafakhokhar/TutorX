@@ -9,6 +9,7 @@ const PendingTuitionsSchema = new Schema(
     student_id: { type: String, required: true },
     tutor_id: { type: String},
     topic: { type: String, required: true },
+    subject: { type: String, required: true },
     student_location: {
         type: { type: String, enum: ['Point'], required: true },
         coordinates: { type: [Number], required: true }

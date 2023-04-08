@@ -14,6 +14,7 @@ class PendingTuitions {
   PendingTuitions({
     required this.studentId,
     required this.topic,
+    required this.subject,
     required this.longitude,
     required this.latitude,
     this.tutorBids,
@@ -21,6 +22,7 @@ class PendingTuitions {
 
   String studentId;
   String topic;
+  String subject;
   double longitude;
   double latitude;
   List<TutorBid>? tutorBids;
@@ -29,6 +31,7 @@ class PendingTuitions {
       PendingTuitions(
         studentId: json["student_id"],
         topic: json["topic"],
+        subject: json["subject"],
         longitude: json["longitude"],
         latitude: json["latitude"],
         tutorBids: List<TutorBid>.from(
@@ -38,6 +41,7 @@ class PendingTuitions {
   Map<String, dynamic> toJson() => {
         "student_id": studentId,
         "topic": topic,
+        "subject": subject,
         "longitude": longitude,
         "latitude": latitude,
       };

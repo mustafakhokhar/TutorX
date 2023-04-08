@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tutorx/widgets/navbar.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:tutorx/widgets/mode_teaching.dart';
 
 
@@ -91,7 +90,7 @@ class _StudentHompageState extends State<StudentHompage> {
                   child: SizedBox(
                     height: 52,
                     width: 150,
-                    child: ModeTeaching(),
+                    child: ModeTeaching(_center),
                   ),
                 ),
               ],

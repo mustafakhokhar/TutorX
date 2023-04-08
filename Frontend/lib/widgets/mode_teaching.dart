@@ -3,13 +3,17 @@ import 'package:tutorx/widgets/online_mode.dart';
 import 'package:tutorx/widgets/inperson_mode.dart';
 
 class ModeTeaching extends StatelessWidget {
-  const ModeTeaching({super.key});
+  // const ModeTeaching({super.key});
+  final _centre;
+  const ModeTeaching(this._centre, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: (){
+        // print("CENTRE: ${_centre}");
         /////////////////////////////////////////////////////////////////////
+        // SharedPreferencesUtils.StoreLatLong(_centre.latitude,_centre.longitude);
         // NEW SLIDE UP FOR CHOOSING ONLINE OR IN PEFRSON
         // handle button press here
         showModalBottomSheet(
@@ -41,7 +45,7 @@ class ModeTeaching extends StatelessWidget {
                   SizedBox(height: 40),
                   SizedBox(
                     height: 52,
-                    child: OnlineMode(),
+                    child: OnlineMode(_centre),
                   ),
                   SizedBox(height: 20),
                   SizedBox(

@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
         student_id: tuition.student_id,
         tutor_id: tuition.tutor_id,
         topic: tuition.topic,
+        subject: tuition.subject,
         longitude: tuition.student_location.coordinates[0],
         latitude: tuition.student_location.coordinates[1],
         start_time: tuition.start_time,
@@ -32,6 +33,7 @@ router.get("/:id", getPendingTuition, (req, res) => {
     student_id: res.pendingTuition.student_id,
     tutor_id: res.pendingTuition.tutor_id,
     topic: res.pendingTuition.topic,
+    subject: res.pendingTuition.subject,
     longitude: res.pendingTuition.student_location.coordinates[0],
     latitude: res.pendingTuition.student_location.coordinates[1],
     start_time: res.pendingTuition.start_time,
@@ -46,6 +48,7 @@ router.post("/", async (req, res) => {
     student_id: req.body.student_id,
     tutor_id: req.body.tutor_id,
     topic: req.body.topic,
+    subject: req.body.subject,
     student_location: {
       type: "Point",
       coordinates: [req.body.longitude, req.body.latitude],
@@ -56,7 +59,7 @@ router.post("/", async (req, res) => {
 
   try {
     const newPendingTuition = await pendingTuition.save();
-    res.status(201).json(newPendingTuition);
+    res.status(201).json({message: "successful"});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -75,6 +78,9 @@ router.put("/:id", getPendingTuition, async (req, res) => {
   }
   if (req.body.topic != null) {
     res.pendingTuition.topic = req.body.topic;
+  }
+  if (req.body.subject != null) {
+    res.pendingTuition.subject = req.body.subject;
   }
   if (req.body.longitude != null && req.body.latitude != null) {
     res.pendingTuition.student_location = {
