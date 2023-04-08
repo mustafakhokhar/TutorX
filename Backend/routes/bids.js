@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
 // DELETE a bid by ID
 router.delete("/:id", async (req, res) => {
   try {
-    const removedBid = await bidsModel.findOneAndDelete({student_id: req.params.id});
+    const removedBid = await bidsModel.deleteMany({student_id: req.params.id});
     res.json(removedBid);
   } catch (err) {
     res.json({ message: err });
