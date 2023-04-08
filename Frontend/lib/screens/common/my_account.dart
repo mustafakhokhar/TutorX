@@ -118,12 +118,6 @@ class _myAccountstate extends State<myAccount> {
                             print("Button pressed");
                             String name = _fullnameTextController.text.trim();
 
-                            // var response = await BaseClient()
-                            //     .get("/students")
-                            //     .catchError((err) {});
-                            // if (response == null) return;
-                            // var users = userFromJson(response)
-
                             String uid = await SharedPreferencesUtils.getUID();
                             print(uid);
                             var user = Users(

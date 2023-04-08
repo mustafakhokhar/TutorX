@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tutorx/widgets/navbar.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:tutorx/screens/student/find_tutor_in_person.dart';
-import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 import 'package:tutorx/widgets/mode_teaching.dart';
 
 
