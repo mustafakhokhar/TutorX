@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutorx/routes.dart';
+import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            // home: OffersScreen(),
+            // home: BidScreen(),
 
             home: FutureBuilder<bool>(
               future: SharedPreferencesUtils.getisLoggedIn(),
