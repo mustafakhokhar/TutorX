@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tutorx/models/bids_model.dart';
+import 'package:tutorx/utils/base_client.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 
 class BidScreen extends StatefulWidget {
   @override
@@ -11,7 +15,7 @@ class _BidScreenState extends State<BidScreen> {
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
-      
+
     //   body: Padding(
     //     padding: const EdgeInsets.all(16.0),
     //     child: Column(
@@ -53,9 +57,8 @@ class _BidScreenState extends State<BidScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height*0.4),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.4),
             Text(
               'Enter the amount',
               style: TextStyle(
@@ -71,6 +74,9 @@ class _BidScreenState extends State<BidScreen> {
                 border: OutlineInputBorder(),
                 hintText: 'Enter your bid amount',
               ),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
             ),
             SizedBox(height: 10.0),
             // ElevatedButton(
@@ -81,35 +87,43 @@ class _BidScreenState extends State<BidScreen> {
             //   child: Text('Submit Bid'),
             // ),
             ElevatedButton(
-                child: Text('Bid',style: TextStyle(
+              child: Text('Bid',
+                  style: TextStyle(
                       fontFamily: 'JakartaSans',
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
                       color: Color.fromARGB(255, 255, 255, 255))),
-                onPressed: () { 
+              onPressed: () async {
                 print('Bid submitted: ${_bidController.text}');
+                var uid = await SharedPreferencesUtils.getUID();
+                var bid_obj = Bids(
+                  studentId: uid,
+                  tutorId: '',
+                  bidAmount: int.parse(_bidController.text),
+                );
+                final response =
+                    await BaseClient().get("/bids/${uid}").catchError((err) {});
 
-                },
-                style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Color(0xFF583BE8)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
+                // print(response);
+              },
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Color(0xFF583BE8)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
                 ),
               ),
-            
+            ),
           ],
         ),
       ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
-        onPressed: () async{
-
+        onPressed: () async {
           // String uid = await SharedPreferencesUtils.getUID();
           //           var response = await BaseClient()
           //               .delete("/activeTutors/${uid}")
