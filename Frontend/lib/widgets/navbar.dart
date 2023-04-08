@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/common/settings.dart';
 import 'package:tutorx/utils/auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
+import 'package:tutorx/screens/common/my_account.dart';
 
 import '../screens/common/my_account.dart';
 
@@ -13,14 +12,6 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    Future<void> ClearUserDetailsFromCache() async {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fullname', '');
-      await prefs.setString('uid', '');
-      await prefs.setBool('student', false);
-      await prefs.setBool('isLoggedIn', false);
-    }
 
     return Drawer(
       backgroundColor: Colors.black,
@@ -138,12 +129,8 @@ class NavBar extends StatelessWidget {
               await Authentication.signOut(context: context);
               // Navigator.of(context).pushNamedAndRemoveUntil(
               //     '/', (Route<dynamic> route) => false);
-              ClearUserDetailsFromCache();
-              // Navigator.pushNamedAndRemoveUntil(
-              //   context,
-              //   '/firstScreen',
-              //   (Route<dynamic> route) => false,
-              // );
+              SharedPreferencesUtils.ClearUserDetailsFromCache();
+
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => FirstScreen(),

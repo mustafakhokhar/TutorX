@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class TutorLoadingBidScreen extends StatefulWidget {
-  const TutorLoadingBidScreen({super.key});
+  const TutorLoadingBidScreen({Key? key}) : super(key: key);
 
   @override
-  State<TutorLoadingBidScreen> createState() => TutorLoadingBidScreenState();
+  _TutorLoadingBidScreenState createState() => _TutorLoadingBidScreenState();
 }
 
-class TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
-  double circleWidth = 100.0;
-  double circleHeight = 100.0;
-
+class _TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double circleSize = screenWidth * 0.3;
+    final double textSize = screenHeight * 0.03;
+    final double buttonWidth = screenWidth * 0.8;
+    final double buttonHeight = screenHeight * 0.1;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -26,20 +28,24 @@ class TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: circleWidth,
-                  height: circleHeight,
+                  width: circleSize,
+                  height: circleSize,
                   child: CircularProgressIndicator(
-                    strokeWidth: 10.0, // increase border width
+                    strokeWidth: circleSize * 0.1, // increase border width
                     valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF583BE8)), // change color
                   ),
                 ),
-                SizedBox(height: 16.0), // add some spacingg
+                SizedBox(height: screenHeight * 0.02), // add some spacing
                 Padding(
-                  padding: EdgeInsets.only(top: 80.0,left:50.0,right:50.0), // add top padding
+                  padding: EdgeInsets.only(
+                    top: screenHeight * 0.1,
+                    left: screenWidth * 0.1,
+                    right: screenWidth * 0.1,
+                  ), // add top padding
                   child: Text(
                     'Waiting for the Students to Respond . . .',
                     style: TextStyle(
-                      fontSize: 25.0,
+                      fontSize: textSize,
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'JakartaSans',
@@ -51,20 +57,20 @@ class TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
             ),
           ),
           Positioned(
-            left: 16.0,
-            right: 16.0,
-            bottom: 80.0, // push button upwards
+            left: screenWidth * 0.1,
+            right: screenWidth * 0.1,
+            bottom: screenHeight * 0.1, // push button upwards
             child: SizedBox(
-              width: 1.0, // adjust width of the button
-              height: 70.0,
+              width: buttonWidth, // adjust width of the button
+              height: buttonHeight,
               child: Padding(
-                padding: EdgeInsets.only(top: 8.0), // add top padding
+                padding: EdgeInsets.only(top: buttonHeight * 0.1), // add top padding
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromARGB(255, 73, 47, 207),
                     onPrimary: Colors.black,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(buttonHeight * 0.5),
                     ),
                   ),
                   onPressed: () {
@@ -73,7 +79,7 @@ class TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
                   child: Text(
                     'CANCEL',
                     style: TextStyle(
-                      fontSize: 30.0,
+                      fontSize: textSize * 1.5,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                       fontFamily: 'JakartaSans',

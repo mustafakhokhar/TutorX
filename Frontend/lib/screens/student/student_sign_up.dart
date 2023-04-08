@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/screens/common/sign_up_success.dart';
 // import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/select_location.dart';
@@ -9,6 +10,7 @@ import 'package:tutorx/utils/api.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/models/user_model.dart';
 
@@ -28,19 +30,9 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> StoreUserDetailsInCache(String uid) async {
-      var response = await BaseClient().get("/user/$uid").catchError((err) {});
-      var user = usersFromJson(response);
-      // print('Here: ${user.fullname}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fullname', user.fullname);
-      await prefs.setString('uid', user.uid);
-      await prefs.setBool('student', user.student);
-      await prefs.setBool('isLoggedIn', true);
-    }
-
     return Scaffold(
         backgroundColor: Colors.black,
+        resizeToAvoidBottomInset: false,
         body: Stack(children: [
           // Your background widgets here
           Positioned(
@@ -172,7 +164,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                                   .post("/user", user)
                                   .catchError((err) {});
                               print("successful working");
-                              await StoreUserDetailsInCache(uid_temp);
+                              await SharedPreferencesUtils.StoreUserDetailsInCache(uid_temp);
 
                               // if (response == null) return;
 
@@ -180,7 +172,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => StudentHompage(),
+                                  builder: (context) => SignUpSuccessful(),
                                 ),
                               );
                             }
