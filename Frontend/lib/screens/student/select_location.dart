@@ -3,21 +3,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart' as gogplace;
+import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/location_services.dart';
-import 'package:tutorx/widgets/navbar.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  // const MapScreen({super.key});
+  final topic;
+  final subject;
+  const MapScreen(this.topic, this.subject) : super();
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<MapScreen> createState() =>
+      _MapScreenState(topic: topic, subject: subject);
 }
 
 class _MapScreenState extends State<MapScreen> {
+  final topic;
+  final subject;
   late GoogleMapController mapController;
   TextEditingController _searchController = TextEditingController();
   gogplace.DetailsResult? startPosition;
@@ -90,7 +98,7 @@ class _MapScreenState extends State<MapScreen> {
     // }
   }
 
-  _MapScreenState();
+  _MapScreenState({required this.topic, required this.subject});
   Map<String, Marker> _markers = {};
   late gogplace.GooglePlace _googlePlace;
   List<gogplace.AutocompletePrediction> predictions = [];
@@ -127,11 +135,14 @@ class _MapScreenState extends State<MapScreen> {
       });
     }
   }
-
+double lat = 0;
+    double long = 0;
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   @override
   @override
   Widget build(BuildContext context) {
+    
+
     return Scaffold(
       key: _scaffoldState,
       body: _center == null
@@ -227,6 +238,8 @@ class _MapScreenState extends State<MapScreen> {
                                       longitude = details
                                           .result!.geometry!.location!.lng;
                                       print(latitude);
+                                      lat = latitude;
+                                      long = longitude;
                                       print(longitude);
                                       _markercoord =
                                           LatLng(latitude, longitude);
@@ -253,8 +266,24 @@ class _MapScreenState extends State<MapScreen> {
                     height: 52,
                     width: 150,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // handle button press here
+                      onPressed: () async {
+                        // print
+                        var uid = await SharedPreferencesUtils.getUID();
+                        print("long: $long");
+                        print("lat: $lat");
+                        var Tuition = PendingTuitions(
+                          studentId: uid,
+                          topic: topic,
+                          subject: subject,
+                          longitude: long,
+                          latitude: lat,
+                        );
+                        print(Tuition);
+                        var response = await BaseClient()
+                            .post("/pendingTuitions", Tuition)
+                            .catchError((err) {});
+                        // // print(response.toString());
+
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) =>
