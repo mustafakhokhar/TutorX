@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/screens/student/student_login.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/utils/colors.dart';

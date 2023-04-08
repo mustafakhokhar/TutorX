@@ -1,10 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/Tutor/tutor_login.dart';
+import 'package:tutorx/screens/common/sign_up_success.dart';
 import 'package:tutorx/screens/student/select_location.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/models/user_model.dart';
@@ -25,16 +28,6 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> StoreUserDetailsInCache(String uid) async {
-      var response = await BaseClient().get("/user/$uid").catchError((err) {});
-      var user = usersFromJson(response);
-      // print('Here: ${user.fullname}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fullname', user.fullname);
-      await prefs.setString('uid', user.uid);
-      await prefs.setBool('student', user.student);
-      await prefs.setBool('isLoggedIn', true);
-    }
 
     return Scaffold(
         backgroundColor: Colors.black,
@@ -172,11 +165,11 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
                               // if (response == null) return;
                               // debugPrint("successful");
-                              await StoreUserDetailsInCache(uidTemp);
+                              await SharedPreferencesUtils.StoreUserDetailsInCache(uidTemp);
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => MapScreen(),
+                                  builder: (context) => SignUpSuccessful(),
                                 ),
                               );
                               // Navigator.of(context).push(

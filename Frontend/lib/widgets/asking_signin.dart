@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/Tutor/tutor_login.dart';
-import 'package:tutorx/screens/Tutor/tutor_sign_up.dart';
 import 'package:tutorx/screens/student/student_login.dart';
-import 'package:tutorx/screens/student/student_sign_up.dart';
 import 'package:tutorx/utils/colors.dart';
 
 class AskingSignIn extends StatelessWidget {

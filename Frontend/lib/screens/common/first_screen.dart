@@ -1,8 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorx/screens/common/asking_page_SignIn.dart';
-import 'package:tutorx/screens/common/asking_page_Signup.dart';
-import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/widgets/asking_signin.dart';
 import 'package:tutorx/widgets/asking_signup.dart';
 
