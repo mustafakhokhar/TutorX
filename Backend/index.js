@@ -5,7 +5,7 @@ const activeTutorsRouter = require("./routes/active_tutors")
 const pendingTuitions = require("./routes/pending_tuitions")
 const confirmedTuitions = require("./routes/confirmed_tuitions")
 const devices = require("./routes/devices")
-
+const bids= require("./routes/bids")
 
 const app = express();
 
@@ -32,6 +32,8 @@ mongoose.connect("mongodb+srv://mustafa:helloworld@tutorxcluster.42lny5j.mongodb
     app.use("/pendingTuitions", pendingTuitions)
     app.use("/confirmedTuitions", confirmedTuitions)
     app.use("/devices", devices)
+    app.use("/bids", bids)
+
 
   }).catch((error)=>{
     console.log(error.message);
