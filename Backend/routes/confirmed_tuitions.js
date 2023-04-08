@@ -4,6 +4,10 @@ const ConfirmedTuitions = require('../models/confirmed_tuitions');
 const PendingTuitions = require('../models/pending_tuitions');
 
 // POST /confirmed-tuitions
+/* format {
+  _id : tuition_id
+}
+*/
 router.post('/', async (req, res) => {
   try {
     const { _id} = req.body;
