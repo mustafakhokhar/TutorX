@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/screens/common/sign_in_success.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
@@ -24,17 +26,7 @@ class _TutorSignInState extends State<TutorSignIn> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    Future<void> StoreUserDetailsInCache(String uid) async {
-      var response = await BaseClient().get("/user/$uid").catchError((err) {});
-      var user = usersFromJson(response);
-      // print('Here: ${user.fullname}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fullname', user.fullname);
-      await prefs.setString('uid', user.uid);
-      await prefs.setBool('student', user.student);
-      await prefs.setBool('isLoggedIn', true);
-    }
-
+    
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -127,10 +119,10 @@ class _TutorSignInState extends State<TutorSignIn> {
                                 var user = jsonDecode(response);
 
                                 if (user["student"] == false) {
-                                  await StoreUserDetailsInCache(uid_temp);
+                                  await SharedPreferencesUtils.StoreUserDetailsInCache(uid_temp);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => TutorHomepage(),
+                                      builder: (context) => SignInSuccessful(),
                                     ),
                                   );
                                 } else {

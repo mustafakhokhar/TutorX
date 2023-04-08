@@ -1,6 +1,6 @@
-import 'dart:ffi';
-
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/models/user_model.dart';
+import 'package:tutorx/utils/base_client.dart';
 
 class SharedPreferencesUtils {
   // static Future<String?> getUsername() async {
@@ -30,4 +30,23 @@ class SharedPreferencesUtils {
     String uid = prefs.getString('uid') ?? '';
     return uid;
   }
+
+  static Future<void> StoreUserDetailsInCache(String uid) async {
+      var response = await BaseClient().get("/user/$uid").catchError((err) {});
+      var user = usersFromJson(response);
+      // print('Here: ${user.fullname}');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('fullname', user.fullname);
+      await prefs.setString('uid', user.uid);
+      await prefs.setBool('student', user.student);
+      await prefs.setBool('isLoggedIn', true);
+    }
+
+  static Future<void> ClearUserDetailsFromCache() async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('fullname', '');
+      await prefs.setString('uid', '');
+      await prefs.setBool('student', false);
+      await prefs.setBool('isLoggedIn', false);
+    }
 }
