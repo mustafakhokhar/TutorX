@@ -1,7 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'dart:math' show pi;
 
-class Button extends StatelessWidget {
+import '../../models/active_tutors_model.dart';
+import '../../models/user_model.dart';
+import '../../utils/base_client.dart';
+import '../../utils/shared_preferences_utils.dart';
+
+class Button extends StatefulWidget {
+  const Button({super.key});
+
+  @override
+  State<Button> createState() => _ButtonState();
+}
+
+class _ButtonState extends State<Button> {
+  bool isPlaying = false;
+  LatLng? _center; // Current Tutor Location
+
+  void _getCurrentLocation() async {
+    final position = await Geolocator.getCurrentPosition();
+    setState(() {
+      _center = LatLng(position.latitude, position.longitude);
+      // print(_center);
+    });
+  }
+
+  @override
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,39 +41,116 @@ class Button extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: SizedBox(
-            height: 150,
-            width: 150,
-            child: PlayButton(
-              // pauseIcon: Icon(Icons.pause, color: Colors.black, size: 90),
-              pauseIcon: Text(
-                'Finding\nTuition',
-                style: TextStyle(
+              height: 150,
+              width: 150,
+              child: PlayButton(
+                pauseIcon: Text(
+                  'Finding\nTuition',
+                  style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'JakartaSans',
                     fontWeight: FontWeight.w800,
-                    fontSize: 25),
-                textAlign: TextAlign.center,
-              ),
-              // playIcon: Icon(Icons.play_arrow, color: Colors.black, size: 90),
-              playIcon: Text(
-                'Find\nTuition',
-                style: TextStyle(
+                    fontSize: 25,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                playIcon: Text(
+                  'Find\nTuition',
+                  style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'JakartaSans',
                     fontWeight: FontWeight.w800,
-                    fontSize: 25),
-                textAlign: TextAlign.center,
-              ),
-              onPressed: () {
-                print('Finding Tutor');
-              },
-            ),
-          ),
+                    fontSize: 25,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: () async {
+                  if (isPlaying) {
+                    print('Finding Tutor paused');
+                    String uid = await SharedPreferencesUtils.getUID();
+                    var user = ActiveTutors(
+                        uid: uid,
+                        longitude: _center!.longitude,
+                        latitude: _center!.latitude);
+                    var response = await BaseClient()
+                        .delete("/activeTutors/${user.uid}")
+                        .catchError((err) {
+                      print(err);
+                    });
+                  } else {
+                    print('Finding Tutor');
+                    String uid = await SharedPreferencesUtils.getUID();
+                    print(uid);
+                    print(_center);
+                    var user = ActiveTutors(
+                        uid: uid,
+                        longitude: _center!.longitude,
+                        latitude: _center!.latitude);
+                    var response = await BaseClient()
+                        .post("/activeTutors", user)
+                        .catchError((err) {});
+                  }
+                  isPlaying = !isPlaying;
+                },
+              )),
         ),
       ),
     );
   }
 }
+
+// class Button extends StatelessWidget {
+//   bool isPlaying = false;
+
+//   Button(LatLng? center);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
+//       debugShowCheckedModeBanner: false,
+//       home: Scaffold(
+//         body: Center(
+//           child: SizedBox(
+//               height: 150,
+//               width: 150,
+//               child: PlayButton(
+//                 pauseIcon: Text(
+//                   'Finding\nTuition',
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontFamily: 'JakartaSans',
+//                     fontWeight: FontWeight.w800,
+//                     fontSize: 25,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 playIcon: Text(
+//                   'Find\nTuition',
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontFamily: 'JakartaSans',
+//                     fontWeight: FontWeight.w800,
+//                     fontSize: 25,
+//                   ),
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 onPressed: () async {
+//                   if (isPlaying) {
+//                     print('Finding Tutor paused');
+//                   } else {
+//                     print('Finding Tutor');
+//                     String uid = await SharedPreferencesUtils.getUID();
+//                     print(uid);
+//                   }
+//                   isPlaying = !isPlaying;
+//                 },
+//               )),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class PlayButton extends StatefulWidget {
   final bool initialIsPlaying;
