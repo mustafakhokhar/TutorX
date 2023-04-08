@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
@@ -14,6 +12,24 @@ class SignUpSuccessful extends StatefulWidget {
 }
 
 class SignUpSuccessfulState extends State<SignUpSuccessful> {
+  var isStudent = false;
+  var studentText ="Congratulations! You are now part of our learning community. Let's find the right tutor for you and start achieving your goals!";
+  var tutorText = "Congratulations! You are now a part of our dedicated team of tutors . Let's find your first student and help them reach their full potential.";
+  
+  checkStudent () async {
+      var check = await SharedPreferencesUtils.getisStudent();
+
+      setState(() {
+        isStudent = check;
+      });
+    }
+
+  @override
+  void initState() {
+    checkStudent();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +85,7 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
                 padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
                 alignment: Alignment.center,
                 child: Text(
-                  "Congratulations! You are now part of our learning community. Let's find the right tutor for you and start achieving your goals!",
+                  isStudent ? studentText: tutorText,
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 15,
@@ -95,9 +111,6 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
                       minimumSize: Size(300, 80),
                     ),
                     onPressed: () async {
-                      // Add your onPressed logic here
-                      var isStudent = await SharedPreferencesUtils.getisStudent();
-
 
                       Navigator.of(context).push(
                         MaterialPageRoute(

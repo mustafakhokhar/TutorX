@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
@@ -9,13 +7,32 @@ class SignInSuccessful extends StatefulWidget {
   const SignInSuccessful({super.key});
 
   @override
-  State<SignInSuccessful> createState() =>
-      SignInSuccessfulState();
+  State<SignInSuccessful> createState() => SignInSuccessfulState();
 }
 
 class SignInSuccessfulState extends State<SignInSuccessful> {
+  var isStudent = false;
+  var studentText ="Welcome back! Your learning journey continues here. Let's find the perfect tutor to help you reach your goals.";
+  var tutorText = "Welcome back! Let's continue helping students reach their full potential. Check for new tutoring opportunities and manage your schedule here.";
+  
+  checkStudent () async {
+      var check = await SharedPreferencesUtils.getisStudent();
+
+      setState(() {
+        isStudent = check;
+      });
+    }
+  
+  @override
+  void initState() {
+    checkStudent();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
+    
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -69,7 +86,7 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
                 padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
                 alignment: Alignment.center,
                 child: Text(
-                  "Congratulations! You are now part of our learning community. Let's find the right tutor for you and start achieving your goals!",
+                  isStudent ? studentText : tutorText,
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 15,
@@ -94,14 +111,14 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
                       // Set minWidth to 150 and height to 80
                       minimumSize: Size(300, 80),
                     ),
-                    onPressed: () async{
+                    onPressed: () async {
                       // Add your onPressed logic here
-                      var isStudent = await SharedPreferencesUtils.getisStudent();
-
+                          
 
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => isStudent ? StudentHompage():TutorHomepage(),
+                          builder: (context) =>
+                              isStudent ? StudentHompage() : TutorHomepage(),
                         ),
                       );
                     },
