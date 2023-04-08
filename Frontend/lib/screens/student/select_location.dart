@@ -10,6 +10,8 @@ import 'package:location/location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tutorx/screens/student/student_findingatutor_loading_screen.dart';
 
+import 'currently_active_tutors.dart';
+
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
@@ -257,8 +259,7 @@ class _MapScreenState extends State<MapScreen> {
                         // handle button press here
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) =>
-                                StudentFindingTutorLoadingScreen(),
+                            builder: (context) => CurrentlyActive(),
                           ),
                         );
                       },

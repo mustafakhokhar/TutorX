@@ -17,8 +17,8 @@ class ActiveTutors {
   });
 
   String uid;
-  int longitude;
-  int latitude;
+  double longitude;
+  double latitude;
 
   factory ActiveTutors.fromJson(Map<String, dynamic> json) => ActiveTutors(
         uid: json["uid"],
