@@ -10,6 +10,7 @@ import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
 var time = 1;
+var student_id;
 
 class Offer {
   final String subject;
@@ -27,13 +28,11 @@ class Offer {
 
 class OfferWidget extends StatelessWidget {
   final Offer offer;
-
   const OfferWidget({required this.offer});
 
   void _acceptOffer(BuildContext context) {
     // Code to accept the offer goes here
     // For example:
-
   }
 
   void _cancelOffer(BuildContext context) {
@@ -85,16 +84,19 @@ class OfferWidget extends StatelessWidget {
           ButtonBar(
             children: [
               ElevatedButton(
-                child: Text('Accept',style: TextStyle(
-                      fontFamily: 'JakartaSans',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromARGB(255, 255, 255, 255))),
-                onPressed: () { Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => BidScreen(),
-                                    ),
-                                  );},
+                child: Text('Accept',
+                    style: TextStyle(
+                        fontFamily: 'JakartaSans',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 255, 255, 255))),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => BidScreen(student_id),
+                    ),
+                  );
+                },
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
                   backgroundColor: MaterialStateProperty.all<Color>(
@@ -167,24 +169,22 @@ class _OffersScreenState extends State<OffersScreen> {
 
     //Idrees Mapping not working
     List<dynamic> res = json.decode(response);
-    print(res[0]);
-    // List<PendingTuitions> pendingTuitions =
-    //     res.map((json) => PendingTuitions.fromJson(json)).toList();
+    List<PendingTuitions> pendingTuitions =
+        res.map((json) => PendingTuitions.fromJson(json)).toList();
 
     final List<Offer> offers = [];
 
-    for (var i = 0; i < res.length; i++) {
-      var id = res[i]["student_id"];
-
+    for (PendingTuitions tuition in pendingTuitions) {
+      var id = tuition.studentId;
+      student_id = id;
       final response =
           await BaseClient().get("/user/${id}").catchError((err) {});
       final users = usersFromJson(response);
 
-
       var name = users.fullname;
-      print(name);
+      // print(name);
       Offer temp = Offer(
-          subject: res[i]["subject"], topic: res[i]["topic"], student_name: name);
+          subject: tuition.subject, topic: tuition.topic, student_name: name);
       offers.insert(0, temp);
     }
     if (mounted) {
@@ -219,23 +219,21 @@ class _OffersScreenState extends State<OffersScreen> {
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
-        onPressed: () async{
-
+        onPressed: () async {
           String uid = await SharedPreferencesUtils.getUID();
-                    var response = await BaseClient()
-                        .delete("/activeTutors/${uid}")
-                        .catchError((err) {
-                      print(err);
-                    });
-          if (response!= null) {
-
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  // StudentFindingTutorLoadingScreen(),
-                  TutorHomepage(),
-            ),
-          );
+          var response = await BaseClient()
+              .delete("/activeTutors/${uid}")
+              .catchError((err) {
+            print(err);
+          });
+          if (response != null) {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) =>
+                    // StudentFindingTutorLoadingScreen(),
+                    TutorHomepage(),
+              ),
+            );
           }
         },
         shape: RoundedRectangleBorder(

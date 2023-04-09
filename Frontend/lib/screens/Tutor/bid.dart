@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/models/bids_model.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
+import 'offers_screen.dart';
+
 class BidScreen extends StatefulWidget {
+  BidScreen(student_id);
+
   @override
   _BidScreenState createState() => _BidScreenState();
 }
@@ -96,13 +101,17 @@ class _BidScreenState extends State<BidScreen> {
               onPressed: () async {
                 print('Bid submitted: ${_bidController.text}');
                 var uid = await SharedPreferencesUtils.getUID();
+                var name = await SharedPreferencesUtils.getUserName();
+
                 var bid_obj = Bids(
-                  studentId: uid,
-                  tutorId: '',
+                  studentId: student_id,
+                  tutorId: uid,
+                  tutorName: name,
                   bidAmount: int.parse(_bidController.text),
                 );
-                final response =
-                    await BaseClient().get("/bids/${uid}").catchError((err) {});
+                final response = await BaseClient()
+                    .post("/bids", bid_obj)
+                    .catchError((err) {});
 
                 // print(response);
               },
@@ -124,6 +133,7 @@ class _BidScreenState extends State<BidScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
+          print(student_id);
           // String uid = await SharedPreferencesUtils.getUID();
           //           var response = await BaseClient()
           //               .delete("/activeTutors/${uid}")
