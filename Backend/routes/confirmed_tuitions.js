@@ -15,8 +15,8 @@ router.post('/', async (req, res) => {
     if (!pendingTuition) {
       return res.status(404).json({ message: 'Pending tuition not found' });
     }
-    const duration = (new Date() - pendingTuition.start_time) / 600000; // Duration in minutes
-    const bid = pendingTuition.tutor_bids[0].bid_amount;
+    const duration = (new Date() - pendingTuition.start_time) / (1000*60*60); // Duration in minutes
+    const bid = pendingTuition.bid_amount;
     if (!bid) {
       return res.status(404).json({ message: 'Tutor bid not found' });
     }
