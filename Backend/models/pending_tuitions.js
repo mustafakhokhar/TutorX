@@ -14,12 +14,7 @@ const PendingTuitionsSchema = new Schema(
         coordinates: { type: [Number], required: true }
       },
     start_time: { type: Date },
-    tutor_bids: [
-      {
-        tutor_id: { type: String, required: true },
-        bid_amount: { type: Number, required: true },
-      },
-    ],
+    bid_amount: {type: Number},
   },
   { timestamps: true }
 );
