@@ -12,23 +12,31 @@ String pendingTuitionsToJson(PendingTuitions data) =>
 
 class PendingTuitions {
   PendingTuitions({
-    required this.studentId,
-    required this.topic,
-    required this.subject,
-    required this.longitude,
-    required this.latitude,
+    this.tuition_id,
+    this.studentId,
+    this.tutorId,
+    this.topic,
+    this.subject,
+    this.longitude,
+    this.latitude,
     this.tutorBids,
+    this.bidAmount,
   });
 
-  String studentId;
-  String topic;
-  String subject;
-  double longitude;
-  double latitude;
+  String? tuition_id;
+  String? studentId;
+  String? tutorId;
+  String? topic;
+  String? subject;
+  double? longitude;
+  double? latitude;
   List<TutorBid>? tutorBids;
+  int? bidAmount;
+
 
  factory PendingTuitions.fromJson(Map<String, dynamic> json) =>
       PendingTuitions(
+        tuition_id: json["_id"],
         studentId: json["student_id"],
         topic: json["topic"],
         subject: json["subject"],
@@ -46,11 +54,14 @@ class PendingTuitions {
 
 
   Map<String, dynamic> toJson() => {
+        "_id":tuition_id,
         "student_id": studentId,
+        "tutor_id": tutorId,
         "topic": topic,
         "subject": subject,
         "longitude": longitude,
         "latitude": latitude,
+        "bid_amount": bidAmount,
       };
 }
 

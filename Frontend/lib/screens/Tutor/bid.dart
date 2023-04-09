@@ -8,7 +8,7 @@ import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'offers_screen.dart';
 
 class BidScreen extends StatefulWidget {
-  BidScreen(student_id);
+  BidScreen(student_id,tuition_id);
 
   @override
   _BidScreenState createState() => _BidScreenState();
@@ -104,10 +104,12 @@ class _BidScreenState extends State<BidScreen> {
                 var name = await SharedPreferencesUtils.getUserName();
 
                 var bid_obj = Bids(
+                  tuitionId: tuition_id,
                   studentId: student_id,
                   tutorId: uid,
                   tutorName: name,
                   bidAmount: int.parse(_bidController.text),
+
                 );
                 final response = await BaseClient()
                     .post("/bids", bid_obj)

@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const bidsSchema = new Schema({
+  tuition_id: {
+    type: String,
+    required: true,
+  },
   student_id: {
     type: String,
     required: true,

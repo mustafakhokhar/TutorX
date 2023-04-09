@@ -7,6 +7,7 @@ import 'package:tutorx/models/bids_model.dart';
 import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/screens/Tutor/bid.dart';
+import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
@@ -17,12 +18,16 @@ var time = 1;
 class Bid {
   final String? tutor_name;
   final int? rate;
-  // final double price;
+  final String? tuition_id;
+  final String? tutor_id;
+  final String? student_id;
 
-  Bid({
-    this.tutor_name,
-    this.rate,
-  });
+  Bid(
+      {this.tutor_name,
+      this.rate,
+      this.tuition_id,
+      this.student_id,
+      this.tutor_id});
 }
 
 class BidWidget extends StatelessWidget {
@@ -76,20 +81,31 @@ class BidWidget extends StatelessWidget {
           ButtonBar(
             children: [
               ElevatedButton(
-                child: Text('Accept',
-                    style: TextStyle(
-                        fontFamily: 'JakartaSans',
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                    color: Color(0xFFF2FF53))),
+                onPressed: () async {
+                  // ACCEPT
+                  final response_tid = await BaseClient()
+                      .get("/pendingTuitions/${bid.tuition_id}")
+                      .catchError((err) {});
 
-                onPressed: () {
+                  var res = json.decode(response_tid);
+
+                  var selected_id = bid.tuition_id;
+
+                  final myJSONobject = {
+                    'tutor_id': bid.tutor_id,
+                    'bid_amount': bid.rate
+                  };
+
+                  final response = await BaseClient()
+                      .put("/pendingTuitions/${selected_id}", myJSONobject)
+                      .catchError((err) {});
+
+                  print("SUCCCESSSSS");
                   // Navigator.of(context).push(
                   //   MaterialPageRoute(
-                  //     builder: (context) => BidScreen(),
+                  //     builder: (context) => StudentHompage(),
                   //   ),
                   // );
-
                 },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
@@ -101,17 +117,26 @@ class BidWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+                child: Text('Accept',
+                    style: TextStyle(
+                        fontFamily: 'JakartaSans',
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFFF2FF53))),
               ),
               ElevatedButton(
-                child: Text(
-                  'Decline',
-                  style: TextStyle(
-                      fontFamily: 'JakartaSans',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFFF2FF53)),
-                ),
-                onPressed: () => _cancelBid(context),
+                onPressed: () async {
+                  // DECLINE FUNCTIONALITY
+                  // remove from the bid table
+                  var uid = await SharedPreferencesUtils.getUID();
+                  print(uid);
+                  final response = await BaseClient()
+                      .delete("/bids/${uid}")
+                      .catchError((err) {});
+
+                  print("deleted successfully ");
+                  print(response);
+                },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
                   backgroundColor: MaterialStateProperty.all<Color>(
@@ -121,6 +146,14 @@ class BidWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
+                ),
+                child: Text(
+                  'Decline',
+                  style: TextStyle(
+                      fontFamily: 'JakartaSans',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFFF2FF53)),
                 ),
               ),
             ],
@@ -139,6 +172,15 @@ class BidsScreen extends StatefulWidget {
 class _BidsScreenState extends State<BidsScreen> {
   List<Bid> _Bids = [];
   late Timer _timer;
+
+  void _navigateToScreenAfter2Minutes(BuildContext context) {
+    Future.delayed(Duration(minutes: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => StudentHompage()),
+      );
+    });
+  }
 
   @override
   void initState() {
@@ -164,36 +206,25 @@ class _BidsScreenState extends State<BidsScreen> {
     final response =
         await BaseClient().get("/bids/${uid}").catchError((err) {});
 
-    // final bids_response = bidsFromJson(response);
-
-    print(response.runtimeType);
-    print(response);
-    // List<dynamic> res = json.decode(response);
-    // List<Bids> pendingTuitions =
-    //     resp.map((json) => PendingTuitions.fromJson(json)).toList();
-    // print(bids_response.bidAmount);
-    //Idrees Mapping not working
     List<dynamic> res = json.decode(response);
-    // print(res[0]["student_id"]);
-    // List<Bid> bids_response =
-    //     response.map((json) => Bids.fromJson(json)).toList();
-    
+
     // print(bids_response);
     final List<Bid> bids_list = [];
-    // var tutor = bids_response.tutorName;
-    // var rate_offered = bids_response.bidAmount;
-    // Bid temp = Bid(tutor_name: tutor, rate: rate_offered);
-    // bids_list.insert(0, temp);
 
     for (var i = 0; i < res.length; i++) {
       // print(i);
       var tutorName = res[i]["tutor_name"];
       var rate = res[i]["bid_amount"];
+      var t_id = res[i]["tuition_id"];
+      var tutor_id = res[i]["tutor_id"];
+      var student_id = res[i]["student_id"];
       // print(tutorName);
       Bid temp = Bid(
-          tutor_name: tutorName, rate: rate);
+          tutor_name: tutorName,
+          rate: rate,
+          tuition_id: t_id,
+          tutor_id: tutor_id);
       bids_list.insert(0, temp);
-      
     }
     // for (Bid bid in res) {
     //   var tutorName = bid["tutor_name"];
@@ -237,13 +268,7 @@ class _BidsScreenState extends State<BidsScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
-          // String uid = await SharedPreferencesUtils.getUID();
-          //           var response = await BaseClient()
-          //               .delete("/activeTutors/${uid}")
-          //               .catchError((err) {
-          //             print(err);
-          //           });
-          // if (response!= null) {
+          _timer.cancel(); // Cancel the timer to prevent further callbacks
 
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -253,6 +278,7 @@ class _BidsScreenState extends State<BidsScreen> {
             ),
           );
           // }
+          super.dispose();
         },
         shape: RoundedRectangleBorder(
           side: BorderSide(width: 3, color: Colors.white),

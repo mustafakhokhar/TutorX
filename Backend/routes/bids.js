@@ -25,6 +25,7 @@ router.get("/:id", async (req, res) => {
 // POST a new bid
 router.post("/", async (req, res) => {
   const bid = new bidsModel({
+    tuition_id: req.body.tuition_id,
     student_id: req.body.student_id,
     tutor_id: req.body.tutor_id,
     tutor_name: req.body.tutor_name,

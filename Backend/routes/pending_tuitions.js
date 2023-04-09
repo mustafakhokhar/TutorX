@@ -42,6 +42,23 @@ router.get("/:id", getPendingTuition, (req, res) => {
   res.json(mappedTuition);
 });
 
+// // GET a specific tuition id 
+// router.get("/:id", getTuitionId, (req, res) => {
+//   // console.log(res.pendingTuition)
+//   mappedTuition = {
+//     _id: res.pendingTuition._id,
+//     student_id: res.pendingTuition.student_id,
+//     tutor_id: res.pendingTuition.tutor_id,
+//     topic: res.pendingTuition.topic,
+//     subject: res.pendingTuition.subject,
+//     longitude: res.pendingTuition.student_location.coordinates[0],
+//     latitude: res.pendingTuition.student_location.coordinates[1],
+//     start_time: res.pendingTuition.start_time,
+//     bid_amount: res.pendingTuition.bid_amount,
+//   };
+//   res.json(mappedTuition);
+// });
+
 // POST a new pending tuition
 router.post("/", async (req, res) => {
   const pendingTuition = new PendingTuitions({
@@ -195,5 +212,19 @@ async function getPendingTuition(req, res, next) {
   res.pendingTuition = pendingTuition;
   next();
 }
+
+// async function getTuitionId(req, res, next) {
+//   let pendingTuition;
+//   try {
+//     pendingTuition = await PendingTuitions.findById(req.params.student_id);
+//     if (pendingTuition == null) {
+//       return res.status(404).json({ message: "Pending tuition not found" });
+//     }
+//   } catch (err) {
+//     return res.status(500).json({ message: err.message });
+//   }
+//   res.pendingTuition = pendingTuition;
+//   next();
+// }
 
 module.exports = router;

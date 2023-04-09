@@ -11,11 +11,12 @@ import 'package:tutorx/utils/shared_preferences_utils.dart';
 
 var time = 1;
 var student_id;
+var tuition_id;
 
 class Offer {
-  final String subject;
-  final String topic;
-  final String student_name;
+  final String? subject;
+  final String? topic;
+  final String? student_name;
   // final double price;
 
   Offer({
@@ -93,7 +94,7 @@ class OfferWidget extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => BidScreen(student_id),
+                      builder: (context) => BidScreen(student_id,tuition_id),
                     ),
                   );
                 },
@@ -177,6 +178,7 @@ class _OffersScreenState extends State<OffersScreen> {
     for (PendingTuitions tuition in pendingTuitions) {
       var id = tuition.studentId;
       student_id = id;
+      tuition_id = tuition.tuition_id;
       final response =
           await BaseClient().get("/user/${id}").catchError((err) {});
       final users = usersFromJson(response);
