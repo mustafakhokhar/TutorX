@@ -8,6 +8,7 @@ import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
+import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
@@ -80,13 +81,15 @@ class BidWidget extends StatelessWidget {
                         fontFamily: 'JakartaSans',
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromARGB(255, 255, 255, 255))),
+                    color: Color(0xFFF2FF53))),
+
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => BidScreen(),
-                    ),
-                  );
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => BidScreen(),
+                  //   ),
+                  // );
+
                 },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
@@ -155,43 +158,55 @@ class _BidsScreenState extends State<BidsScreen> {
   Future<void> _fetchBids() async {
     // Code to fetch Bids from the database
     // List<Bid> Bids = await _database.getBids();
-    // var uid = await SharedPreferencesUtils.getUID();
-    var uid = "12345667";
+    var uid = await SharedPreferencesUtils.getUID();
+    // var uid = "12345667";
 
     final response =
         await BaseClient().get("/bids/${uid}").catchError((err) {});
 
-    final bids_response = bidsFromJson(response);
+    // final bids_response = bidsFromJson(response);
 
+    print(response.runtimeType);
+    print(response);
+    // List<dynamic> res = json.decode(response);
+    // List<Bids> pendingTuitions =
+    //     resp.map((json) => PendingTuitions.fromJson(json)).toList();
     // print(bids_response.bidAmount);
     //Idrees Mapping not working
-    // List<dynamic> res = json.decode(response);
+    List<dynamic> res = json.decode(response);
+    // print(res[0]["student_id"]);
     // List<Bid> bids_response =
     //     response.map((json) => Bids.fromJson(json)).toList();
     
-    print(bids_response);
-    final List<Bid> Bids = [];
-    var tutor = bids_response.tutorName;
-    var rate_offered = bids_response.bidAmount;
-    Bid temp = Bid(tutor_name: tutor, rate: rate_offered);
-    Bids.insert(0, temp);
+    // print(bids_response);
+    final List<Bid> bids_list = [];
+    // var tutor = bids_response.tutorName;
+    // var rate_offered = bids_response.bidAmount;
+    // Bid temp = Bid(tutor_name: tutor, rate: rate_offered);
+    // bids_list.insert(0, temp);
 
-    // for (PendingTuitions tuition in bids_response) {
-    //   var id = tuition.studentId;
-
-    //   final response =
-    //       await BaseClient().get("/user/${id}").catchError((err) {});
-    //   final users = usersFromJson(response);
-
-    //   var name = users.fullname;
+    for (var i = 0; i < res.length; i++) {
+      // print(i);
+      var tutorName = res[i]["tutor_name"];
+      var rate = res[i]["bid_amount"];
+      // print(tutorName);
+      Bid temp = Bid(
+          tutor_name: tutorName, rate: rate);
+      bids_list.insert(0, temp);
+      
+    }
+    // for (Bid bid in res) {
+    //   var tutorName = bid["tutor_name"];
+    //   print(tutorName);
+    //   var bid_rate = bid.rate;
     //   // print(name);
-    //   Bid temp = Bid(
-    //       tutor_name: tuition.subject, rate: tuition.topic);
-    //   Bids.insert(0, temp);
+    //   // Bid temp = Bid(
+    //   //     tutor_name: tutorName, rate: bid_rate);
+    //   // bids_list.insert(0, temp);
     // }
     if (mounted) {
       setState(() {
-        _Bids = Bids;
+        _Bids = bids_list;
       });
     }
   }
@@ -230,13 +245,13 @@ class _BidsScreenState extends State<BidsScreen> {
           //           });
           // if (response!= null) {
 
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //         // StudentFindingTutorLoadingScreen(),
-          //         TutorHomepage(),
-          //   ),
-          // );
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  // StudentFindingTutorLoadingScreen(),
+                  StudentHompage(),
+            ),
+          );
           // }
         },
         shape: RoundedRectangleBorder(

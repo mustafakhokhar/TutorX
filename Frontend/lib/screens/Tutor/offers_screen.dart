@@ -167,22 +167,24 @@ class _OffersScreenState extends State<OffersScreen> {
 
     //Idrees Mapping not working
     List<dynamic> res = json.decode(response);
-    List<PendingTuitions> pendingTuitions =
-        res.map((json) => PendingTuitions.fromJson(json)).toList();
+    print(res[0]);
+    // List<PendingTuitions> pendingTuitions =
+    //     res.map((json) => PendingTuitions.fromJson(json)).toList();
 
     final List<Offer> offers = [];
 
-    for (PendingTuitions tuition in pendingTuitions) {
-      var id = tuition.studentId;
+    for (var i = 0; i < res.length; i++) {
+      var id = res[i]["student_id"];
 
       final response =
           await BaseClient().get("/user/${id}").catchError((err) {});
       final users = usersFromJson(response);
 
+
       var name = users.fullname;
-      // print(name);
+      print(name);
       Offer temp = Offer(
-          subject: tuition.subject, topic: tuition.topic, student_name: name);
+          subject: res[i]["subject"], topic: res[i]["topic"], student_name: name);
       offers.insert(0, temp);
     }
     if (mounted) {

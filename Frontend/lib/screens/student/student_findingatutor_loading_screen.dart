@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/student/bids_from_tutor.dart';
 
 class StudentFindingTutorLoadingScreen extends StatefulWidget {
   const StudentFindingTutorLoadingScreen({Key? key}) : super(key: key);
@@ -12,7 +15,43 @@ class StudentFindingTutorLoadingScreenState
     extends State<StudentFindingTutorLoadingScreen> {
   
   double circleSize = 0.0;
-
+  void _showOverlay(BuildContext context) {
+    
+  showDialog(
+    context: context,
+     builder: (_) => BidsScreen(),//AlertDialog(
+    //   title: Text('Overlayed Page'),
+    //   content: Text('This is an overlayed page.'),
+    //   actions: [
+    //     ElevatedButton(
+    //       onPressed: () {
+    //         // Navigator.of(context).pop();
+    //         setState(() {
+      
+    // isPlaying = false;
+    // });
+    //       },
+    //       child: Text('Close'),
+    //     ),
+    //   ],
+    // ),
+  );
+}
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(Duration(seconds: 5), () {
+      // Navigator.pushReplacementNamed(context, '/nextScreen');
+      Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  // StudentFindingTutorLoadingScreen(),
+                  BidsScreen(),
+            ),
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // Get the screen size
@@ -22,6 +61,9 @@ class StudentFindingTutorLoadingScreenState
 
     // Set the circle size based on the screen size
     circleSize = width * 0.4;
+    // _showOverlay(context);
+
+
 
     return Scaffold(
       body: Stack(
