@@ -95,7 +95,7 @@ class BidWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  primary: Colors.green,
+                  primary: Colors.green, // Change this to the desired color
                 ),
                 child: Text(
                   'Call',
@@ -113,7 +113,8 @@ class BidWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  backgroundColor: Colors.red,
+                  backgroundColor:
+                      Colors.red, // Change this to the desired color
                 ),
                 child: Text(
                   'Helpline',
