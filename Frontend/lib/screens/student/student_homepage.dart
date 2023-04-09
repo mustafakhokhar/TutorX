@@ -1,36 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:tutorx/widgets/navbar.dart';
-import 'package:location/location.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:tutorx/widgets/mode_teaching.dart';
-
-
-class StudentHompage extends StatefulWidget {
-  // const StudentHompage({required this.user_uid}) : super();
-  const StudentHompage({super.key});
-
-  @override
-  State<StudentHompage> createState() =>
-      _StudentHompageState();
-}
-
-class _StudentHompageState extends State<StudentHompage> {
-  late GoogleMapController mapController;
-
-  String map_theme = '';
-  LatLng? _center; // Make _center nullable
-
-  Location _location = Location();
-
-  void _getCurrentLocation() async {
-    final position = await Geolocator.getCurrentPosition();
-    setState(() {
-      _center = LatLng(position.latitude, position.longitude);
-      print(_center);
-    });
-  }
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/screens/common/map_temp.dart';
 
   void _onMapCreated(GoogleMapController cntlr) {
     mapController = cntlr;
@@ -95,14 +67,26 @@ class _StudentHompageState extends State<StudentHompage> {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          _scaffoldState.currentState?.openDrawer();
-        },
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          MapScreen(userCredential: userCredential),
+                    ),
+                  );
+                },
+                child: Text("MAPS PAGE")),
+            SizedBox(height: 20.0),
+            OutlinedButton(
+                onPressed: () async {
+                  await Authentication.signOut(context: context);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/', (Route<dynamic> route) => false);
+                },
+                child: Text("Sign Out")),
+            // child: SignOutButton(),
+          ],
         ),
         child: Icon(
           Icons.menu,
