@@ -1,10 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/Tutor/tutor_login.dart';
-import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/common/sign_up_success.dart';
+import 'package:tutorx/screens/student/select_location.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
+import 'package:tutorx/utils/base_client.dart';
+import 'package:tutorx/models/user_model.dart';
 
 class TutorSignUpScreen extends StatefulWidget {
   const TutorSignUpScreen({super.key});
@@ -22,8 +28,10 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: Colors.black,
+        resizeToAvoidBottomInset: false,
         body: Stack(children: [
           // Your background widgets here
           Positioned(
@@ -145,13 +153,32 @@ class _TutorSignUpScreen extends State<TutorSignUpScreen> {
                             );
 
                             if (userCredential != null) {
+                              String uidTemp = (userCredential.user?.uid)!;
+                              var user = Users(
+                                  uid: uidTemp,
+                                  fullname: _fullnameTextController.text,
+                                  student: false);
+
+                              var response = await BaseClient()
+                                  .post("/user", user)
+                                  .catchError((err) {});
+
+                              // if (response == null) return;
+                              // debugPrint("successful");
+                              await SharedPreferencesUtils.StoreUserDetailsInCache(uidTemp);
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => MapScreen(
-                                    userCredential: userCredential,
-                                  ),
+                                  builder: (context) => SignUpSuccessful(),
                                 ),
                               );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => MapScreen(
+                              //       user_uid: uidTemp,
+                              //     ),
+                              //   ),
+                              // );
                             }
                           },
                           child: Padding(

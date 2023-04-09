@@ -1,35 +1,71 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/screens/common/map_temp.dart';
-import 'package:tutorx/screens/student/find_tutor_screen.dart';
-import 'package:tutorx/screens/student/find_tutor_screen_online.dart';
-import 'package:tutorx/widgets/mode_of_teaching_dialog.dart';
 
-class StudentHomepage extends StatelessWidget {
-  final UserCredential userCredential;
+  void _onMapCreated(GoogleMapController cntlr) {
+    mapController = cntlr;
+    cntlr.setMapStyle(map_theme);
+    _location.onLocationChanged.listen((l) {
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
+        ),
+      );
+    });
+  }
 
-  const StudentHomepage({required this.userCredential}) : super();
+  _StudentHompageState();
+  Map<String, Marker> _markers = {};
 
   @override
-  Widget build(BuildContext context) {
-    final User? user = userCredential.user;
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+  void initState() {
+    _getCurrentLocation();
+    super.initState();
+    DefaultAssetBundle.of(context)
+        .load('lib/assets/maptheme.json')
+        .then((value) {
+      map_theme = utf8.decode(value.buffer.asUint8List());
+    });
+  }
 
+  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome ${user?.email}'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Welcome ${user?.email}',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+      key: _scaffoldState,
+      drawer: NavBar(),
+      body: _center == null // Check if _center is null
+          ? CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.black,
               ),
+            ) // Show a placeholder until _center is updated
+          : Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center!, // Use _center with null safety operator
+                    zoom: 16.0,
+                  ),
+                  markers: _markers.values.toSet(),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 74,
+                  child: SizedBox(
+                    height: 52,
+                    width: 150,
+                    child: ModeTeaching(_center),
+                  ),
+                ),
+              ],
             ),
             OutlinedButton(
                 onPressed: () {
@@ -49,21 +85,17 @@ class StudentHomepage extends StatelessWidget {
                       '/', (Route<dynamic> route) => false);
                 },
                 child: Text("Sign Out")),
-            // Add the ElevatedButton to navigate to FindTutorScreen
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => FindTutorScreen(),
-                  ),
-                );
-              },
-              child: Text('Go to Find Tutor Screen'),
-            ),
+            // child: SignOutButton(),
           ],
         ),
+        child: Icon(
+          Icons.menu,
+          size: 32,
+          color: Colors.white,
+        ), // add the hamburger menu icon here
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      backgroundColor: Colors.black,
     );
   }
 }

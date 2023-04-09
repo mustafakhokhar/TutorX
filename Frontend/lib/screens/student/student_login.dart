@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/screens/common/map_temp.dart';
+import 'package:tutorx/screens/common/sign_in_success.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/widgets/Google_Sign_In_Button.dart';
+import 'package:tutorx/utils/base_client.dart';
 
 class StudentSignIn extends StatefulWidget {
   const StudentSignIn({super.key});
@@ -22,6 +25,7 @@ class _StudentSignInState extends State<StudentSignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Your background widgets here
@@ -101,12 +105,34 @@ class _StudentSignInState extends State<StudentSignIn> {
                               );
 
                               if (userCredential != null) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => MapScreen(
-                                        userCredential: userCredential),
-                                  ),
-                                );
+                                String uid_temp = (userCredential.user?.uid)!;
+                                print("UID: $uid_temp");
+                                var response = await BaseClient()
+                                    .get("/user/$uid_temp")
+                                    .catchError((err) {});
+                                if (response == null) return;
+                                debugPrint("successful");
+
+                                var user = jsonDecode(response);
+
+                                if (user["student"] == true) {
+                                  await SharedPreferencesUtils.StoreUserDetailsInCache(uid_temp);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => SignInSuccessful(),
+                                    ),
+                                  );
+                                } else {
+                                  await Authentication.signOut(
+                                      context: context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content:
+                                          Text("The user is not a Student!!"),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: Padding(
@@ -155,3 +181,14 @@ class _StudentSignInState extends State<StudentSignIn> {
     );
   }
 }
+
+// StoreInCache(String uid) async {
+//   var response = await BaseClient().get("/user/$uid").catchError((err) {});
+//   var user = usersFromJson(response);
+  
+
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   prefs.setString('fullname', user.fullname);
+//   prefs.setBool('student', user.student);
+//   prefs.setString('uid', user.uid);
+// }

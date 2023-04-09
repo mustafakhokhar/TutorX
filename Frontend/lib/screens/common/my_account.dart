@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tutorx/screens/common/sign_up_success.dart';
 // import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/select_location.dart';
@@ -10,29 +9,37 @@ import 'package:tutorx/utils/api.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
-import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/models/user_model.dart';
 
-class StudentSignUpScreen extends StatefulWidget {
-  const StudentSignUpScreen({Key? key}) : super(key: key);
+import '../../utils/shared_preferences_utils.dart';
+
+class myAccount extends StatefulWidget {
+  const myAccount({super.key});
 
   @override
-  _StudentSignUpScreenState createState() => _StudentSignUpScreenState();
+  State<myAccount> createState() => _myAccountstate();
 }
 
-class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
+class _myAccountstate extends State<myAccount> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _fullnameTextController = TextEditingController();
   TextEditingController _phonenumberTextController = TextEditingController();
   TextEditingController _educationlevelTextController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    Future<void> ClearUserDetailsFromCache() async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('fullname', '');
+      await prefs.setString('uid', '');
+      await prefs.setBool('student', false);
+      await prefs.setBool('isLoggedIn', false);
+    }
+
     return Scaffold(
         backgroundColor: Colors.black,
-        resizeToAvoidBottomInset: false,
         body: Stack(children: [
           // Your background widgets here
           Positioned(
@@ -56,22 +63,11 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                       height: 50,
                     ),
                     Text(
-                      "Getting Started",
+                      "My Account",
                       style: TextStyle(
                           fontSize: 32,
                           fontFamily: 'JakartaSans',
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFF2FF53)),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Create an account to continue!",
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'JakartaSans',
-                          fontWeight: FontWeight.w600,
                           color: Color(0xFFF2FF53)),
                     ),
                     SizedBox(
@@ -111,14 +107,6 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                       height: 20,
                     ),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child: reusableTextField("Password", Icons.lock_outline,
-                            true, _passwordTextController)),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
                         width: 200,
                         height: 50,
                         child: ElevatedButton(
@@ -134,16 +122,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                           ),
                           onPressed: () async {
                             print("Button pressed");
-                            String email = _emailTextController.text.trim();
-                            String password =
-                                _passwordTextController.text.trim();
-
-                            UserCredential? userCredential =
-                                await Authentication.signUpWithEmail(
-                              context: context,
-                              email: email,
-                              password: password,
-                            );
+                            String name = _fullnameTextController.text.trim();
 
                             // var response = await BaseClient()
                             //     .get("/students")
@@ -151,30 +130,22 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                             // if (response == null) return;
                             // var users = userFromJson(response)
 
-                            if (userCredential != null) {
-                              String uid_temp = (userCredential.user?.uid)!;
-
-                              var user = Users(
-                                uid: uid_temp,
-                                fullname: _fullnameTextController.text,
-                                student: true,
-                              );
-
-                              var response = await BaseClient()
-                                  .post("/user", user)
-                                  .catchError((err) {});
-                              print("successful working");
-                              await SharedPreferencesUtils.StoreUserDetailsInCache(uid_temp);
-
-                              // if (response == null) return;
+                            String uid = await SharedPreferencesUtils.getUID();
+                            print(uid);
+                            var user = Users(
+                              uid: uid,
+                              fullname: name,
+                              student: true,
+                            );
+                            var response = await BaseClient()
+                                .put("/user", user)
+                                .catchError((err) {});
+                            if (uid != null) {
+                              // updateUserName(uid, name);
 
                               print("successful");
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => SignUpSuccessful(),
-                                ),
-                              );
+                              Navigator.of(context).pop();
                             }
                           },
                           child: Padding(
@@ -195,20 +166,6 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                     SizedBox(
                       height: 20,
                     ),
-                    Center(
-                        child: TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => StudentSignIn(),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Already have an account? Sign In",
-                        style: TextStyle(color: Color(0xFFF2FF53)),
-                      ),
-                    ))
                   ])))
         ]));
   }

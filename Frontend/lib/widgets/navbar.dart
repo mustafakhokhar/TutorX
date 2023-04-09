@@ -1,28 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tutorx/screens/common/first_screen.dart';
+import 'package:tutorx/screens/common/settings.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
+import 'package:tutorx/screens/common/my_account.dart';
+
+import '../screens/common/my_account.dart';
 
 class NavBar extends StatelessWidget {
-  final UserCredential userCredential;
-
-  const NavBar({super.key, required this.userCredential});
+  const NavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final User? user = userCredential.user;
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+
     return Drawer(
       backgroundColor: Colors.black,
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: Colors.black),
-            accountName: Text(
-              '${user?.email}',
-              style: TextStyle(
-                  fontSize: 23,
-                  fontFamily: 'JakartaSans',
-                  fontWeight: FontWeight.w700),
+            accountName: FutureBuilder<String>(
+              future: SharedPreferencesUtils.getUserName(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    snapshot.data!,
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontFamily: 'JakartaSans',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                } else {
+                  return Text('');
+                }
+              },
             ),
             accountEmail: null,
             currentAccountPicture: CircleAvatar(
@@ -49,7 +61,13 @@ class NavBar extends StatelessWidget {
             ),
             iconColor: Color(0xFFF2FF53),
             textColor: Colors.white,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => myAccount(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.history),
@@ -88,7 +106,13 @@ class NavBar extends StatelessWidget {
             ),
             iconColor: Color(0xFFF2FF53),
             textColor: Colors.white,
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => settings(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.logout),
@@ -103,8 +127,15 @@ class NavBar extends StatelessWidget {
             textColor: Colors.white,
             onTap: () async {
               await Authentication.signOut(context: context);
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/', (Route<dynamic> route) => false);
+              // Navigator.of(context).pushNamedAndRemoveUntil(
+              //     '/', (Route<dynamic> route) => false);
+              SharedPreferencesUtils.ClearUserDetailsFromCache();
+
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => FirstScreen(),
+                ),
+              );
             },
           )
         ],
