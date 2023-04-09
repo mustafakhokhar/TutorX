@@ -97,7 +97,8 @@ class StudentFindingTutorLoadingScreenState
                         .get("/pendingTuitions")
                         .catchError((err) {});
                     var current_tuition = getStudentId(uid, tuitions);
-                    print(current_tuition);
+                    print(current_tuition.toString());
+                    // var current_tuition = '643207480d580cf0841fd030';
                     var response = await BaseClient()
                         .delete("/pendingTuitions/${current_tuition}")
                         .catchError((err) {});
