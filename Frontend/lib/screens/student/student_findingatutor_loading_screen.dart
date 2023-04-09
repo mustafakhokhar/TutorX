@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/bids_from_tutor.dart';
+
+import '../../utils/base_client.dart';
+import '../../utils/shared_preferences_utils.dart';
 
 class StudentFindingTutorLoadingScreen extends StatefulWidget {
   const StudentFindingTutorLoadingScreen({Key? key}) : super(key: key);
@@ -13,7 +17,6 @@ class StudentFindingTutorLoadingScreen extends StatefulWidget {
 
 class StudentFindingTutorLoadingScreenState
     extends State<StudentFindingTutorLoadingScreen> {
-  
   double circleSize = 0.0;
   void _showOverlay(BuildContext context) {
     
@@ -59,6 +62,16 @@ class StudentFindingTutorLoadingScreenState
     final double height = size.height;
     final double width = size.width;
 
+    String? getStudentId(String id, dynamic array) {
+      Iterable<dynamic> decodedArray = json.decode(array);
+      for (var obj in decodedArray) {
+        if (obj["student_id"] == id) {
+          return obj["_id"];
+        }
+      }
+      return null;
+    }
+
     // Set the circle size based on the screen size
     circleSize = width * 0.4;
     // _showOverlay(context);
@@ -80,12 +93,14 @@ class StudentFindingTutorLoadingScreenState
                   height: circleSize,
                   child: CircularProgressIndicator(
                     strokeWidth: circleSize * 0.06, // increase border width
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow), // change color
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.yellow), // change color
                   ),
                 ),
                 SizedBox(height: height * 0.03), // add some spacing
                 Padding(
-                  padding: EdgeInsets.only(top: height * 0.05), // add top padding
+                  padding:
+                      EdgeInsets.only(top: height * 0.05), // add top padding
                   child: Text(
                     'Finding Tutors . . .',
                     style: TextStyle(
@@ -116,8 +131,18 @@ class StudentFindingTutorLoadingScreenState
                       borderRadius: BorderRadius.circular(height * 0.05),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.of(context).pop();
+                    String uid = await SharedPreferencesUtils.getUID();
+                    var tuitions = await BaseClient()
+                        .get("/pendingTuitions")
+                        .catchError((err) {});
+                    var current_tuition = getStudentId(uid, tuitions);
+                    print(current_tuition.toString());
+                    // var current_tuition = '643207480d580cf0841fd030';
+                    var response = await BaseClient()
+                        .delete("/pendingTuitions/${current_tuition}")
+                        .catchError((err) {});
                   },
                   child: Text(
                     'CANCEL',
