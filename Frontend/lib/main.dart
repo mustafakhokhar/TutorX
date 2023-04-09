@@ -3,7 +3,7 @@ import 'package:tutorx/routes.dart';
 import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
-import 'package:tutorx/screens/common/first_screen.dart';
+import 'package:tutorx/screens/student/Tutor_accepted.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +24,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -78,7 +77,9 @@ class _MyAppState extends State<MyApp> {
                           }
                         });
                   } else {
-                    return FirstScreen();
+                    return BidWidget(
+                      bid: sampleBid,
+                    );
                   }
                 } else {
                   return CircularProgressIndicator();
@@ -97,4 +98,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
