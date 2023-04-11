@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorx/models/bids_model.dart';
+import 'package:tutorx/screens/Tutor/tutor_loading_for_bid.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
@@ -116,6 +117,11 @@ class _BidScreenState extends State<BidScreen> {
                     .catchError((err) {});
 
                 // print(response);
+                 Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TutorLoadingBidScreen(),
+                    ),
+                  );
               },
               style: ButtonStyle(
                 fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
@@ -136,6 +142,8 @@ class _BidScreenState extends State<BidScreen> {
         backgroundColor: Colors.black,
         onPressed: () async {
           print(student_id);
+          // TutorLoadingBidScreen
+         
           // String uid = await SharedPreferencesUtils.getUID();
           //           var response = await BaseClient()
           //               .delete("/activeTutors/${uid}")

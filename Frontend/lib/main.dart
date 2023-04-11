@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tutorx/routes.dart';
 import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
+import 'package:tutorx/screens/Tutor/timer_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
+import 'package:tutorx/screens/Tutor/tutor_loading_for_bid.dart';
+import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/student/Tutor_accepted.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/screens/student/total_charge.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tutorx/firebase_options.dart';
@@ -53,7 +57,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            // home: BidScreen(),
+            // home: ChargePage(),
 
             home: FutureBuilder<bool>(
               future: SharedPreferencesUtils.getisLoggedIn(),
@@ -77,15 +81,14 @@ class _MyAppState extends State<MyApp> {
                           }
                         });
                   } else {
-                    return BidWidget(
-                      bid: sampleBid,
-                    );
+                    return FirstScreen();
                   }
                 } else {
                   return CircularProgressIndicator();
                 }
               },
             ),
+          
           );
         }
         return CircularProgressIndicator(

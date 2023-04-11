@@ -35,18 +35,18 @@ class BidWidget extends StatelessWidget {
 
   const BidWidget({required this.bid});
 
-  void _acceptBid(BuildContext context) {
-    // Code to accept the Bid goes here
-    // For example:
-  }
+  // void _acceptBid(BuildContext context) {
+  //   // Code to accept the Bid goes here
+  //   // For example:
+  // }
 
-  void _cancelBid(BuildContext context) {
-    // Code to accept the Bid goes here
-    // For example:
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(title: Text('Cancelled')));
-  }
+  // void _cancelBid(BuildContext context) {
+  //   // Code to accept the Bid goes here
+  //   // For example:
+  //   showDialog(
+  //       context: context,
+  //       builder: (_) => AlertDialog(title: Text('Cancelled')));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +83,11 @@ class BidWidget extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   // ACCEPT
-                  final response_tid = await BaseClient()
-                      .get("/pendingTuitions/${bid.tuition_id}")
-                      .catchError((err) {});
+                  // final response_tid = await BaseClient()
+                  //     .get("/pendingTuitions/${bid.tuition_id}")
+                  //     .catchError((err) {});
 
-                  var res = json.decode(response_tid);
+                  // var res = json.decode(response_tid);
 
                   var selected_id = bid.tuition_id;
 
@@ -136,6 +136,10 @@ class BidWidget extends StatelessWidget {
 
                   print("deleted successfully ");
                   print(response);
+
+                  
+
+
                 },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
