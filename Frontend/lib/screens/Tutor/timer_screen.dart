@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
-import 'package:tutorx/screens/student/total_charge.dart';
+import 'package:tutorx/screens/Tutor/online_tutor_total_charge.dart';
 import 'package:tutorx/utils/base_client.dart';
 
 

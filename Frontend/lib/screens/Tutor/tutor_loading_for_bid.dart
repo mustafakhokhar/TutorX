@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tutorx/models/pending_tuitions_model.dart';
-import 'package:tutorx/screens/student/Tutor_accepted.dart';
+import 'package:tutorx/screens/Tutor/student_accepted_bid.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 

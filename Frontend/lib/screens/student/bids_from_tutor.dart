@@ -10,6 +10,7 @@ import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/screens/student/tutor_chosen_bid.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
@@ -101,11 +102,19 @@ class BidWidget extends StatelessWidget {
                       .catchError((err) {});
 
                   print("SUCCCESSSSS");
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => StudentHompage(),
-                  //   ),
-                  // );
+                  var uid = await SharedPreferencesUtils.getUID();
+                  print(uid);
+                  final response_deletion = await BaseClient()
+                      .delete("/bids/${uid}")
+                      .catchError((err) {});
+
+                  print("deleted successfully ");
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ChosenTutor(tuition_id: selected_id,),
+                    ),
+                  );
                 },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
