@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mong;
 import 'package:tutorx/models/bids_model.dart';
 import 'package:tutorx/models/confirmed_tuitions_model.dart';
 import 'package:tutorx/models/pending_tuitions_model.dart';
@@ -12,9 +13,7 @@ import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
-
 import 'package:http/http.dart' as http;
-
 
 class BidWidget extends StatefulWidget {
   // final Bid bid;
@@ -23,17 +22,39 @@ class BidWidget extends StatefulWidget {
   final topic;
   final rate;
 
-  const BidWidget({required this.tuition_id,required this.subject,required this.topic,required this.rate});
- @override
+  const BidWidget(
+      {required this.tuition_id,
+      required this.subject,
+      required this.topic,
+      required this.rate});
+  @override
   _BidWidgetState createState() => _BidWidgetState();
 }
-  
 
-  class _BidWidgetState extends State<BidWidget> {
-var name = '';
-var due_payment = 0;
-var imageUrl =
-    'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
+class CustomObjectId {
+  late mong.ObjectId _objectId;
+
+  // Constructor to generate a new ObjectId
+  CustomObjectId() {
+    _objectId = mong.ObjectId();
+  }
+
+  // Constructor to create a CustomObjectId from a hex string
+  CustomObjectId.fromHexString(String hexString) {
+    _objectId = mong.ObjectId.fromHexString(hexString);
+  }
+
+  // Getter to retrieve the hex string representation of the CustomObjectId
+  String get hexString => _objectId.toHexString();
+
+  // Add any additional methods or properties as needed
+}
+
+class _BidWidgetState extends State<BidWidget> {
+  var name = '';
+  double due_payment = 0.0;
+  var imageUrl =
+      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
 
   @override
   void initState() {
@@ -43,13 +64,15 @@ var imageUrl =
 
   fetchDetails() async {
     // print(widget.tuition_id);
-    final obj = {
-      "_id": widget.tuition_id
-    };
+    var tutu = widget.tuition_id;
+    var customObjectId = CustomObjectId.fromHexString(
+        tutu); // Create a CustomObjectId from the widget.tuition_id value
+    var obj = {"_id": customObjectId.hexString};
+    print(obj);
     print(obj.runtimeType);
     final jsonObj = json.encode(obj);
     print("HEREEE: ${json.decode(jsonObj)}");
-     final response = await BaseClient()
+    final response = await BaseClient()
         .get("/pendingTuitions/${widget.tuition_id}")
         .catchError((err) {});
     var res = json.decode(response);
@@ -57,10 +80,9 @@ var imageUrl =
 
     print(res);
 
-    final response_confirmed = await 
-        post("/confirmedTuitions/${widget.tuition_id}")
-        .catchError((err) {});
-    
+    final response_confirmed =
+        await BaseClient().post("/confirmedTuitions", obj).catchError((err) {});
+    print('The Tution id');
     print(widget.tuition_id);
 
     final response_user =
@@ -71,16 +93,16 @@ var imageUrl =
         .get("/confirmedTuitions/${widget.tuition_id}")
         .catchError((err) {});
     var res_last = json.decode(response_last);
+    print('This is res_last');
+    print(res_last);
 
     // print(res['tutor_id']);
     setState(() {
-      
-    name = res_user['fullname'];
-    due_payment = res_last['amount'];
-    print(due_payment);
+      name = res_user['fullname'];
+      due_payment = res_last['amount'];
+      print(due_payment);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +217,11 @@ class ChargePage extends StatelessWidget {
   final topic;
   final rate;
 
-  const ChargePage({required this.tuition_id,required this.subject,required this.topic,required this.rate});
+  const ChargePage(
+      {required this.tuition_id,
+      required this.subject,
+      required this.topic,
+      required this.rate});
 
   @override
   Widget build(BuildContext context) {
@@ -204,24 +230,28 @@ class ChargePage extends StatelessWidget {
         title: Text('Example'),
       ),
       body: Center(
-        child: BidWidget(tuition_id: tuition_id,subject: subject,topic: topic,rate: rate,),
+        child: BidWidget(
+          tuition_id: tuition_id,
+          subject: subject,
+          topic: topic,
+          rate: rate,
+        ),
       ),
     );
   }
 }
 
-
 Future<dynamic> post(String api) async {
   var client = http.Client();
 
-    var url = Uri.parse(baseUrl + api);
+  var url = Uri.parse(baseUrl + api);
 
-    var _headers = {
-      'Content-Type': 'application/json',
-    };
-    var response = await client.post(url,headers: _headers);
+  var _headers = {
+    'Content-Type': 'application/json',
+  };
+  var response = await client.post(url, headers: _headers);
 
-    if (response.statusCode == 201) {
-      return response.body;
-    } else {}
-  }
+  if (response.statusCode == 201) {
+    return response.body;
+  } else {}
+}
