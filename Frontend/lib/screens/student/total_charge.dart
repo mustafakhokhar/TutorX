@@ -3,39 +3,88 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:tutorx/models/bids_model.dart';
+import 'package:tutorx/models/confirmed_tuitions_model.dart';
 import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/screens/Tutor/bid.dart';
+import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
-var time = 1;
+import 'package:http/http.dart' as http;
 
-class Bid {
-  final String tutorName;
-  final String subject;
-  final String topic;
-  final int hourlyRate;
-  final String imageUrl;
 
-  Bid({
-    required this.tutorName,
-    required this.subject,
-    required this.topic,
-    required this.hourlyRate,
-    required this.imageUrl,
-  });
+class BidWidget extends StatefulWidget {
+  // final Bid bid;
+  final tuition_id;
+  final subject;
+  final topic;
+  final rate;
+
+  const BidWidget({required this.tuition_id,required this.subject,required this.topic,required this.rate});
+ @override
+  _BidWidgetState createState() => _BidWidgetState();
 }
+  
 
-class BidWidget extends StatelessWidget {
-  final Bid bid;
+  class _BidWidgetState extends State<BidWidget> {
+var name = '';
+var due_payment = 0;
+var imageUrl =
+    'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
 
-  const BidWidget({required this.bid});
+  @override
+  void initState() {
+    super.initState();
+    fetchDetails();
+  }
+
+  fetchDetails() async {
+    // print(widget.tuition_id);
+    final obj = {
+      "_id": widget.tuition_id
+    };
+    print(obj.runtimeType);
+    final jsonObj = json.encode(obj);
+    print("HEREEE: ${json.decode(jsonObj)}");
+     final response = await BaseClient()
+        .get("/pendingTuitions/${widget.tuition_id}")
+        .catchError((err) {});
+    var res = json.decode(response);
+    var student_id = res['student_id'];
+
+    print(res);
+
+    final response_confirmed = await 
+        post("/confirmedTuitions/${widget.tuition_id}")
+        .catchError((err) {});
+    
+    print(widget.tuition_id);
+
+    final response_user =
+        await BaseClient().get("/user/$student_id").catchError((err) {});
+    var res_user = json.decode(response_user);
+
+    final response_last = await BaseClient()
+        .get("/confirmedTuitions/${widget.tuition_id}")
+        .catchError((err) {});
+    var res_last = json.decode(response_last);
+
+    // print(res['tutor_id']);
+    setState(() {
+      
+    name = res_user['fullname'];
+    due_payment = res_last['amount'];
+    print(due_payment);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    fetchDetails();
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade800,
@@ -47,12 +96,12 @@ class BidWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(bid.imageUrl),
+            backgroundImage: NetworkImage(imageUrl),
             radius: 60,
           ),
           SizedBox(height: 16),
           Text(
-            bid.tutorName,
+            name,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -62,7 +111,7 @@ class BidWidget extends StatelessWidget {
           ),
           SizedBox(height: 32),
           Text(
-            'Subject: ${bid.subject}',
+            'Subject: ${widget.subject}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -70,7 +119,7 @@ class BidWidget extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            'Topic: ${bid.topic}',
+            'Topic: ${widget.topic}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -78,7 +127,7 @@ class BidWidget extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            'Hourly Rate: \$${bid.hourlyRate}/hr',
+            'Hourly Rate: \$${widget.rate}/hr',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -86,7 +135,7 @@ class BidWidget extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            'Total Payment: \$${bid.hourlyRate * time}',
+            'Total Payment: \Rs:${due_payment}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -140,17 +189,14 @@ class BidWidget extends StatelessWidget {
   }
 }
 
-// Sample data
-final Bid sampleBid = Bid(
-  tutorName: 'Ronaldeen',
-  subject: 'Mathematics',
-  topic: 'Calculus',
-  hourlyRate: 25,
-  imageUrl:
-      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium',
-);
+class ChargePage extends StatelessWidget {
+  final tuition_id;
+  final subject;
+  final topic;
+  final rate;
 
-class ExamplePage extends StatelessWidget {
+  const ChargePage({required this.tuition_id,required this.subject,required this.topic,required this.rate});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,8 +204,24 @@ class ExamplePage extends StatelessWidget {
         title: Text('Example'),
       ),
       body: Center(
-        child: BidWidget(bid: sampleBid),
+        child: BidWidget(tuition_id: tuition_id,subject: subject,topic: topic,rate: rate,),
       ),
     );
   }
 }
+
+
+Future<dynamic> post(String api) async {
+  var client = http.Client();
+
+    var url = Uri.parse(baseUrl + api);
+
+    var _headers = {
+      'Content-Type': 'application/json',
+    };
+    var response = await client.post(url,headers: _headers);
+
+    if (response.statusCode == 201) {
+      return response.body;
+    } else {}
+  }
