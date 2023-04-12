@@ -33,12 +33,13 @@ bool check = false;
 
       for (var i = 0; i < res.length; i++) {
     
-        var tutor_id = res[0]["tutor_id"];
+        var tutor_id = res[i]["tutor_id"];
         // print(tutor_id);
         var uid = await SharedPreferencesUtils.getUID();
         // print("UID : $uid");
         // print("TID :$tutor_id");
         if (tutor_id == uid) {
+          print("FOUND");
           check = true;
           tid = res[0]["_id"];
           break;

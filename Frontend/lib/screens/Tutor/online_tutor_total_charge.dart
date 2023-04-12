@@ -226,9 +226,6 @@ class ChargePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Example'),
-      ),
       body: Center(
         child: BidWidget(
           tuition_id: tuition_id,
@@ -237,6 +234,26 @@ class ChargePage extends StatelessWidget {
           rate: rate,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          onPressed: () {
+             Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => TutorHomepage(),
+              ),
+            );
+          },
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 3, color: Colors.white),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Icon(
+            Icons.arrow_back,
+            size: 32,
+            color: Colors.white,
+          ), // add the hamburger menu icon here
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }
