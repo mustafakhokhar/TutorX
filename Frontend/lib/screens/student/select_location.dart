@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart' as gogplace;
 import 'package:tutorx/models/pending_tuitions_model.dart';
+import 'package:tutorx/screens/student/inperson_student_findingatutor_loading_screen.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/location_services.dart';
@@ -288,7 +289,8 @@ double lat = 0;
 
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => CurrentlyActive(),
+                            builder: (context) => InpersonStudentFindingTutorLoadingScreen(),
+                            // builder: (context) => CurrentlyActive(),
                           ),
                         );
                       },
