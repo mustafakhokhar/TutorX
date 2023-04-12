@@ -36,8 +36,9 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
     // print('This is TUITON TIDD');
     // print(widget.tuition_id);
     while (!check) {
-      final response =
-          await BaseClient().get("/confirmedTuitions/${widget.tuition_id}").catchError((err) {});
+      final response = await BaseClient()
+          .get("/confirmedTuitions/${widget.tuition_id}")
+          .catchError((err) {});
       print('This is TUITON TIDD');
       print(widget.tuition_id);
       // print('Reponsee');
@@ -45,11 +46,11 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
       //Idrees Mapping not working
       var res = json.decode(response);
       print(res['message']);
-      
-      if (res['message'] == null){
+
+      if (res['message'] == null) {
         print("FOUND");
-          check = true;
-          break;
+        check = true;
+        break;
       }
     }
     Navigator.of(context).push(
@@ -62,7 +63,6 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
         ),
       ),
     );
-
   }
 
   @override
@@ -95,7 +95,7 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
   @override
   Widget build(BuildContext context) {
     checkIfAccepted();
-    
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -110,7 +110,6 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            
           ],
         ),
       ),

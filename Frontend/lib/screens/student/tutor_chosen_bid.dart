@@ -9,6 +9,7 @@ import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/timer_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
+import 'package:tutorx/screens/student/online_student_total_charge.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/timer_screen_student.dart';
 import 'package:tutorx/screens/student/tuition_in_progress.dart';
@@ -35,27 +36,24 @@ class _BidWidgetState extends State<BidWidget> {
   bool check = false;
 
   checkIfAccepted() async {
+    // print('This is TUITON TIDD');
+    // print(widget.tuition_id);
     while (!check) {
-      final response =
-          await BaseClient().get("/pendingTuitions").catchError((err) {});
-
+      final response = await BaseClient()
+          .get("/confirmedTuitions/${widget.tuition_id}")
+          .catchError((err) {});
+      print('This is TUITON TIDD');
+      print(widget.tuition_id);
+      // print('Reponsee');
+      // print(response);
       //Idrees Mapping not working
-      List<dynamic> res = json.decode(response);
-      List<PendingTuitions> pendingTuitions =
-          res.map((json) => PendingTuitions.fromJson(json)).toList();
+      var res = json.decode(response);
+      print(res['message']);
 
-      // final List<Offer> offers = [];
-
-      for (var i = 0; i < res.length; i++) {
-        var start = res[0]["start_time"];
-        // print(start);
-        var uid = await SharedPreferencesUtils.getUID();
-        // print("UID : $uid");
-        // print("TID :$start");
-        if (start != null) {
-          check = true;
-          break;
-        }
+      if (res['message'] == null) {
+        print("FOUND");
+        check = true;
+        break;
       }
     }
     print('Tutit id');
@@ -66,7 +64,6 @@ class _BidWidgetState extends State<BidWidget> {
             tuition_id: widget.tuition_id, subject: subject, topic: topic, rate: rate),
       ),
     );
-    // Navigator.of(context).pop();
   }
 
   @override
@@ -214,9 +211,9 @@ class ChosenTutor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Example'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Example'),
+      // ),
       body: Center(
         child: BidWidget(
           tuition_id: tuition_id,

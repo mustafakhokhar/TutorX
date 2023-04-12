@@ -1,10 +1,14 @@
 import 'dart:convert';
-
+import 'package:restart_app/restart_app.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/screens/Tutor/student_accepted_bid.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class TutorLoadingBidScreen extends StatefulWidget {
   const TutorLoadingBidScreen({Key? key}) : super(key: key);
@@ -13,10 +17,28 @@ class TutorLoadingBidScreen extends StatefulWidget {
   _TutorLoadingBidScreenState createState() => _TutorLoadingBidScreenState();
 }
 
-var tid ='';
+var tid = '';
+
+class MapUtils {
+  MapUtils._();
+
+  static Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunchUrlString(googleUrl)) {
+      // print('TUREEE');
+      // print(canLaunchUrl(googleUrl as Uri));
+      await launch(googleUrl, forceWebView: true);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
+}
 
 class _TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
-bool check = false;
+  bool check = false;
+  var ress1;
+  var ress2;
 
   checkIfAccepted() async {
     print(check);
@@ -28,34 +50,54 @@ bool check = false;
       List<dynamic> res = json.decode(response);
       List<PendingTuitions> pendingTuitions =
           res.map((json) => PendingTuitions.fromJson(json)).toList();
+      print(res);
 
       // final List<Offer> offers = [];
 
       for (var i = 0; i < res.length; i++) {
-    
         var tutor_id = res[0]["tutor_id"];
         // print(tutor_id);
         var uid = await SharedPreferencesUtils.getUID();
         // print("UID : $uid");
         // print("TID :$tutor_id");
         if (tutor_id == uid) {
+          ress2 = res[0]["longitude"];
+          ress1 = res[0]["latitude"];
           check = true;
           tid = res[0]["_id"];
           break;
         }
       }
     }
-     Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ExamplePage(tuition_id: tid,),
-                    ),
-                  );
+    if (ress1 == null) {
+      print("This is Ress");
+      print(ress1);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ExamplePage(
+            tuition_id: tid,
+          ),
+        ),
+      );
+    } else {
+      print('This is in person');
+      print(ress1.runtimeType);
+      print(ress2.runtimeType);
+      // MapUtils.openMap(ress1, ress2);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ExamplePage(
+            tuition_id: tid,
+          ),
+        ),
+      );
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
-bool check = false;
+    bool check = false;
 
     super.initState();
   }
@@ -131,6 +173,12 @@ bool check = false;
                   ),
                   onPressed: () {
                     // Add your onPressed logic here
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => TutorHomepage(),
+                      ),
+                    );
+                    // Restart.restartApp();
                   },
                   child: Text(
                     'CANCEL',
