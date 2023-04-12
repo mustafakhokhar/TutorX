@@ -19,6 +19,7 @@ class _TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
 bool check = false;
 
   checkIfAccepted() async {
+    print(check);
     while (!check) {
       final response =
           await BaseClient().get("/pendingTuitions").catchError((err) {});
@@ -33,6 +34,7 @@ bool check = false;
       for (var i = 0; i < res.length; i++) {
     
         var tutor_id = res[0]["tutor_id"];
+        // print(tutor_id);
         var uid = await SharedPreferencesUtils.getUID();
         // print("UID : $uid");
         // print("TID :$tutor_id");

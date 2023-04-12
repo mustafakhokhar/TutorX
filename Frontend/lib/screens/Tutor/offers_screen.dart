@@ -193,8 +193,8 @@ class _OffersScreenState extends State<OffersScreen> {
         var lat2 = tuition.latitude;
         var lon1 = widget.tutor_lon;
         var lon2 = tuition.longitude;
-        if (lat2 != null) {
-          if (isWithin5Km(lat1, lon1, lat2!, lon2!)) {
+        if (lat2 != null && lon2 != null) {
+          if (isWithin5Km(lat1, lon1, lat2, lon2)) {
             var id = tuition.studentId;
             student_id = id;
             tuition_id = tuition.tuition_id;
@@ -282,13 +282,14 @@ class _OffersScreenState extends State<OffersScreen> {
             print(err);
           });
           if (response != null) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) =>
-                    // StudentFindingTutorLoadingScreen(),
-                    TutorHomepage(),
-              ),
-            );
+            Navigator.of(context).pop();
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     builder: (context) =>
+            //         // StudentFindingTutorLoadingScreen(),
+            //         TutorHomepage(),
+            //   ),
+            // );
           }
         },
         shape: RoundedRectangleBorder(
