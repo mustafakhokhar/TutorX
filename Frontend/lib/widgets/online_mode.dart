@@ -123,11 +123,13 @@ class OnlineMode extends StatelessWidget {
                             studentId: uid,
                             topic: topic,
                             subject: subject,
-                            longitude: _centre.longitude!,
-                            latitude: _centre.latitude!,
+                            // longitude: null,
+                            // latitude: null,
                           );
 
-                          var response = await BaseClient().post("/pendingTuitions",Tuition).catchError((err) {});
+                          var response = await BaseClient()
+                              .post("/pendingTuitions", Tuition)
+                              .catchError((err) {});
                           // print(response.toString());
 
                           //LOADING SCREEN ROUTE
