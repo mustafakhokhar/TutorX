@@ -33,40 +33,25 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
   bool check = false;
 
   checkIfAccepted() async {
-    print('This is TUITON TIDD');
-    print(tuition_id);
+    // print('This is TUITON TIDD');
+    // print(widget.tuition_id);
     while (!check) {
       final response =
-          await BaseClient().get("/confirmedTuitions").catchError((err) {});
+          await BaseClient().get("/confirmedTuitions/${widget.tuition_id}").catchError((err) {});
       print('This is TUITON TIDD');
-      print(tuition_id);
-      print('Reponsee');
-      print(response);
+      print(widget.tuition_id);
+      // print('Reponsee');
+      // print(response);
       //Idrees Mapping not working
-      List<dynamic> res = json.decode(response);
-
-      List<ConfirmedTuitions> confirmedtuitions =
-          res.map((json) => ConfirmedTuitions.fromJson(json)).toList();
-      print('PRINGITNG RESS');
-      print(res);
-      // final List<Offer> offers = [];
-
-      for (var i = 0; i < res.length; i++) {
-        var start = res[0]["_id"];
-        print('THIS IS START');
-        print(start);
-        print(widget.rate);
-        print(widget.tuition_id);
-        var uid = await SharedPreferencesUtils.getUID();
-        // print("UID : $uid");
-        // print("TID :$start");
-        if (start == tuition_id) {
+      var res = json.decode(response);
+      print(res['message']);
+      
+      if (res['message'] == null){
+        print("FOUND");
           check = true;
           break;
-        }
       }
     }
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ChargePageStd(
@@ -77,7 +62,7 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
         ),
       ),
     );
-    // Navigator.of(context).pop();
+
   }
 
   @override
@@ -110,6 +95,7 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
   @override
   Widget build(BuildContext context) {
     checkIfAccepted();
+    
     return Scaffold(
       body: Center(
         child: Column(
@@ -124,42 +110,7 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () async {
-                // Code for starting the tuition
-                var obj = {"tuition_id": tuition_id};
-                var objJSON = jsonEncode(obj);
-                final response = await BaseClient()
-                    .post("/confirmedTuitions", objJSON)
-                    .catchError((err) {});
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ChargePageStd(
-                      tuition_id: widget.tuition_id,
-                      subject: widget.subject,
-                      topic: widget.topic,
-                      rate: widget.rate,
-                    ),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                backgroundColor:
-                    Colors.blue, // Change this to the desired color
-              ),
-              child: Text(
-                'End Tuition',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
+            
           ],
         ),
       ),

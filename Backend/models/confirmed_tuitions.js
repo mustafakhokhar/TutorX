@@ -11,6 +11,10 @@ const ConfirmedTuitionsSchema = new Schema(
       type: String,
       required: true,
     },
+    tuition_id: {
+      type: String,
+      required: true,
+    },
     student_id: {
       type: String,
       required: true,

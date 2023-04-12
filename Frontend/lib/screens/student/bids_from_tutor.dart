@@ -91,6 +91,7 @@ class BidWidget extends StatelessWidget {
                   // var res = json.decode(response_tid);
 
                   var selected_id = bid.tuition_id;
+                  print("BID id: ${bid.tuition_id}");
 
                   final myJSONobject = {
                     'tutor_id': bid.tutor_id,

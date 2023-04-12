@@ -29,7 +29,7 @@ class _BidWidgetState extends State<BidWidget> {
   var topic = '';
   var rate = 0;
   var imageUrl =
-      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
+      'https://www.pngkey.com/png/detail/52-523516_empty-profile-picture-circle.png';
 
   bool check = false;
 
@@ -62,7 +62,7 @@ class _BidWidgetState extends State<BidWidget> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TimerScreenStd(
-            tuition_id: tuition_id, subject: subject, topic: topic, rate: rate),
+            tuition_id: widget.tuition_id, subject: subject, topic: topic, rate: rate),
       ),
     );
     // Navigator.of(context).pop();

@@ -54,69 +54,60 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
   var name = '';
   double due_payment = 0.0;
   var imageUrl =
-      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
+      'https://www.pngkey.com/png/detail/52-523516_empty-profile-picture-circle.png';
 
   @override
   void initState() {
-    super.initState();
     fetchDetails();
+    super.initState();
   }
 
   fetchDetails() async {
     // print(widget.tuition_id);
     var tutu = widget.tuition_id;
-    var customObjectId = CustomObjectId.fromHexString(
-        tutu); // Create a CustomObjectId from the widget.tuition_id value
-    var obj = {"_id": customObjectId.hexString};
-    print(obj);
-    print(obj.runtimeType);
-    final jsonObj = json.encode(obj);
-    print("HEREEE: ${json.decode(jsonObj)}");
+    // var customObjectId = CustomObjectId.fromHexString(
+    //     tutu); // Create a CustomObjectId from the widget.tuition_id value
+    // var obj = {"_id": customObjectId.hexString};
+    // print(obj);
+    // print(obj.runtimeType);
+    // final jsonObj = json.encode(obj);
+    // print("HEREEE: ${json.decode(jsonObj)}");
     final response = await BaseClient()
-        .get("/pendingTuitions/${widget.tuition_id}")
+        .get("/confirmedTuitions/${widget.tuition_id}")
         .catchError((err) {});
     var res = json.decode(response);
     var student_id = res['student_id'];
+    var tutor_id = res['tutor_id'];
 
-    print(res);
-
-    final response_confirmed =
-        await BaseClient().post("/confirmedTuitions", obj).catchError((err) {});
-    print('The Tution id');
-    print(widget.tuition_id);
+    // print(res);
 
     final response_user =
-        await BaseClient().get("/user/$student_id").catchError((err) {});
+        await BaseClient().get("/user/$tutor_id").catchError((err) {});
     var res_user = json.decode(response_user);
-
-    final response_last = await BaseClient()
-        .get("/confirmedTuitions/${widget.tuition_id}")
-        .catchError((err) {});
-    var res_last = json.decode(response_last);
-    print('This is res_last');
-    print(res_last);
 
     // print(res['tutor_id']);
     setState(() {
       name = res_user['fullname'];
-      due_payment = res_last['amount'];
-      print(due_payment);
+      due_payment = res['amount'];
+      // print(due_payment);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    fetchDetails();
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade800,
+        color: Color.fromARGB(255, 81, 81, 81),
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 200),
+      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 150),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // add the hamburger menu icon here
+        
+          SizedBox(height: 16),
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
             radius: 60,
@@ -125,43 +116,55 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
           Text(
             name,
             style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+                fontFamily: 'JakartaSans',
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 32),
           Text(
             'Subject: ${widget.subject}',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                fontFamily: 'JakartaSans',
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
+                color: Color.fromARGB(255, 255, 255, 255)),
           ),
           SizedBox(height: 8),
           Text(
             'Topic: ${widget.topic}',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                fontFamily: 'JakartaSans',
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
+                color: Color.fromARGB(255, 255, 255, 255)),
           ),
           SizedBox(height: 8),
           Text(
             'Hourly Rate: RS ${widget.rate}/hr',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                fontFamily: 'JakartaSans',
+                fontSize: 17,
+                fontWeight: FontWeight.w400,
+                color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 35),
           Text(
-            'Total Payment: \Rs:${due_payment.ceil()}',
+            'Charges Due:',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                fontFamily: 'JakartaSans',
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 255, 255, 255)),
+          ),
+          Text(
+            'Rs:${due_payment.ceil()}',
+            style: TextStyle(
+                fontFamily: 'JakartaSans',
+                fontSize: 40,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFFF2FF53)),
           ),
           SizedBox(height: 32),
           Row(
@@ -177,7 +180,7 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
                   primary: Colors.green,
                 ),
                 child: Text(
-                  'Call',
+                  'Paid',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -205,6 +208,7 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
               ),
             ],
           )
+          
         ],
       ),
     );
@@ -225,33 +229,41 @@ class ChargePageStd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Example'),
-      ),
-      body: Center(
-        child: BidWidgetStd(
-          tuition_id: tuition_id,
-          subject: subject,
-          topic: topic,
-          rate: rate,
+    return Container(
+      color: Color.fromARGB(255, 0, 0, 0),
+      child: Scaffold(
+        body: Center(
+          child: BidWidgetStd(
+            tuition_id: tuition_id,
+            subject: subject,
+            topic: topic,
+            rate: rate,
+          ),
         ),
+        
       ),
     );
   }
 }
 
-Future<dynamic> post(String api) async {
-  var client = http.Client();
 
-  var url = Uri.parse(baseUrl + api);
-
-  var _headers = {
-    'Content-Type': 'application/json',
-  };
-  var response = await client.post(url, headers: _headers);
-
-  if (response.statusCode == 201) {
-    return response.body;
-  } else {}
-}
+// floatingActionButton: FloatingActionButton(
+//           backgroundColor: Colors.black,
+//           onPressed: () {
+//              Navigator.of(context).push(
+//               MaterialPageRoute(
+//                 builder: (context) => StudentHompage(),
+//               ),
+//             );
+//           },
+//           shape: RoundedRectangleBorder(
+//             side: BorderSide(width: 3, color: Colors.white),
+//             borderRadius: BorderRadius.circular(100),
+//           ),
+//           child: Icon(
+//             Icons.arrow_back,
+//             size: 32,
+//             color: Colors.white,
+//           ), // add the hamburger menu icon here
+//         ),
+//         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,

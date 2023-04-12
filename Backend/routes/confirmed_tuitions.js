@@ -17,11 +17,13 @@ router.post('/', async (req, res) => {
     }
     const duration = (new Date() - pendingTuition.start_time) / (1000*60*60); // Duration in minutes
     const bid = pendingTuition.bid_amount;
+    const tid = pendingTuition._id;
     if (!bid) {
       return res.status(404).json({ message: 'Tutor bid not found' });
     }
     const confirmedTuition = new ConfirmedTuitions({
       _id,
+      tuition_id:tid,
       tutor_id: pendingTuition.tutor_id,
       student_id: pendingTuition.student_id,
       duration,

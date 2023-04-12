@@ -7,6 +7,7 @@ import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/Tutor/tutor_loading_for_bid.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/Tutor/student_accepted_bid.dart';
+import 'package:tutorx/screens/student/online_student_total_charge.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/Tutor/online_tutor_total_charge.dart';
 import 'package:tutorx/utils/auth.dart';
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            // home: ChargePage(),
+            // home: ChargePageStd(tuition_id: 'dasd',topic: 'test',subject: 'faf',rate: 1213,),
 
             home: FutureBuilder<bool>(
               future: SharedPreferencesUtils.getisLoggedIn(),
