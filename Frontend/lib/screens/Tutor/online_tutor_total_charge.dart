@@ -14,6 +14,7 @@ import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:restart_app/restart_app.dart';
 
 class BidWidget extends StatefulWidget {
   // final Bid bid;
