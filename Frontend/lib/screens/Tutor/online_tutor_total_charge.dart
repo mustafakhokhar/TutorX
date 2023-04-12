@@ -14,6 +14,7 @@ import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:restart_app/restart_app.dart';
 
 class BidWidget extends StatefulWidget {
   // final Bid bid;
@@ -226,9 +227,9 @@ class ChargePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Example'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Example'),
+      // ),
       body: Center(
         child: BidWidget(
           tuition_id: tuition_id,
@@ -237,6 +238,27 @@ class ChargePage extends StatelessWidget {
           rate: rate,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => TutorHomepage(),
+            ),
+          );
+          // Restart.restartApp();
+        },
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 3, color: Colors.white),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Icon(
+          Icons.arrow_back,
+          size: 32,
+          color: Colors.white,
+        ), // add the hamburger menu icon here
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }

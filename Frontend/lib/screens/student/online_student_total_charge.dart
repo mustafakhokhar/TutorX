@@ -14,6 +14,7 @@ import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:restart_app/restart_app.dart';
 
 class BidWidgetStd extends StatefulWidget {
   // final Bid bid;
@@ -106,7 +107,7 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // add the hamburger menu icon here
-        
+
           SizedBox(height: 16),
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
@@ -208,7 +209,6 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
               ),
             ],
           )
-          
         ],
       ),
     );
@@ -232,6 +232,7 @@ class ChargePageStd extends StatelessWidget {
     return Container(
       color: Color.fromARGB(255, 0, 0, 0),
       child: Scaffold(
+        // appBar: AppBar(),
         body: Center(
           child: BidWidgetStd(
             tuition_id: tuition_id,
@@ -240,30 +241,30 @@ class ChargePageStd extends StatelessWidget {
             rate: rate,
           ),
         ),
-        
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.black,
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => StudentHompage(),
+              ),
+            );
+            Navigator.of(context).pop();
+            // Navigator.pushNamed(context, '/student_homepage');
+            // Restart.restartApp();
+          },
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 3, color: Colors.white),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Icon(
+            Icons.arrow_back,
+            size: 32,
+            color: Colors.white,
+          ), // add the hamburger menu icon here
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       ),
     );
   }
 }
-
-
-// floatingActionButton: FloatingActionButton(
-//           backgroundColor: Colors.black,
-//           onPressed: () {
-//              Navigator.of(context).push(
-//               MaterialPageRoute(
-//                 builder: (context) => StudentHompage(),
-//               ),
-//             );
-//           },
-//           shape: RoundedRectangleBorder(
-//             side: BorderSide(width: 3, color: Colors.white),
-//             borderRadius: BorderRadius.circular(100),
-//           ),
-//           child: Icon(
-//             Icons.arrow_back,
-//             size: 32,
-//             color: Colors.white,
-//           ), // add the hamburger menu icon here
-//         ),
-//         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
