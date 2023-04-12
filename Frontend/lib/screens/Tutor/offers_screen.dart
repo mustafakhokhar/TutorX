@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:tutorx/models/pending_tuitions_model.dart';
@@ -94,7 +95,7 @@ class OfferWidget extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => BidScreen(student_id,tuition_id),
+                      builder: (context) => BidScreen(student_id, tuition_id),
                     ),
                   );
                 },
@@ -139,6 +140,14 @@ class OfferWidget extends StatelessWidget {
 }
 
 class OffersScreen extends StatefulWidget {
+  final teaching_mode;
+  final tutor_lat;
+  final tutor_lon;
+  const OffersScreen(
+      {required this.teaching_mode,
+      required this.tutor_lat,
+      required this.tutor_lon});
+
   @override
   _OffersScreenState createState() => _OffersScreenState();
 }
@@ -174,21 +183,65 @@ class _OffersScreenState extends State<OffersScreen> {
         res.map((json) => PendingTuitions.fromJson(json)).toList();
 
     final List<Offer> offers = [];
+    if (widget.teaching_mode == 0) {
+      print("IN INPERSON FLOW");
 
-    for (PendingTuitions tuition in pendingTuitions) {
-      var id = tuition.studentId;
-      student_id = id;
-      tuition_id = tuition.tuition_id;
-      final response =
-          await BaseClient().get("/user/${id}").catchError((err) {});
-      final users = usersFromJson(response);
+      // INperson
+      for (PendingTuitions tuition in pendingTuitions) {
+        // isWithin5Km()
+        var lat1 = widget.tutor_lat;
+        var lat2 = tuition.latitude;
+        var lon1 = widget.tutor_lon;
+        var lon2 = tuition.longitude;
+        if (lat2 != null) {
+          if (isWithin5Km(lat1, lon1, lat2!, lon2!)) {
+            var id = tuition.studentId;
+            student_id = id;
+            tuition_id = tuition.tuition_id;
+            final response =
+                await BaseClient().get("/user/${id}").catchError((err) {});
+            final users = usersFromJson(response);
 
-      var name = users.fullname;
-      // print(name);
-      Offer temp = Offer(
-          subject: tuition.subject, topic: tuition.topic, student_name: name);
-      offers.insert(0, temp);
+            var name = users.fullname;
+            // print(name);
+            Offer temp = Offer(
+                subject: tuition.subject,
+                topic: tuition.topic,
+                student_name: name);
+            offers.insert(0, temp);
+          }
+        }
+      }
+    } else {
+      // Online
+      print("IN ONLINE FLOW");
+
+      for (PendingTuitions tuition in pendingTuitions) {
+        var lat = tuition.latitude;
+        if (lat == null) {
+          var id = tuition.studentId;
+          student_id = id;
+          tuition_id = tuition.tuition_id;
+          final response =
+              await BaseClient().get("/user/${id}").catchError((err) {});
+          final users = usersFromJson(response);
+
+          var name = users.fullname;
+          // print(name);
+          Offer temp = Offer(
+              subject: tuition.subject,
+              topic: tuition.topic,
+              student_name: name);
+          offers.insert(0, temp);
+        }
+      }
+      // if (mounted) {
+      //   setState(() {
+      //     _offers = offers;
+      //   });
+      // }
     }
+
     if (mounted) {
       setState(() {
         _offers = offers;
@@ -252,4 +305,22 @@ class _OffersScreenState extends State<OffersScreen> {
       // backgroundColor: Colors.black,
     );
   }
+}
+
+bool isWithin5Km(double lat1, double lon1, double lat2, double lon2) {
+  const double radius = 6371; // Earth's radius in km
+  double dLat = _toRadians(lat2 - lat1);
+  double dLon = _toRadians(lon2 - lon1);
+  double a = sin(dLat / 2) * sin(dLat / 2) +
+      cos(_toRadians(lat1)) *
+          cos(_toRadians(lat2)) *
+          sin(dLon / 2) *
+          sin(dLon / 2);
+  double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+  double distance = radius * c;
+  return distance <= 5;
+}
+
+double _toRadians(double degrees) {
+  return degrees * pi / 180;
 }

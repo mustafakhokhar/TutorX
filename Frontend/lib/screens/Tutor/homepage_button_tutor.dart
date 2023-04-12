@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
+import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
+import 'package:tutorx/widgets/inperson_mode.dart';
 import 'dart:math' show pi;
 
 import '../../models/active_tutors_model.dart';
@@ -9,8 +11,12 @@ import '../../models/user_model.dart';
 import '../../utils/base_client.dart';
 import '../../utils/shared_preferences_utils.dart';
 
+var lat;
+var lon;
+
 class Button extends StatefulWidget {
-  const Button({super.key});
+  final teaching_mode;
+  const Button({required this.teaching_mode});
 
   @override
   State<Button> createState() => _ButtonState();
@@ -18,38 +24,44 @@ class Button extends StatefulWidget {
 
 class _ButtonState extends State<Button> {
   bool isPlaying = false;
-  LatLng? _center; // Current Tutor Location
-
+  LatLng? _center;
+  // Current Tutor Location
   void _getCurrentLocation() async {
     final position = await Geolocator.getCurrentPosition();
     setState(() {
       _center = LatLng(position.latitude, position.longitude);
+      lat = _center?.latitude;
+      lon = _center?.longitude;
       // print(_center);
     });
   }
 
   void _showOverlay(BuildContext context) {
-    
-  showDialog(
-    context: context,
-     builder: (_) => OffersScreen(),//AlertDialog(
-    //   title: Text('Overlayed Page'),
-    //   content: Text('This is an overlayed page.'),
-    //   actions: [
-    //     ElevatedButton(
-    //       onPressed: () {
-    //         // Navigator.of(context).pop();
-    //         setState(() {
-      
-    // isPlaying = false;
-    // });
-    //       },
-    //       child: Text('Close'),
-    //     ),
-    //   ],
-    // ),
-  );
-}
+    print("2: $teaching_mode");
+    showDialog(
+      context: context,
+      builder: (_) => OffersScreen(
+        teaching_mode: teaching_mode,
+        tutor_lat: lat,
+        tutor_lon: lon,
+      ), //AlertDialog(
+      //   title: Text('Overlayed Page'),
+      //   content: Text('This is an overlayed page.'),
+      //   actions: [
+      //     ElevatedButton(
+      //       onPressed: () {
+      //         // Navigator.of(context).pop();
+      //         setState(() {
+
+      // isPlaying = false;
+      // });
+      //       },
+      //       child: Text('Close'),
+      //     ),
+      //   ],
+      // ),
+    );
+  }
 
   @override
   void initState() {
@@ -104,6 +116,11 @@ class _ButtonState extends State<Button> {
                   } else {
                     _showOverlay(context);
                     print('Finding Tutor');
+                    if (teaching_mode == 0) {
+                      print('It is in inperson_mode');
+                    } else if (teaching_mode == 1) {
+                      print('It is in Online mode');
+                    }
                     String uid = await SharedPreferencesUtils.getUID();
                     print(uid);
                     print(_center);
