@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tutorx/screens/Tutor/history_tutor.dart';
 import 'package:tutorx/screens/common/first_screen.dart';
 import 'package:tutorx/screens/common/settings.dart';
+import 'package:tutorx/screens/student/history_student.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/screens/common/my_account.dart';
@@ -12,7 +14,6 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
       backgroundColor: Colors.black,
       child: ListView(
@@ -80,7 +81,23 @@ class NavBar extends StatelessWidget {
             ),
             iconColor: Color(0xFFF2FF53),
             textColor: Colors.white,
-            onTap: () {},
+            onTap: () async {
+              var isStudent = SharedPreferencesUtils.getisStudent();
+
+              if (isStudent == true) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => HistoryStudent(),
+                  ),
+                );
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => HistoryTutor(),
+                  ),
+                );
+              }
+            },
           ),
           ListTile(
             leading: Icon(Icons.help_center),
