@@ -11,6 +11,7 @@ import 'package:tutorx/screens/Tutor/timer_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/timer_screen_student.dart';
+import 'package:tutorx/screens/student/tuition_in_progress.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
@@ -29,7 +30,7 @@ class _BidWidgetState extends State<BidWidget> {
   var topic = '';
   var rate = 0;
   var imageUrl =
-      'https://www.pngkey.com/png/detail/52-523516_empty-profile-picture-circle.png';
+      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
 
   bool check = false;
 
@@ -58,10 +59,10 @@ class _BidWidgetState extends State<BidWidget> {
       }
     }
     print('Tutit id');
-    print(tuition_id);
+    print(widget.tuition_id);
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => TimerScreenStd(
+        builder: (context) => TuitionInProgress(
             tuition_id: widget.tuition_id, subject: subject, topic: topic, rate: rate),
       ),
     );
