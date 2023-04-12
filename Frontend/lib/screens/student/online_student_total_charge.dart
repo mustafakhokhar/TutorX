@@ -2,34 +2,57 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mong;
 import 'package:tutorx/models/bids_model.dart';
+import 'package:tutorx/models/confirmed_tuitions_model.dart';
 import 'package:tutorx/models/pending_tuitions_model.dart';
 import 'package:tutorx/models/user_model.dart';
 import 'package:tutorx/screens/Tutor/bid.dart';
 import 'package:tutorx/screens/Tutor/offers_screen.dart';
-import 'package:tutorx/screens/Tutor/timer_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:http/http.dart' as http;
 
-import '../student/timer_screen_student.dart';
-
-class BidWidget extends StatefulWidget {
+class BidWidgetStd extends StatefulWidget {
+  // final Bid bid;
   final tuition_id;
+  final subject;
+  final topic;
+  final rate;
 
-  const BidWidget({required this.tuition_id});
-
+  const BidWidgetStd(
+      {required this.tuition_id,
+      required this.subject,
+      required this.topic,
+      required this.rate});
   @override
-  _BidWidgetState createState() => _BidWidgetState();
+  _BidWidgetStdState createState() => _BidWidgetStdState();
 }
 
-class _BidWidgetState extends State<BidWidget> {
+class CustomObjectId {
+  late mong.ObjectId _objectId;
+
+  // Constructor to generate a new ObjectId
+  CustomObjectId() {
+    _objectId = mong.ObjectId();
+  }
+
+  // Constructor to create a CustomObjectId from a hex string
+  CustomObjectId.fromHexString(String hexString) {
+    _objectId = mong.ObjectId.fromHexString(hexString);
+  }
+
+  // Getter to retrieve the hex string representation of the CustomObjectId
+  String get hexString => _objectId.toHexString();
+
+  // Add any additional methods or properties as needed
+}
+
+class _BidWidgetStdState extends State<BidWidgetStd> {
   var name = '';
-  var subject = '';
-  var topic = '';
-  var rate = 0;
+  double due_payment = 0.0;
   var imageUrl =
       'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
 
@@ -40,37 +63,56 @@ class _BidWidgetState extends State<BidWidget> {
   }
 
   fetchDetails() async {
-    print(widget.tuition_id);
+    // print(widget.tuition_id);
+    var tutu = widget.tuition_id;
+    var customObjectId = CustomObjectId.fromHexString(
+        tutu); // Create a CustomObjectId from the widget.tuition_id value
+    var obj = {"_id": customObjectId.hexString};
+    print(obj);
+    print(obj.runtimeType);
+    final jsonObj = json.encode(obj);
+    print("HEREEE: ${json.decode(jsonObj)}");
     final response = await BaseClient()
         .get("/pendingTuitions/${widget.tuition_id}")
         .catchError((err) {});
     var res = json.decode(response);
     var student_id = res['student_id'];
 
+    print(res);
+
+    final response_confirmed =
+        await BaseClient().post("/confirmedTuitions", obj).catchError((err) {});
+    print('The Tution id');
+    print(widget.tuition_id);
+
     final response_user =
         await BaseClient().get("/user/$student_id").catchError((err) {});
     var res_user = json.decode(response_user);
+
+    final response_last = await BaseClient()
+        .get("/confirmedTuitions/${widget.tuition_id}")
+        .catchError((err) {});
+    var res_last = json.decode(response_last);
+    print('This is res_last');
+    print(res_last);
+
+    // print(res['tutor_id']);
     setState(() {
       name = res_user['fullname'];
-      // print(name);
-
-      topic = res['topic'];
-      // print(topic);
-      subject = res['subject'];
-      rate = res['bid_amount'];
+      due_payment = res_last['amount'];
+      print(due_payment);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // checkIfAccepted();
-
+    fetchDetails();
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade800,
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 170),
+      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 200),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,7 +133,7 @@ class _BidWidgetState extends State<BidWidget> {
           ),
           SizedBox(height: 32),
           Text(
-            'Subject: $subject',
+            'Subject: ${widget.subject}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -99,7 +141,7 @@ class _BidWidgetState extends State<BidWidget> {
           ),
           SizedBox(height: 8),
           Text(
-            'Topic: $topic',
+            'Topic: ${widget.topic}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -107,7 +149,15 @@ class _BidWidgetState extends State<BidWidget> {
           ),
           SizedBox(height: 8),
           Text(
-            'Hourly Rate: \Rs:$rate/hr',
+            'Hourly Rate: RS ${widget.rate}/hr',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Total Payment: \Rs:${due_payment.ceil()}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -124,7 +174,7 @@ class _BidWidgetState extends State<BidWidget> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  primary: Colors.green, // Change this to the desired color
+                  primary: Colors.green,
                 ),
                 child: Text(
                   'Call',
@@ -142,8 +192,7 @@ class _BidWidgetState extends State<BidWidget> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  backgroundColor:
-                      Colors.red, // Change this to the desired color
+                  backgroundColor: Colors.red,
                 ),
                 child: Text(
                   'Helpline',
@@ -155,78 +204,24 @@ class _BidWidgetState extends State<BidWidget> {
                 ),
               ),
             ],
-          ),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () async {
-              // Code for starting the tuition
-              // final obj = {
-              //   "name": "John Smith",
-              //   "age": 30,
-              //   "email": "john.smith@example.com"
-              // };
-              // final objJSON = jsonEncode(obj);
-              // final res1 = await BaseClient()
-              //     .get("/pendingTuitions/$tuition_id")
-              //     .catchError((err) {});
-
-              final response = await put("/pendingTuitions/$tuition_id/start")
-                  .catchError((err) {});
-              // final dec = jsonDecode(objJSON);
-              print(response);
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TimerScreen(
-                      tuition_id: tuition_id,
-                      subject: subject,
-                      topic: topic,
-                      rate: rate),
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              backgroundColor: Colors.blue, // Change this to the desired color
-            ),
-            child: Text(
-              'Start Tuition',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ),
+          )
         ],
       ),
     );
   }
 }
 
-// Sample data
-// final Bid sampleBid = Bid(
-//   tutorName: 'Ronaldeen',
-//   subject: 'Mathematics',
-//   topic: 'Calculus',
-//   hourlyRate: 25,
-//   imageUrl:
-//       'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium',
-// );
-
-class MyWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class ExamplePage extends StatelessWidget {
+class ChargePageStd extends StatelessWidget {
   final tuition_id;
-  const ExamplePage({required this.tuition_id});
+  final subject;
+  final topic;
+  final rate;
+
+  const ChargePageStd(
+      {required this.tuition_id,
+      required this.subject,
+      required this.topic,
+      required this.rate});
 
   @override
   Widget build(BuildContext context) {
@@ -235,15 +230,18 @@ class ExamplePage extends StatelessWidget {
         title: Text('Example'),
       ),
       body: Center(
-        child: BidWidget(
+        child: BidWidgetStd(
           tuition_id: tuition_id,
+          subject: subject,
+          topic: topic,
+          rate: rate,
         ),
       ),
     );
   }
 }
 
-Future<dynamic> put(String api) async {
+Future<dynamic> post(String api) async {
   var client = http.Client();
 
   var url = Uri.parse(baseUrl + api);
@@ -251,9 +249,9 @@ Future<dynamic> put(String api) async {
   var _headers = {
     'Content-Type': 'application/json',
   };
-  var response = await client.put(url, headers: _headers);
+  var response = await client.post(url, headers: _headers);
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 201) {
     return response.body;
   } else {}
 }

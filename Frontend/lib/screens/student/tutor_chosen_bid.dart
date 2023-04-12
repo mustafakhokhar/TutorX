@@ -10,9 +10,9 @@ import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/timer_screen.dart';
 import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/screens/student/timer_screen_student.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
-
 
 class BidWidget extends StatefulWidget {
   final tuition_id;
@@ -31,13 +31,6 @@ class _BidWidgetState extends State<BidWidget> {
   var imageUrl =
       'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
 
-  @override
-  void initState() {
-    super.initState();
-   check = false;
-
-    fetchDetails();
-  }
   bool check = false;
 
   checkIfAccepted() async {
@@ -53,8 +46,8 @@ class _BidWidgetState extends State<BidWidget> {
       // final List<Offer> offers = [];
 
       for (var i = 0; i < res.length; i++) {
-    
         var start = res[0]["start_time"];
+        // print(start);
         var uid = await SharedPreferencesUtils.getUID();
         // print("UID : $uid");
         // print("TID :$start");
@@ -64,14 +57,24 @@ class _BidWidgetState extends State<BidWidget> {
         }
       }
     }
-    //  Navigator.of(context).push(
-    //                 MaterialPageRoute(
-    //                   builder: (context) => ExamplePage(tuition_id: tid,),
-    //                 ),
-    //               );
-    Navigator.of(context).pop();
+    print('Tutit id');
+    print(tuition_id);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TimerScreenStd(
+            tuition_id: tuition_id, subject: subject, topic: topic, rate: rate),
+      ),
+    );
+    // Navigator.of(context).pop();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    check = false;
+
+    fetchDetails();
+  }
 
   fetchDetails() async {
     print(widget.tuition_id);
@@ -190,7 +193,6 @@ class _BidWidgetState extends State<BidWidget> {
             ],
           ),
           SizedBox(height: 10),
-          
         ],
       ),
     );
