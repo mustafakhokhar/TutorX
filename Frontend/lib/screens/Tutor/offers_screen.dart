@@ -110,6 +110,9 @@ class OfferWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(
+                width: 75,
+              ),
               ElevatedButton(
                 child: Text(
                   'Reject',

@@ -10,6 +10,8 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../widgets/another_loader.dart';
+
 class TutorLoadingBidScreen extends StatefulWidget {
   const TutorLoadingBidScreen({Key? key}) : super(key: key);
 
@@ -55,7 +57,6 @@ class _TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
       // final List<Offer> offers = [];
 
       for (var i = 0; i < res.length; i++) {
-    
         var tutor_id = res[i]["tutor_id"];
         // print(tutor_id);
         var uid = await SharedPreferencesUtils.getUID();
@@ -126,11 +127,7 @@ class _TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
                 SizedBox(
                   width: circleSize,
                   height: circleSize,
-                  child: CircularProgressIndicator(
-                    strokeWidth: circleSize * 0.1, // increase border width
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Color(0xFF583BE8)), // change color
-                  ),
+                  child: HomePage(),
                 ),
                 SizedBox(height: screenHeight * 0.02), // add some spacing
                 Padding(
@@ -143,7 +140,7 @@ class _TutorLoadingBidScreenState extends State<TutorLoadingBidScreen> {
                     'Waiting for the Students to Respond . . .',
                     style: TextStyle(
                       fontSize: textSize,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'JakartaSans',
                     ),

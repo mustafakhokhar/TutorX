@@ -7,6 +7,8 @@ import 'package:tutorx/screens/student/online_student_total_charge.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/shared_preferences_utils.dart';
 
+import '../../widgets/another_loader.dart';
+
 class TuitionInProgress extends StatefulWidget {
   final tuition_id;
   final subject;
@@ -23,10 +25,10 @@ class TuitionInProgress extends StatefulWidget {
   _TuitionInProgressState createState() => _TuitionInProgressState();
 }
 
-var tid ='';
+var tid = '';
 
 class _TuitionInProgressState extends State<TuitionInProgress> {
-bool check = false;
+  bool check = false;
 
   checkIfAccepted() async {
     print(check);
@@ -50,9 +52,8 @@ bool check = false;
           break;
         }
       }
-
     }
-     Navigator.of(context).push(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ChargePageStd(
           tuition_id: widget.tuition_id,
@@ -67,7 +68,7 @@ bool check = false;
   @override
   void initState() {
     // TODO: implement initState
-bool check = false;
+    bool check = false;
 
     super.initState();
   }
@@ -96,11 +97,7 @@ bool check = false;
                 SizedBox(
                   width: circleSize,
                   height: circleSize,
-                  child: CircularProgressIndicator(
-                    strokeWidth: circleSize * 0.1, // increase border width
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Color(0xFF583BE8)), // change color
-                  ),
+                  child: HomePage(),
                 ),
                 SizedBox(height: screenHeight * 0.02), // add some spacing
                 Padding(
@@ -113,7 +110,7 @@ bool check = false;
                     'Tuition In Progress . . .',
                     style: TextStyle(
                       fontSize: textSize,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'JakartaSans',
                     ),

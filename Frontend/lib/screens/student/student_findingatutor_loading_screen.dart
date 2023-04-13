@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tutorx/screens/student/bids_from_tutor.dart';
+import 'package:tutorx/widgets/loader_stud.dart';
 
 import '../../utils/base_client.dart';
 import '../../utils/shared_preferences_utils.dart';
@@ -19,27 +20,27 @@ class StudentFindingTutorLoadingScreenState
     extends State<StudentFindingTutorLoadingScreen> {
   double circleSize = 0.0;
   void _showOverlay(BuildContext context) {
-    
-  showDialog(
-    context: context,
-     builder: (_) => BidsScreen(),//AlertDialog(
-    //   title: Text('Overlayed Page'),
-    //   content: Text('This is an overlayed page.'),
-    //   actions: [
-    //     ElevatedButton(
-    //       onPressed: () {
-    //         // Navigator.of(context).pop();
-    //         setState(() {
-      
-    // isPlaying = false;
-    // });
-    //       },
-    //       child: Text('Close'),
-    //     ),
-    //   ],
-    // ),
-  );
-}
+    showDialog(
+      context: context,
+      builder: (_) => BidsScreen(), //AlertDialog(
+      //   title: Text('Overlayed Page'),
+      //   content: Text('This is an overlayed page.'),
+      //   actions: [
+      //     ElevatedButton(
+      //       onPressed: () {
+      //         // Navigator.of(context).pop();
+      //         setState(() {
+
+      // isPlaying = false;
+      // });
+      //       },
+      //       child: Text('Close'),
+      //     ),
+      //   ],
+      // ),
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -47,14 +48,15 @@ class StudentFindingTutorLoadingScreenState
     Timer(Duration(seconds: 5), () {
       // Navigator.pushReplacementNamed(context, '/nextScreen');
       Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  // StudentFindingTutorLoadingScreen(),
-                  BidsScreen(),
-            ),
+        MaterialPageRoute(
+          builder: (context) =>
+              // StudentFindingTutorLoadingScreen(),
+              BidsScreen(),
+        ),
       );
     });
   }
+
   @override
   Widget build(BuildContext context) {
     // Get the screen size
@@ -76,8 +78,6 @@ class StudentFindingTutorLoadingScreenState
     circleSize = width * 0.4;
     // _showOverlay(context);
 
-
-
     return Scaffold(
       body: Stack(
         children: [
@@ -89,13 +89,9 @@ class StudentFindingTutorLoadingScreenState
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: circleSize,
-                  height: circleSize,
-                  child: CircularProgressIndicator(
-                    strokeWidth: circleSize * 0.06, // increase border width
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.yellow), // change color
-                  ),
+                  width: 100,
+                  height: 100,
+                  child: HomePage(),
                 ),
                 SizedBox(height: height * 0.03), // add some spacing
                 Padding(
@@ -105,7 +101,7 @@ class StudentFindingTutorLoadingScreenState
                     'Finding Tutors . . .',
                     style: TextStyle(
                       fontSize: width * 0.06,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: Color(0xFFF2FF53),
                       fontFamily: 'JakartaSans',
                     ),
@@ -119,8 +115,8 @@ class StudentFindingTutorLoadingScreenState
             right: width * 0.05,
             bottom: height * 0.1, // push button upwards
             child: SizedBox(
-              width: width * 0.9, // adjust width of the button
-              height: height * 0.1,
+              width: width * 0.35, // adjust width of the button
+              height: height * 0.06,
               child: Padding(
                 padding: EdgeInsets.only(top: height * 0.01), // add top padding
                 child: ElevatedButton(
@@ -147,7 +143,7 @@ class StudentFindingTutorLoadingScreenState
                   child: Text(
                     'CANCEL',
                     style: TextStyle(
-                      fontSize: width * 0.08,
+                      fontSize: width * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                       fontFamily: 'JakartaSans',

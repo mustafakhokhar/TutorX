@@ -9,7 +9,7 @@ import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'offers_screen.dart';
 
 class BidScreen extends StatefulWidget {
-  BidScreen(student_id,tuition_id);
+  BidScreen(student_id, tuition_id);
 
   @override
   _BidScreenState createState() => _BidScreenState();
@@ -60,31 +60,70 @@ class _BidScreenState extends State<BidScreen> {
       backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
 
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsetsDirectional.only(bottom: 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.4),
+
             Text(
               'Enter the amount',
               style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'JakartaSans'),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+            Container(
+              height: 100, // Set the height of the container
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Color(0xFF583BE8), width: 2.0), // Purple border
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(
+                      'Bid Amount',
+                      style: TextStyle(color: Color(0xFFF2FF53)),
+                    ),
+                  ),
+                  SizedBox(height: 8), // Added padding between the elements
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      child: TextFormField(
+                        controller: _bidController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Enter your bid amount'.padLeft(24),
+                          suffixText: 'Rs'.padRight(10),
+                          suffixStyle: TextStyle(
+                              color: Color(
+                                  0xFFF2FF53)), // Added color to the suffix text
+                        ),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 10.0),
-            TextFormField(
-              controller: _bidController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your bid amount',
-              ),
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-            ),
-            SizedBox(height: 10.0),
+
+            SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+
             // ElevatedButton(
             //   onPressed: () {
             //     // Implement your button logic here
@@ -110,18 +149,17 @@ class _BidScreenState extends State<BidScreen> {
                   tutorId: uid,
                   tutorName: name,
                   bidAmount: int.parse(_bidController.text),
-
                 );
                 final response = await BaseClient()
                     .post("/bids", bid_obj)
                     .catchError((err) {});
 
                 // print(response);
-                 Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => TutorLoadingBidScreen(),
-                    ),
-                  );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TutorLoadingBidScreen(),
+                  ),
+                );
               },
               style: ButtonStyle(
                 fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
@@ -142,8 +180,9 @@ class _BidScreenState extends State<BidScreen> {
         backgroundColor: Colors.black,
         onPressed: () async {
           print(student_id);
+
           // TutorLoadingBidScreen
-         
+
           // String uid = await SharedPreferencesUtils.getUID();
           //           var response = await BaseClient()
           //               .delete("/activeTutors/${uid}")
@@ -152,13 +191,7 @@ class _BidScreenState extends State<BidScreen> {
           //           });
           // if (response!= null) {
 
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //         // StudentFindingTutorLoadingScreen(),
-          //         TutorHomepage(),
-          //   ),
-          // );
+          Navigator.of(context).pop();
           // }
         },
         shape: RoundedRectangleBorder(
