@@ -77,6 +77,7 @@ class _MyAppState extends State<MyApp> {
                             return isStudent
                                 ? StudentHompage()
                                 : TutorHomepage();
+                            // : BidScreen(null, null);
                           } else {
                             return CircularProgressIndicator();
                           }
@@ -89,7 +90,6 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
-          
           );
         }
         return CircularProgressIndicator(
