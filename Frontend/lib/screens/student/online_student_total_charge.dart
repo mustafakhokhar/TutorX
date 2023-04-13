@@ -108,7 +108,7 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
             borderRadius: BorderRadius.circular(16),
           ),
           margin: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.05, vertical: screenWidth * 0.4),
+              horizontal: screenWidth * 0.05, vertical: screenWidth * 0.1),
           padding: EdgeInsets.symmetric(
               horizontal: screenWidth * 0.2, vertical: screenWidth * 0.045),
           child: Column(

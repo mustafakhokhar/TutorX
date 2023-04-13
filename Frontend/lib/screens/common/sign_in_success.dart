@@ -30,13 +30,15 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
   }
   @override
   Widget build(BuildContext context) {
+     final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     
 
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        // width:  MediaQuery.of(context).size.width,
+        // height:  MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -52,10 +54,10 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 100.0, bottom: 10.0),
+                padding: EdgeInsets.only(top: screenHeight*0.05, bottom: screenHeight*0.009),
                 child: Container(
-                  width: 175.0,
-                  height: 175.0,
+                  width: screenWidth*0.5,
+                  height: screenHeight*0.2,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
@@ -63,11 +65,11 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
                   child: Icon(
                     Icons.check,
                     color: Color.fromARGB(255, 7, 6, 6),
-                    size: 120.0,
+                    size: screenHeight*0.2,
                   ),
                 ),
               ),
-              SizedBox(height: 50.0),
+              SizedBox(height: screenHeight*0.01),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
                 child: Text(
@@ -81,7 +83,7 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: screenHeight*0.001),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
                 alignment: Alignment.center,
@@ -96,11 +98,11 @@ class SignInSuccessfulState extends State<SignInSuccessful> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 50.0),
+              SizedBox(height: 5),
               Padding(
-                padding: EdgeInsets.only(top: 50.0),
+                padding: EdgeInsets.only(top: screenHeight*0.01),
                 child: SizedBox(
-                  height: 60, // Set button height to 80
+                  height: screenHeight*0.1, // Set button height to 80
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black,

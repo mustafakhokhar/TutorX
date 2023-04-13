@@ -7,22 +7,23 @@ class SignUpSuccessful extends StatefulWidget {
   const SignUpSuccessful({super.key});
 
   @override
-  State<SignUpSuccessful> createState() =>
-      SignUpSuccessfulState();
+  State<SignUpSuccessful> createState() => SignUpSuccessfulState();
 }
 
 class SignUpSuccessfulState extends State<SignUpSuccessful> {
   var isStudent = false;
-  var studentText ="Congratulations! You are now part of our learning community. Let's find the right tutor for you and start achieving your goals!";
-  var tutorText = "Congratulations! You are now a part of our dedicated team of tutors . Let's find your first student and help them reach their full potential.";
-  
-  checkStudent () async {
-      var check = await SharedPreferencesUtils.getisStudent();
+  var studentText =
+      "Congratulations! You are now part of our learning community. Let's find the right tutor for you and start achieving your goals!";
+  var tutorText =
+      "Congratulations! You are now a part of our dedicated team of tutors . Let's find your first student and help them reach their full potential.";
 
-      setState(() {
-        isStudent = check;
-      });
-    }
+  checkStudent() async {
+    var check = await SharedPreferencesUtils.getisStudent();
+
+    setState(() {
+      isStudent = check;
+    });
+  }
 
   @override
   void initState() {
@@ -32,10 +33,13 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        height: double.infinity,
+        // width: double.infinity,
+        // height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -51,10 +55,11 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 100.0, bottom: 10.0),
+                padding: EdgeInsets.only(
+                    top: screenHeight * 0.05, bottom: screenHeight * 0.009),
                 child: Container(
-                  width: 175.0,
-                  height: 175.0,
+                  width: screenWidth * 0.5,
+                  height: screenHeight * 0.2,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
@@ -66,7 +71,7 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
                   ),
                 ),
               ),
-              SizedBox(height: 50.0),
+              SizedBox(height: screenHeight * 0.01),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 45.0),
                 child: Text(
@@ -80,12 +85,13 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 10.0),
+                            SizedBox(height: screenHeight*0.001),
+
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 10.0),
                 alignment: Alignment.center,
                 child: Text(
-                  isStudent ? studentText: tutorText,
+                  isStudent ? studentText : tutorText,
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 15,
@@ -97,9 +103,10 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
               ),
               SizedBox(height: 50.0),
               Padding(
-                padding: EdgeInsets.only(top: 50.0),
+                                padding: EdgeInsets.only(top: screenHeight*0.01),
+
                 child: SizedBox(
-                  height: 60, // Set button height to 80
+                  height: screenHeight*0.1,  // Set button height to 80
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Colors.black,
@@ -111,10 +118,10 @@ class SignUpSuccessfulState extends State<SignUpSuccessful> {
                       minimumSize: Size(300, 80),
                     ),
                     onPressed: () async {
-
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => isStudent ? StudentHompage():TutorHomepage(),
+                          builder: (context) =>
+                              isStudent ? StudentHompage() : TutorHomepage(),
                         ),
                       );
                     },

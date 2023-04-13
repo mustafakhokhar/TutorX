@@ -74,7 +74,7 @@ final double screenWidth = MediaQuery.of(context).size.width;
         color: Color.fromARGB(255, 41, 41, 41),
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.05, vertical: screenWidth*0.4),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.05, vertical: screenWidth*0.1),
           padding: EdgeInsets.symmetric(horizontal: screenWidth*0.1, vertical: screenWidth*0.02),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
