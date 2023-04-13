@@ -20,59 +20,31 @@ class _BidScreenState extends State<BidScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenPadding = screenWidth * 0.04;
+    final buttonWidth = screenWidth * 0.3;
+    final buttonHeight = screenHeight * 0.06;
+    final headingFontSize = screenWidth * 0.05;
+    final textFieldFontSize = screenWidth * 0.045;
+    final buttonFontSize = screenWidth * 0.045;
 
-    //   body: Padding(
-    //     padding: const EdgeInsets.all(16.0),
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         Text(
-    //           'Enter Bid',
-    //           style: TextStyle(
-    //             fontSize: 16.0,
-    //             fontWeight: FontWeight.bold,
-    //           ),
-    //         ),
-    //         SizedBox(height: 10.0),
-    //         TextFormField(
-    //           controller: _bidController,
-    //           keyboardType: TextInputType.number,
-    //           decoration: InputDecoration(
-    //             border: OutlineInputBorder(),
-    //             hintText: 'Enter your bid amount',
-    //           ),
-    //         ),
-    //         SizedBox(height: 10.0),
-    //         ElevatedButton(
-    //           onPressed: () {
-    //             // Implement your button logic here
-    //             print('Bid submitted: ${_bidController.text}');
-    //           },
-    //           child: Text('Submit Bid'),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
     return Scaffold(
-      // backgroundColor: Colors.black87,
       backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
-
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(screenPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.4),
+            SizedBox(height: screenHeight * 0.35),
             Text(
               'Enter the amount',
               style: TextStyle(
-                fontSize: 16.0,
+                fontSize: headingFontSize,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10.0),
+            SizedBox(height: screenHeight * 0.03),
             TextFormField(
               controller: _bidController,
               keyboardType: TextInputType.number,
@@ -83,22 +55,19 @@ class _BidScreenState extends State<BidScreen> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
+              style: TextStyle(fontSize: textFieldFontSize),
             ),
-            SizedBox(height: 10.0),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Implement your button logic here
-            //     print('Bid submitted: ${_bidController.text}');
-            //   },
-            //   child: Text('Submit Bid'),
-            // ),
+            SizedBox(height: screenHeight * 0.03),
             ElevatedButton(
-              child: Text('Bid',
-                  style: TextStyle(
-                      fontFamily: 'JakartaSans',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromARGB(255, 255, 255, 255))),
+              child: Text(
+                'Bid',
+                style: TextStyle(
+                  fontFamily: 'JakartaSans',
+                  fontSize: buttonFontSize,
+                  fontWeight: FontWeight.w400,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
               onPressed: () async {
                 print('Bid submitted: ${_bidController.text}');
                 var uid = await SharedPreferencesUtils.getUID();
@@ -110,21 +79,21 @@ class _BidScreenState extends State<BidScreen> {
                   tutorId: uid,
                   tutorName: name,
                   bidAmount: int.parse(_bidController.text),
-
                 );
                 final response = await BaseClient()
                     .post("/bids", bid_obj)
                     .catchError((err) {});
 
-                // print(response);
-                 Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => TutorLoadingBidScreen(),
-                    ),
-                  );
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TutorLoadingBidScreen(),
+                  ),
+                );
               },
               style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
+                fixedSize: MaterialStateProperty.all<Size>(
+                  Size(buttonWidth, buttonHeight),
+                ),
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Color(0xFF583BE8)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -137,39 +106,20 @@ class _BidScreenState extends State<BidScreen> {
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
           print(student_id);
-          // TutorLoadingBidScreen
-         
-          // String uid = await SharedPreferencesUtils.getUID();
-          //           var response = await BaseClient()
-          //               .delete("/activeTutors/${uid}")
-          //               .catchError((err) {
-          //             print(err);
-          //           });
-          // if (response!= null) {
-
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //         // StudentFindingTutorLoadingScreen(),
-          //         TutorHomepage(),
-          //   ),
-          // );
-          // }
         },
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
+          side: BorderSide(width: screenWidth * 0.007, color: Colors.white),
+          borderRadius: BorderRadius.circular(screenWidth * 0.15),
         ),
         child: Icon(
           Icons.arrow_back,
-          size: 32,
+          size: screenWidth * 0.1,
           color: Colors.white,
-        ), // add the hamburger menu icon here
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       // backgroundColor: Colors.black,

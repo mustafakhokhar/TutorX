@@ -89,6 +89,9 @@ class MyButton extends StatefulWidget {
 class _MyButtonState extends State<MyButton> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final buttonWidth = (screenWidth - 30) / 2;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -102,18 +105,18 @@ class _MyButtonState extends State<MyButton> {
             });
           },
           child: Container(
-            width: 162,
-            height: 59,
+            width: buttonWidth,
+            height: screenWidth * 0.2,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: _isOnline ? Color(0xFFF2FF53) : Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(screenWidth * 0.1),
             ),
             child: Text(
               'Online',
               style: TextStyle(
                 color: _isOnline ? Colors.black : Colors.white,
-                fontSize: 14.0,
+                fontSize: screenWidth * 0.035,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'JakartaSans',
               ),
@@ -121,7 +124,7 @@ class _MyButtonState extends State<MyButton> {
           ),
         ),
         SizedBox(
-          width: 17,
+          width: screenWidth * 0.03,
         ),
         InkWell(
           onTap: () {
@@ -133,18 +136,18 @@ class _MyButtonState extends State<MyButton> {
             });
           },
           child: Container(
-            width: 162,
-            height: 59,
+            width: buttonWidth,
+            height: screenWidth * 0.2,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: _isInPerson ? Color(0xFFF2FF53) : Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(screenWidth * 0.1),
             ),
             child: Text(
               'In-Person',
               style: TextStyle(
                 color: _isInPerson ? Colors.black : Colors.white,
-                fontSize: 14.0,
+                fontSize: screenWidth * 0.035,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'JakartaSans',
               ),
@@ -155,60 +158,3 @@ class _MyButtonState extends State<MyButton> {
     );
   }
 }
-// class TutorHomepage extends StatelessWidget {
-// GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-  
-//   @override
-//   Widget build(BuildContext context) {
-//     final FirebaseAuth _auth = FirebaseAuth.instance;
-//     final Size screenSize = MediaQuery.of(context).size;
-
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData.dark(),
-//       home: Scaffold(
-//         key: _scaffoldState,
-//         drawer: NavBar(),
-//         body: Center(
-//           child: Container(
-//             margin: EdgeInsets.fromLTRB(0, screenSize.height * 0.15, 0, screenSize.height * 0.4),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Expanded(
-//                   child: Button(),
-//                 ),
-//                 SizedBox(
-//                   height: screenSize.height * 0.05,
-//                 ),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     MyButton(),
-//                   ],
-//                 )
-//               ],
-//             ),
-//           ),
-//         ),
-//         floatingActionButton: FloatingActionButton(
-//           backgroundColor: Colors.black,
-//           onPressed: () {
-//             _scaffoldState.currentState?.openDrawer();
-//           },
-//           shape: RoundedRectangleBorder(
-//             side: BorderSide(width: 3, color: Colors.white),
-//             borderRadius: BorderRadius.circular(screenSize.width * 0.1),
-//           ),
-//           child: Icon(
-//             Icons.menu,
-//             size: screenSize.width * 0.1,
-//             color: Colors.white,
-//           ),
-//         ),
-//         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-//         backgroundColor: Colors.black,
-//       ),
-//     );
-//   }
-// }

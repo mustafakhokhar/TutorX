@@ -6,14 +6,17 @@ import 'package:tutorx/screens/Tutor/offers_screen.dart';
 import 'package:tutorx/screens/Tutor/online_tutor_total_charge.dart';
 import 'package:tutorx/utils/base_client.dart';
 
-
 class TimerScreen extends StatefulWidget {
   final tuition_id;
   final subject;
   final topic;
   final rate;
 
-  const TimerScreen({required this.tuition_id,required this.subject,required this.topic,required this.rate});
+  const TimerScreen(
+      {required this.tuition_id,
+      required this.subject,
+      required this.topic,
+      required this.rate});
 
   @override
   _TimerScreenState createState() => _TimerScreenState();
@@ -50,51 +53,61 @@ class _TimerScreenState extends State<TimerScreen> {
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Tuition in Progress:',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: size.width * 0.06),
             ),
             Text(
               timerText,
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: size.width * 0.16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: size.height * 0.03),
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
                 // Code for starting the tuition
-                var obj = { "tuition_id": tuition_id };
+                var obj = {"tuition_id": tuition_id};
                 var objJSON = jsonEncode(obj);
                 final response = await BaseClient()
-                  .post("/confirmedTuitions", objJSON)
-                  .catchError((err) {});
-              Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChargePage(tuition_id: widget.tuition_id,subject: widget.subject,topic: widget.topic,rate: widget.rate,),
+                    .post("/confirmedTuitions", objJSON)
+                    .catchError((err) {});
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ChargePage(
+                      tuition_id: widget.tuition_id,
+                      subject: widget.subject,
+                      topic: widget.topic,
+                      rate: widget.rate,
                     ),
-                  );
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                  borderRadius: BorderRadius.circular(size.width * 0.1),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                backgroundColor:
-                    Colors.blue, // Change this to the desired color
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.12,
+                    vertical: size.width * 0.06),
+                backgroundColor: Colors.blue,
               ),
               child: Text(
                 'End Tuition',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: size.width * 0.05,
                 ),
               ),
             ),
@@ -103,4 +116,5 @@ class _TimerScreenState extends State<TimerScreen> {
       ),
     );
   }
+
 }

@@ -104,111 +104,115 @@ class _BidWidgetState extends State<BidWidget> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    fetchDetails();
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade800,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 200),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(imageUrl),
-            radius: 60,
+ Widget build(BuildContext context) {
+  fetchDetails();
+  final screenSize = MediaQuery.of(context).size;
+  final double avatarRadius = screenSize.width * 0.15;
+  final double marginVertical = screenSize.height * 0.2;
+  final double fontSize = screenSize.width * 0.05;
+
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.grey.shade800,
+      borderRadius: BorderRadius.circular(screenSize.width * 0.04),
+    ),
+    margin: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1, vertical: marginVertical),
+    padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.04, vertical: screenSize.width * 0.09),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(imageUrl),
+          radius: avatarRadius,
+        ),
+        SizedBox(height: screenSize.width * 0.04),
+        Text(
+          name,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize,
           ),
-          SizedBox(height: 16),
-          Text(
-            name,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-            textAlign: TextAlign.center,
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: screenSize.width * 0.08),
+        Text(
+          'Subject: ${widget.subject}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: fontSize * 0.8,
           ),
-          SizedBox(height: 32),
-          Text(
-            'Subject: ${widget.subject}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+        ),
+        SizedBox(height: screenSize.width * 0.02),
+        Text(
+          'Topic: ${widget.topic}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: fontSize * 0.8,
           ),
-          SizedBox(height: 8),
-          Text(
-            'Topic: ${widget.topic}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+        ),
+        SizedBox(height: screenSize.width * 0.02),
+        Text(
+          'Hourly Rate: RS ${widget.rate}/hr',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: fontSize * 0.8,
           ),
-          SizedBox(height: 8),
-          Text(
-            'Hourly Rate: RS ${widget.rate}/hr',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+        ),
+        SizedBox(height: screenSize.width * 0.02),
+        Text(
+          'Total Payment: \Rs:${due_payment.ceil()}',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: fontSize * 0.8,
           ),
-          SizedBox(height: 8),
-          Text(
-            'Total Payment: \Rs:${due_payment.ceil()}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-          SizedBox(height: 32),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  primary: Colors.green,
+        ),
+        SizedBox(height: screenSize.width * 0.08),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: null,
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(screenSize.width * 0.15),
                 ),
-                child: Text(
-                  'Call',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.08, vertical: screenSize.width * 0.04),
+                primary: Colors.green,
+              ),
+              child: Text(
+                'Call',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontSize * 0.8,
                 ),
               ),
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  backgroundColor: Colors.red,
+            ),
+            ElevatedButton(
+              onPressed: null,
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(screenSize.width * 0.15),
                 ),
-                child: Text(
-                  'Helpline',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.08, vertical: screenSize.width * 0.04),
+                backgroundColor: Colors.red,
+              ),
+              child: Text(
+                'Helpline',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontSize * 0.8,
                 ),
               ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+            ),
+          ],
+        )
+      ],
+    ),
+  );
+}
 }
 
 class ChargePage extends StatelessWidget {

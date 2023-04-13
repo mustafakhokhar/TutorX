@@ -61,59 +61,67 @@ class _BidWidgetState extends State<BidWidget> {
     });
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     // checkIfAccepted();
+
+    final size = MediaQuery.of(context).size;
 
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey.shade800,
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 170),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(
+        horizontal: size.width * 0.1,
+        vertical: size.height * 0.2,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.05,
+        vertical: size.height * 0.02,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
-            radius: 60,
+            radius: size.width * 0.15,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: size.height * 0.002),
           Text(
             name,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: size.height * 0.02,
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 32),
+          SizedBox(height: size.height * 0.04),
           Text(
             'Subject: $subject',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: size.height * 0.017,
             ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: size.height * 0.01),
           Text(
             'Topic: $topic',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: size.height * 0.017,
             ),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: size.height * 0.01),
           Text(
             'Hourly Rate: \Rs:$rate/hr',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: size.height * 0.017,
             ),
           ),
-          SizedBox(height: 32),
+          SizedBox(height: size.height * 0.05),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -123,7 +131,10 @@ class _BidWidgetState extends State<BidWidget> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.1,
+                    vertical: size.height * 0.02,
+                  ),
                   primary: Colors.green, // Change this to the desired color
                 ),
                 child: Text(
@@ -131,7 +142,7 @@ class _BidWidgetState extends State<BidWidget> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: size.height * 0.02,
                   ),
                 ),
               ),
@@ -141,7 +152,10 @@ class _BidWidgetState extends State<BidWidget> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.1,
+                    vertical: size.height * 0.02,
+                  ),
                   backgroundColor:
                       Colors.red, // Change this to the desired color
                 ),
@@ -150,15 +164,16 @@ class _BidWidgetState extends State<BidWidget> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: size.height * 0.02,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: size.height * 0.05),
           ElevatedButton(
             onPressed: () async {
+
               // Code for starting the tuition
               // final obj = {
               //   "name": "John Smith",
@@ -187,9 +202,11 @@ class _BidWidgetState extends State<BidWidget> {
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.1),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.15, 
+              vertical: MediaQuery.of(context).size.height * 0.035,),
               backgroundColor: Colors.blue, // Change this to the desired color
             ),
             child: Text(
@@ -197,7 +214,7 @@ class _BidWidgetState extends State<BidWidget> {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: MediaQuery.of(context).size.width * 0.05, // adjust the font size based on screen width
               ),
             ),
           ),
