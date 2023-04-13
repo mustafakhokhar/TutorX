@@ -69,76 +69,80 @@ class _ButtonState extends State<Button> {
     super.initState();
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+
     return MaterialApp(
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
           child: SizedBox(
-              height: 150,
-              width: 150,
-              child: PlayButton(
-                pauseIcon: Text(
-                  'Finding\nTuition',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'JakartaSans',
-                    fontWeight: FontWeight.w800,
-                    fontSize: 25,
-                  ),
-                  textAlign: TextAlign.center,
+            height: screenSize.width * 0.4,
+            width: screenSize.width * 0.4,
+            child: PlayButton(
+              pauseIcon: Text(
+                'Finding\nTuition',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'JakartaSans',
+                  fontWeight: FontWeight.w800,
+                  fontSize: screenSize.width * 0.06,
                 ),
-                playIcon: Text(
-                  'Find\nTuition',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'JakartaSans',
-                    fontWeight: FontWeight.w800,
-                    fontSize: 25,
-                  ),
-                  textAlign: TextAlign.center,
+                textAlign: TextAlign.center,
+              ),
+              playIcon: Text(
+                'Find\nTuition',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'JakartaSans',
+                  fontWeight: FontWeight.w800,
+                  fontSize: screenSize.width * 0.06,
                 ),
-                onPressed: () async {
-                  if (isPlaying) {
-                    print('Finding Tutor paused');
-                    String uid = await SharedPreferencesUtils.getUID();
-                    var user = ActiveTutors(
-                        uid: uid,
-                        longitude: _center!.longitude,
-                        latitude: _center!.latitude);
-                    var response = await BaseClient()
-                        .delete("/activeTutors/${user.uid}")
-                        .catchError((err) {
-                      print(err);
-                    });
-                  } else {
-                    _showOverlay(context);
-                    print('Finding Tutor');
-                    if (teaching_mode == 0) {
-                      print('It is in inperson_mode');
-                    } else if (teaching_mode == 1) {
-                      print('It is in Online mode');
-                    }
-                    String uid = await SharedPreferencesUtils.getUID();
-                    print(uid);
-                    print(_center);
-                    var user = ActiveTutors(
-                        uid: uid,
-                        longitude: _center!.longitude,
-                        latitude: _center!.latitude);
-                    var response = await BaseClient()
-                        .post("/activeTutors", user)
-                        .catchError((err) {});
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () async {
+                if (isPlaying) {
+                  print('Finding Tutor paused');
+                  String uid = await SharedPreferencesUtils.getUID();
+                  var user = ActiveTutors(
+                      uid: uid,
+                      longitude: _center!.longitude,
+                      latitude: _center!.latitude);
+                  var response = await BaseClient()
+                      .delete("/activeTutors/${user.uid}")
+                      .catchError((err) {
+                    print(err);
+                  });
+                } else {
+                  _showOverlay(context);
+                  print('Finding Tutor');
+                  if (teaching_mode == 0) {
+                    print('It is in inperson_mode');
+                  } else if (teaching_mode == 1) {
+                    print('It is in Online mode');
                   }
-                  isPlaying = !isPlaying;
-                },
-              )),
+                  String uid = await SharedPreferencesUtils.getUID();
+                  print(uid);
+                  print(_center);
+                  var user = ActiveTutors(
+                      uid: uid,
+                      longitude: _center!.longitude,
+                      latitude: _center!.latitude);
+                  var response = await BaseClient()
+                      .post("/activeTutors", user)
+                      .catchError((err) {});
+                }
+                isPlaying = !isPlaying;
+              },
+            ),
+          ),
         ),
       ),
     );
   }
+
 }
 
 // class Button extends StatelessWidget {
@@ -265,43 +269,54 @@ class _PlayButtonState extends State<PlayButton> with TickerProviderStateMixin {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 48, minHeight: 48),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          if (_showWaves) ...[
-            Blob(color: Color(0xffa5b300), scale: _scale, rotation: _rotation),
-            Blob(
-                color: Color(0xffeeff1a),
-                scale: _scale,
-                rotation: _rotation * 2 - 30),
-            Blob(
-                color: Color(0xfff2ff4d),
-                scale: _scale,
-                rotation: _rotation * 3 - 45),
-          ],
-          Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xff1a1a1a),
-              border: Border.all(
-                color: Color(0xFFF2FF53),
-                width: 4.0,
-              ),
-            ),
-            child: AnimatedSwitcher(
-              child: _buildIcon(isPlaying),
-              duration: _kToggleDuration,
-            ),
-          )
+@override
+Widget build(BuildContext context) {
+  final Size screenSize = MediaQuery.of(context).size;
+  final double minWidth = screenSize.width * 0.4;
+  final double minHeight = screenSize.height * 0.4;
+  final double borderWidth = screenSize.width * 0.01;
+  final double iconSize = screenSize.width * 0.6;
+
+  return ConstrainedBox(
+    constraints: BoxConstraints(minWidth: minWidth, minHeight: minHeight),
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        if (_showWaves) ...[
+          Blob(
+              color: Color(0xffa5b300),
+              scale: _scale,
+              rotation: _rotation),
+          Blob(
+              color: Color(0xffeeff1a),
+              scale: _scale,
+              rotation: _rotation * 2 - 30),
+          Blob(
+              color: Color(0xfff2ff4d),
+              scale: _scale,
+              rotation: _rotation * 3 - 45),
         ],
-      ),
-    );
-  }
+        Container(
+          width: iconSize,
+          height: iconSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color(0xff1a1a1a),
+            border: Border.all(
+              color: Color(0xFFF2FF53),
+              width: borderWidth,
+            ),
+          ),
+          child: AnimatedSwitcher(
+            child: _buildIcon(isPlaying),
+            duration: _kToggleDuration,
+          ),
+        )
+      ],
+    ),
+  );
+}
+
 
   @override
   void dispose() {

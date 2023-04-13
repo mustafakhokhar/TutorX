@@ -254,15 +254,15 @@ class _OffersScreenState extends State<OffersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Colors.black87,
-      backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
+    final size = MediaQuery.of(context).size;
 
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(size.width * 0.03),
         child: Column(
           children: [
-            SizedBox(height: 45),
+            SizedBox(height: size.height * 0.04),
             Expanded(
               child: ListView.builder(
                 itemCount: _offers.length,
@@ -274,7 +274,6 @@ class _OffersScreenState extends State<OffersScreen> {
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
@@ -286,27 +285,19 @@ class _OffersScreenState extends State<OffersScreen> {
           });
           if (response != null) {
             Navigator.of(context).pop();
-            // Navigator.of(context).push(
-            //   MaterialPageRoute(
-            //     builder: (context) =>
-            //         // StudentFindingTutorLoadingScreen(),
-            //         TutorHomepage(),
-            //   ),
-            // );
           }
         },
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
+          side: BorderSide(width: size.width * 0.007, color: Colors.white),
+          borderRadius: BorderRadius.circular(size.width * 0.13),
         ),
         child: Icon(
           Icons.arrow_back,
-          size: 32,
+          size: size.width * 0.09,
           color: Colors.white,
-        ), // add the hamburger menu icon here
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      // backgroundColor: Colors.black,
     );
   }
 }

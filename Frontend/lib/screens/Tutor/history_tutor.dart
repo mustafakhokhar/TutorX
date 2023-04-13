@@ -38,48 +38,59 @@ class BidWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Card(
       color: Color(0xFF583BE8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       elevation: 4,
-      margin: EdgeInsets.all(16),
+      margin: EdgeInsets.all(screenSize.width * 0.04),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Name: ${bid.tutor_name}",
-                style: TextStyle(
-                    fontFamily: 'JakartaSans',
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 255, 255, 255))),
+            padding: EdgeInsets.all(screenSize.width * 0.02),
+            child: Text(
+              "Name: ${bid.tutor_name}",
+              style: TextStyle(
+                fontFamily: 'JakartaSans',
+                fontSize: screenSize.width * 0.06,
+                fontWeight: FontWeight.w600,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Amount: ${bid.rate}",
-                style: TextStyle(
-                    fontFamily: 'JakartaSans',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFFF2FF53))),
+            padding: EdgeInsets.all(screenSize.width * 0.02),
+            child: Text(
+              "Amount: ${bid.rate}",
+              style: TextStyle(
+                fontFamily: 'JakartaSans',
+                fontSize: screenSize.width * 0.04,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFFF2FF53),
+              ),
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Tuition ID: ${bid.tuition_id}",
-                style: TextStyle(
-                    fontFamily: 'JakartaSans',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFFF2FF53))),
+            padding: EdgeInsets.all(screenSize.width * 0.02),
+            child: Text(
+              "Tuition ID: ${bid.tuition_id}",
+              style: TextStyle(
+                fontFamily: 'JakartaSans',
+                fontSize: screenSize.width * 0.04,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFFF2FF53),
+              ),
+            ),
           ),
-            
-            ],
-          ),
-      );
+        ],
+      ),
+    );
   }
+
 }
 
 class HistoryTutor extends StatefulWidget {
@@ -160,49 +171,47 @@ class _HistoryTutorState extends State<HistoryTutor> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Colors.black87,
-      backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
+@override
+Widget build(BuildContext context) {
+  final screenSize = MediaQuery.of(context).size;
 
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(height: 45),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _Bids.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return BidWidget(bid: _Bids[index]);
-                },
-              ),
+  return Scaffold(
+    backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
+    body: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          SizedBox(height: screenSize.height * 0.05),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _Bids.length,
+              itemBuilder: (BuildContext context, int index) {
+                return BidWidget(bid: _Bids[index]);
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () async {
-          _timer.cancel(); // Cancel the timer to prevent further callbacks
-
-          Navigator.of(context).pop();
-          super.dispose();
-        },
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
-        ),
-        child: Icon(
-          Icons.arrow_back,
-          size: 32,
-          color: Colors.white,
-        ), // add the hamburger menu icon here
+    ),
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: Colors.black,
+      onPressed: () async {
+        _timer.cancel(); // Cancel the timer to prevent further callbacks
+        Navigator.of(context).pop();
+        super.dispose();
+      },
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: screenSize.width * 0.01, color: Colors.white),
+        borderRadius: BorderRadius.circular(screenSize.width * 0.1),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      // backgroundColor: Colors.black,
-    );
-  }
+      child: Icon(
+        Icons.arrow_back,
+        size: screenSize.width * 0.08,
+        color: Colors.white,
+      ), // add the hamburger menu icon here
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+  );
+}
+
 }
