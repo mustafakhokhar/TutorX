@@ -84,12 +84,6 @@ class BidWidget extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   // ACCEPT
-                  // final response_tid = await BaseClient()
-                  //     .get("/pendingTuitions/${bid.tuition_id}")
-                  //     .catchError((err) {});
-
-                  // var res = json.decode(response_tid);
-
                   var selected_id = bid.tuition_id;
                   print("BID id: ${bid.tuition_id}");
 
@@ -146,10 +140,6 @@ class BidWidget extends StatelessWidget {
 
                   print("deleted successfully ");
                   print(response);
-
-                  
-
-
                 },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
@@ -256,56 +246,56 @@ class _BidsScreenInPersonState extends State<BidsScreenInPerson> {
     }
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Colors.black87,
-      backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: screenHeight * 0.03),
         child: Column(
           children: [
-            SizedBox(height: 45),
+            SizedBox(height: screenHeight * 0.04),
             Expanded(
               child: ListView.builder(
                 itemCount: _Bids.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return BidWidget(bid: _Bids[index]);
+                  return SizedBox(
+                    height: screenHeight * 0.15,
+                    child: BidWidget(bid: _Bids[index]),
+                  );
                 },
               ),
             ),
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () async {
           _timer.cancel(); // Cancel the timer to prevent further callbacks
-
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) =>
-                  // StudentFindingTutorLoadingScreen(),
-                  StudentHompage(),
+              builder: (context) => StudentHompage(),
             ),
           );
           // }
           super.dispose();
         },
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
+          side: BorderSide(width: screenWidth * 0.007, color: Colors.white),
+          borderRadius: BorderRadius.circular(screenWidth * 0.3),
         ),
         child: Icon(
           Icons.arrow_back,
-          size: 32,
+          size: screenWidth * 0.09,
           color: Colors.white,
         ), // add the hamburger menu icon here
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      // backgroundColor: Colors.black,
     );
   }
 }
+

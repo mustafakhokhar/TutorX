@@ -100,61 +100,65 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
         color: Color.fromARGB(255, 81, 81, 81),
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 150),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(
+          horizontal: 0.09 * MediaQuery.of(context).size.width,
+          vertical: 0.2 * MediaQuery.of(context).size.height),
+      padding: EdgeInsets.symmetric(
+          horizontal: 0.02 * MediaQuery.of(context).size.width,
+          vertical: 0.01 * MediaQuery.of(context).size.height),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // add the hamburger menu icon here
-        
-          SizedBox(height: 16),
+
+          SizedBox(height: 0.02 * MediaQuery.of(context).size.height),
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
-            radius: 60,
+            radius: 0.1 * MediaQuery.of(context).size.width,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 0.01 * MediaQuery.of(context).size.height),
           Text(
             name,
             style: TextStyle(
                 fontFamily: 'JakartaSans',
-                fontSize: 25,
+                fontSize: 0.06 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.w600,
                 color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 32),
+          SizedBox(height: 0.02 * MediaQuery.of(context).size.height),
           Text(
             'Subject: ${widget.subject}',
             style: TextStyle(
                 fontFamily: 'JakartaSans',
-                fontSize: 17,
+                fontSize: 0.04 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 0.02 * MediaQuery.of(context).size.height),
           Text(
             'Topic: ${widget.topic}',
             style: TextStyle(
                 fontFamily: 'JakartaSans',
-                fontSize: 17,
+                fontSize: 0.04 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: 0.02 * MediaQuery.of(context).size.height),
           Text(
             'Hourly Rate: RS ${widget.rate}/hr',
             style: TextStyle(
                 fontFamily: 'JakartaSans',
-                fontSize: 17,
+                fontSize: 0.04 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.w400,
                 color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 35),
+          SizedBox(height: 0.06 * MediaQuery.of(context).size.height),
           Text(
             'Charges Due:',
             style: TextStyle(
                 fontFamily: 'JakartaSans',
-                fontSize: 25,
+                fontSize: 0.08 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.w600,
                 color: Color.fromARGB(255, 255, 255, 255)),
           ),
@@ -162,11 +166,14 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
             'Rs:${due_payment.ceil()}',
             style: TextStyle(
                 fontFamily: 'JakartaSans',
-                fontSize: 40,
+                fontSize: 0.08 * MediaQuery.of(context).size.width,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFFF2FF53)),
           ),
-          SizedBox(height: 32),
+
+          //
+
+          SizedBox(height: 0.06 * MediaQuery.of(context).size.height),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -176,7 +183,9 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0.05 * MediaQuery.of(context).size.width,
+                      vertical: 0.02 * MediaQuery.of(context).size.height),
                   primary: Colors.green,
                 ),
                 child: Text(
@@ -184,7 +193,7 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 0.018 * MediaQuery.of(context).size.height,
                   ),
                 ),
               ),
@@ -194,7 +203,9 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0.05 * MediaQuery.of(context).size.width,
+                      vertical: 0.02 * MediaQuery.of(context).size.height),
                   backgroundColor: Colors.red,
                 ),
                 child: Text(
@@ -202,13 +213,12 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 0.018 * MediaQuery.of(context).size.height,
                   ),
                 ),
               ),
             ],
           )
-          
         ],
       ),
     );
@@ -240,7 +250,6 @@ class ChargePageStd extends StatelessWidget {
             rate: rate,
           ),
         ),
-        
       ),
     );
   }

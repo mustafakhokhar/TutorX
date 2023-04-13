@@ -49,91 +49,109 @@ class BidWidget extends StatelessWidget {
   //       builder: (_) => AlertDialog(title: Text('Cancelled')));
   // }
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Color(0xFF583BE8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      elevation: 4,
-      margin: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Name: ${bid.tutor_name}",
-                style: TextStyle(
-                    fontFamily: 'JakartaSans',
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 255, 255, 255))),
+@override
+Widget build(BuildContext context) {
+  final mediaQueryData = MediaQuery.of(context);
+  final screenWidth = mediaQueryData.size.width;
+  final screenHeight = mediaQueryData.size.height;
+
+  return Card(
+    color: Color(0xFF583BE8),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(screenWidth * 0.04),
+    ),
+    elevation: screenWidth * 0.016,
+    margin: EdgeInsets.all(screenWidth * 0.04),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.all(screenWidth * 0.032),
+          child: Text(
+            "Name: ${bid.tutor_name}",
+            style: TextStyle(
+              fontFamily: 'JakartaSans',
+              fontSize: screenWidth * 0.064,
+              fontWeight: FontWeight.w600,
+              color: Color.fromARGB(255, 255, 255, 255),
+            ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Hourly Rate: ${bid.rate}/hr",
-                style: TextStyle(
-                    fontFamily: 'JakartaSans',
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFFF2FF53))),
+        ),
+        Padding(
+          padding: EdgeInsets.all(screenWidth * 0.032),
+          child: Text(
+            "Hourly Rate: ${bid.rate}/hr",
+            style: TextStyle(
+              fontFamily: 'JakartaSans',
+              fontSize: screenWidth * 0.042,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFFF2FF53),
+            ),
           ),
-          ButtonBar(
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  // ACCEPT
-                  // final response_tid = await BaseClient()
-                  //     .get("/pendingTuitions/${bid.tuition_id}")
-                  //     .catchError((err) {});
+        ),
+        ButtonBar(
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                // ACCEPT
+                // final response_tid = await BaseClient()
+                //     .get("/pendingTuitions/${bid.tuition_id}")
+                //     .catchError((err) {});
 
-                  // var res = json.decode(response_tid);
+                // var res = json.decode(response_tid);
 
-                  var selected_id = bid.tuition_id;
-                  print("BID id: ${bid.tuition_id}");
+                var selected_id = bid.tuition_id;
+                print("BID id: ${bid.tuition_id}");
 
-                  final myJSONobject = {
-                    'tutor_id': bid.tutor_id,
-                    'bid_amount': bid.rate
-                  };
+                final myJSONobject = {
+                  'tutor_id': bid.tutor_id,
+                  'bid_amount': bid.rate
+                };
 
-                  final response = await BaseClient()
-                      .put("/pendingTuitions/${selected_id}", myJSONobject)
-                      .catchError((err) {});
+                final response = await BaseClient()
+                    .put("/pendingTuitions/${selected_id}", myJSONobject)
+                    .catchError((err) {});
 
-                  print("SUCCCESSSSS");
-                  var uid = await SharedPreferencesUtils.getUID();
-                  print(uid);
-                  final response_deletion = await BaseClient()
-                      .delete("/bids/${uid}")
-                      .catchError((err) {});
+                print("SUCCCESSSSS");
+                var uid = await SharedPreferencesUtils.getUID();
+                print(uid);
+                final response_deletion = await BaseClient()
+                    .delete("/bids/${uid}")
+                    .catchError((err) {});
 
-                  print("deleted successfully ");
+                print("deleted successfully ");
 
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ChosenTutor(tuition_id: selected_id,),
-                    ),
-                  );
-                },
-                style: ButtonStyle(
-                  // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Color.fromARGB(255, 0, 0, 0)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ChosenTutor(
+                      tuition_id: selected_id,
                     ),
                   ),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Color.fromARGB(255, 0, 0, 0),
                 ),
-                child: Text('Accept',
-                    style: TextStyle(
-                        fontFamily: 'JakartaSans',
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFFF2FF53))),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(screenWidth * 0.1),
+                  ),
+                ),
               ),
+              child: Text(
+                'Accept',
+                style: TextStyle(
+                  fontFamily: 'JakartaSans',
+                  fontSize: screenWidth * 0.042,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFFF2FF53),
+                ),
+              ),
+            ),
+
+            
               ElevatedButton(
                 onPressed: () async {
                   // DECLINE FUNCTIONALITY
@@ -146,10 +164,6 @@ class BidWidget extends StatelessWidget {
 
                   print("deleted successfully ");
                   print(response);
-
-                  
-
-
                 },
                 style: ButtonStyle(
                   // fixedSize: MaterialStateProperty.all<Size>(Size(130, 45)),
@@ -157,17 +171,19 @@ class BidWidget extends StatelessWidget {
                       Color.fromARGB(255, 0, 0, 0)),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: 
+                      BorderRadius.circular(screenWidth * 0.1),
                     ),
                   ),
                 ),
                 child: Text(
                   'Decline',
                   style: TextStyle(
-                      fontFamily: 'JakartaSans',
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFFF2FF53)),
+                  fontFamily: 'JakartaSans',
+                  fontSize: screenWidth * 0.042,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFFF2FF53),
+                  ),
                 ),
               ),
             ],
@@ -256,56 +272,52 @@ class _BidsScreenState extends State<BidsScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Colors.black87,
-      backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
+@override
+Widget build(BuildContext context) {
+  final size = MediaQuery.of(context).size;
+  final height = size.height;
+  final width = size.width;
+  final padding = width * 0.02;
 
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(height: 45),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _Bids.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return BidWidget(bid: _Bids[index]);
-                },
-              ),
+  return Scaffold(
+    backgroundColor: Color.fromARGB(255, 5, 5, 5).withOpacity(0.5),
+    body: Padding(
+      padding: EdgeInsets.all(padding),
+      child: Column(
+        children: [
+          SizedBox(height: height * 0.05),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _Bids.length,
+              itemBuilder: (BuildContext context, int index) {
+                return BidWidget(bid: _Bids[index]);
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () async {
-          _timer.cancel(); // Cancel the timer to prevent further callbacks
-
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  // StudentFindingTutorLoadingScreen(),
-                  StudentHompage(),
-            ),
-          );
-          // }
-          super.dispose();
-        },
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
-        ),
-        child: Icon(
-          Icons.arrow_back,
-          size: 32,
-          color: Colors.white,
-        ), // add the hamburger menu icon here
+    ),
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: Colors.black,
+      onPressed: () async {
+        _timer.cancel();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => StudentHompage(),
+          ),
+        );
+      },
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: width * 0.01, color: Colors.white),
+        borderRadius: BorderRadius.circular(height * 0.06),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      // backgroundColor: Colors.black,
-    );
-  }
+      child: Icon(
+        Icons.arrow_back,
+        size: width * 0.08,
+        color: Colors.white,
+      ),
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+  );
+}
 }

@@ -92,7 +92,7 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     checkIfAccepted();
     
@@ -103,13 +103,13 @@ class _TimerScreenStdState extends State<TimerScreenStd> {
           children: [
             Text(
               'Tuition in Progress:',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.06),
             ),
             Text(
               timerText,
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.12, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             
           ],
         ),

@@ -58,60 +58,64 @@ class _StudentHompageState extends State<StudentHompage> {
     });
   }
 
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldState,
-      drawer: NavBar(),
-      body: _center == null // Check if _center is null
-          ? CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                Colors.black,
-              ),
-            ) // Show a placeholder until _center is updated
-          : Stack(
-              children: [
-                GoogleMap(
-                  mapType: MapType.normal,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _center!, // Use _center with null safety operator
-                    zoom: 16.0,
-                  ),
-                  markers: _markers.values.toSet(),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 74,
-                  child: SizedBox(
-                    height: 52,
-                    width: 150,
-                    child: ModeTeaching(_center),
-                  ),
-                ),
-              ],
+GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+@override
+Widget build(BuildContext context) {
+  final Size screenSize = MediaQuery.of(context).size;
+  final double mapHeight = screenSize.height - kToolbarHeight - 74;
+  final double buttonWidth = screenSize.width * 0.3;
+
+  return Scaffold(
+    key: _scaffoldState,
+    drawer: NavBar(),
+    body: _center == null // Check if _center is null
+        ? CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Colors.black,
             ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          _scaffoldState.currentState?.openDrawer();
-        },
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Colors.white),
-          borderRadius: BorderRadius.circular(100),
-        ),
-        child: Icon(
-          Icons.menu,
-          size: 32,
-          color: Colors.white,
-        ), // add the hamburger menu icon here
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+          ) // Show a placeholder until _center is updated
+        : Stack(
+            children: [
+              GoogleMap(
+                mapType: MapType.normal,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center!, // Use _center with null safety operator
+                  zoom: 16.0,
+                ),
+                markers: _markers.values.toSet(),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: screenSize.height * 0.1,
+                child: SizedBox(
+                  height: screenSize.height * 0.05,
+                  width: screenSize.width * 0.5,
+                  child: ModeTeaching(_center),
+                ),
+              ),
+            ],
+          ),
+    floatingActionButton: FloatingActionButton(
       backgroundColor: Colors.black,
-    );
-  }
+      onPressed: () {
+        _scaffoldState.currentState?.openDrawer();
+      },
+      shape: RoundedRectangleBorder(
+        side: BorderSide(width: 3, color: Colors.white),
+        borderRadius: BorderRadius.circular(screenSize.width * 0.5),
+      ),
+      child: Icon(
+        Icons.menu,
+        size: screenSize.width * 0.1,
+        color: Colors.white,
+      ), // add the hamburger menu icon here
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+    backgroundColor: Colors.black,
+  );
+}
 }
