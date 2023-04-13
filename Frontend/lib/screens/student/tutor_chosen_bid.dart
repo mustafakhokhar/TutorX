@@ -29,8 +29,8 @@ class _BidWidgetState extends State<BidWidget> {
   var subject = '';
   var topic = '';
   var rate = 0;
-  var imageUrl =
-      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
+ var imageUrl =
+      'https://www.pngkey.com/png/detail/52-523516_empty-profile-picture-circle.png';
 
   bool check = false;
 
@@ -102,101 +102,94 @@ class _BidWidgetState extends State<BidWidget> {
   @override
   Widget build(BuildContext context) {
     checkIfAccepted();
-    return Container(
+    final double screenHeight = MediaQuery.of(context).size.height;
+final double screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body: Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade800,
+        color: Color.fromARGB(255, 41, 41, 41),
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 170),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.05, vertical: screenWidth*0.4),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.1, vertical: screenWidth*0.045),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: screenWidth*0.2),
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
             radius: 60,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: screenWidth*0.02),
           Text(
             name,
             style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
-            textAlign: TextAlign.center,
+                    fontFamily: 'JakartaSans',
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+                textAlign: TextAlign.center,
           ),
-          SizedBox(height: 32),
+          SizedBox(height: screenWidth*0.1),
           Text(
             'Subject: $subject',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: screenWidth*0.02),
           Text(
             'Topic: $topic',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: screenWidth*0.02),
           Text(
             'Hourly Rate: \Rs:$rate/hr',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 32),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: null,
+          SizedBox(height: screenWidth*0.09),
+          ElevatedButton(
+                onPressed: (){},
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  primary: Colors.green, // Change this to the desired color
+                  padding:
+                          EdgeInsets.symmetric(horizontal: 0.09 * MediaQuery.of(context).size.width,
+                      vertical: 0.019 * MediaQuery.of(context).size.height),
+                      primary: Color(0xFF583BE8), 
                 ),
                 child: Text(
                   'Call',
                   style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontFamily: 'JakartaSans',
+                    fontSize: 0.023 * MediaQuery.of(context).size.height,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  backgroundColor:
-                      Colors.red, // Change this to the desired color
-                ),
-                child: Text(
-                  'Helpline',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              
+              
             ],
           ),
-          SizedBox(height: 10),
         ],
       ),
-    );
+    ));
   }
 }
 
@@ -214,9 +207,6 @@ class ChosenTutor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Example'),
-      ),
       body: Center(
         child: BidWidget(
           tuition_id: tuition_id,

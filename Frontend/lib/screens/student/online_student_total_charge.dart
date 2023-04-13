@@ -16,8 +16,6 @@ import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart_app/restart_app.dart';
 
-
-
 class BidWidgetStd extends StatefulWidget {
   // final Bid bid;
   final tuition_id;
@@ -36,7 +34,6 @@ class BidWidgetStd extends StatefulWidget {
 
 class CustomObjectId {
   late mong.ObjectId _objectId;
-  
 
   // Constructor to generate a new ObjectId
   CustomObjectId() {
@@ -102,7 +99,7 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.black,
         body: Container(
@@ -110,19 +107,21 @@ final double screenWidth = MediaQuery.of(context).size.width;
             color: Color.fromARGB(255, 41, 41, 41),
             borderRadius: BorderRadius.circular(16),
           ),
-          margin: EdgeInsets.symmetric(horizontal: screenWidth*0.05, vertical: screenWidth*0.4),
-          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.2, vertical: screenWidth*0.045),
+          margin: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.05, vertical: screenWidth * 0.4),
+          padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.2, vertical: screenWidth * 0.045),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // add the hamburger menu icon here
 
-              SizedBox(height: screenWidth*0.02),
+              SizedBox(height: screenWidth * 0.02),
               CircleAvatar(
                 backgroundImage: NetworkImage(imageUrl),
                 radius: 60,
               ),
-              SizedBox(height: screenWidth*0.04),
+              SizedBox(height: screenWidth * 0.04),
               Text(
                 name,
                 style: TextStyle(
@@ -132,7 +131,7 @@ final double screenWidth = MediaQuery.of(context).size.width;
                     color: Color.fromARGB(255, 255, 255, 255)),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: screenWidth*0.07),
+              SizedBox(height: screenWidth * 0.07),
               Text(
                 'Subject: ${widget.subject}',
                 style: TextStyle(
@@ -141,7 +140,7 @@ final double screenWidth = MediaQuery.of(context).size.width;
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
-              SizedBox(height: screenWidth*0.02),
+              SizedBox(height: screenWidth * 0.02),
               Text(
                 'Topic: ${widget.topic}',
                 style: TextStyle(
@@ -150,16 +149,16 @@ final double screenWidth = MediaQuery.of(context).size.width;
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
-              SizedBox(height: screenWidth*0.02),
+              SizedBox(height: screenWidth * 0.02),
               Text(
                 'Hourly Rate: RS ${widget.rate}/hr',
                 style: TextStyle(
                     fontFamily: 'JakartaSans',
-                    fontSize: 17,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: Color.fromARGB(255, 255, 255, 255)),
               ),
-              SizedBox(height: screenWidth*0.08),
+              SizedBox(height: screenWidth * 0.08),
               Text(
                 'Charges Due:',
                 style: TextStyle(
@@ -176,35 +175,34 @@ final double screenWidth = MediaQuery.of(context).size.width;
                     fontWeight: FontWeight.w600,
                     color: Color(0xFFF2FF53)),
               ),
-              SizedBox(height: screenWidth*0.04),
+              SizedBox(height: screenWidth * 0.04),
               ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        isPaid = true;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      primary: Color(0xFF583BE8),
-                    ),
-                    child: Text(
-                      isPaid ? 'Paid' : 'Pay',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    ),
+                onPressed: () {
+                  setState(() {
+                    isPaid = true;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0.09 * MediaQuery.of(context).size.width,
+                      vertical: 0.019 * MediaQuery.of(context).size.height),
+                  primary: Color(0xFF583BE8),
+                ),
+                child: Text(
+                  isPaid ? 'Paid' : 'Pay',
+                  style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 0.023 * MediaQuery.of(context).size.height,
+                  ),
+                ),
+              ),
 
-                   
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-
               )
             ],
           ),

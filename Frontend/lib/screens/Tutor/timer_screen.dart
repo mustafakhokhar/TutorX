@@ -53,7 +53,7 @@ class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -82,20 +82,22 @@ class _TimerScreenState extends State<TimerScreen> {
                   );
               },
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding:
+                          EdgeInsets.symmetric(horizontal: 0.09 * MediaQuery.of(context).size.width,
+                      vertical: 0.019 * MediaQuery.of(context).size.height),
+                      primary: Color(0xFF583BE8), 
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                backgroundColor:
-                    Colors.blue, // Change this to the desired color
-              ),
               child: Text(
                 'End Tuition',
                 style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                    color: Colors.white,
+                    fontFamily: 'JakartaSans',
+                    fontSize: 0.023 * MediaQuery.of(context).size.height,
+                    fontWeight: FontWeight.w600,
+                  ),
               ),
             ),
           ],

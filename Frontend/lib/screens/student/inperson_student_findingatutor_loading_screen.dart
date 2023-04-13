@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tutorx/screens/student/bids_from_tutor.dart';
 import 'package:tutorx/screens/student/inperson_bids_from_tutor.dart';
+import 'package:tutorx/widgets/loader_stud.dart';
+
 
 import '../../utils/base_client.dart';
 import '../../utils/shared_preferences_utils.dart';
@@ -72,13 +73,9 @@ class InpersonStudentFindingTutorLoadingScreenState
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: circleSize,
-                  height: circleSize,
-                  child: CircularProgressIndicator(
-                    strokeWidth: circleSize * 0.06, // increase border width
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.yellow), // change color
-                  ),
+                  width: 100,
+                  height: 100,
+                  child: HomePage(),
                 ),
                 SizedBox(height: height * 0.03), // add some spacing
                 Padding(
@@ -88,7 +85,7 @@ class InpersonStudentFindingTutorLoadingScreenState
                     'Finding Tutors . . .',
                     style: TextStyle(
                       fontSize: width * 0.06,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: Color(0xFFF2FF53),
                       fontFamily: 'JakartaSans',
                     ),

@@ -55,8 +55,10 @@ class _BidWidgetState extends State<BidWidget> {
   var name = '';
   double due_payment = 0.0;
   var imageUrl =
-      'https://pbs.twimg.com/media/B5uu_b4CEAEJknA?format=jpg&name=medium';
+      'https://www.pngkey.com/png/detail/52-523516_empty-profile-picture-circle.png';
 
+
+  bool isPaid = false;
   @override
   void initState() {
     super.initState();
@@ -108,107 +110,113 @@ class _BidWidgetState extends State<BidWidget> {
   @override
   Widget build(BuildContext context) {
     fetchDetails();
-    return Container(
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body:Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade800,
+        color: Color.fromARGB(255, 41, 41, 41),
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 200),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.05, vertical: screenWidth * 0.4),
+          padding: EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.1, vertical: screenWidth * 0.045),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: screenWidth * 0.02),
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
             radius: 60,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: screenWidth * 0.04),
           Text(
             name,
             style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 255, 255, 255)),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 32),
+          SizedBox(height: screenWidth * 0.07),
           Text(
             'Subject: ${widget.subject}',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: screenWidth * 0.02),
           Text(
             'Topic: ${widget.topic}',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: screenWidth * 0.02),
           Text(
             'Hourly Rate: RS ${widget.rate}/hr',
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
           ),
-          SizedBox(height: 8),
+          SizedBox(height: screenWidth * 0.08),
           Text(
-            'Total Payment: \Rs:${due_payment.ceil()}',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-          SizedBox(height: 32),
+                'Charges Due:',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              Text(
+                'Rs:${due_payment.ceil()}',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 40,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFFF2FF53)),
+              ),
+          SizedBox(height: screenWidth * 0.04),
+          ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isPaid = true;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 0.09 * MediaQuery.of(context).size.width,
+                      vertical: 0.019 * MediaQuery.of(context).size.height),
+                  primary: Color(0xFF583BE8),
+                ),
+                child: Text(
+                  isPaid ? 'Collected' : 'Collect',
+                  style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 0.023 * MediaQuery.of(context).size.height,
+                  ),
+                ),
+              ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  primary: Colors.green,
-                ),
-                child: Text(
-                  'Call',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  backgroundColor: Colors.red,
-                ),
-                child: Text(
-                  'Helpline',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ],
+            
           )
         ],
       ),
-    );
+    ));
   }
 }
 

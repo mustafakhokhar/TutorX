@@ -262,9 +262,8 @@ class _BidsScreenInPersonState extends State<BidsScreenInPerson> {
               child: ListView.builder(
                 itemCount: _Bids.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: screenHeight * 0.15,
-                    child: BidWidget(bid: _Bids[index]),
+                  return 
+                    BidWidget(bid: _Bids[index]
                   );
                 },
               ),

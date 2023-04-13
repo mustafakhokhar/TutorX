@@ -10,6 +10,7 @@ import 'package:tutorx/screens/Tutor/student_accepted_bid.dart';
 import 'package:tutorx/screens/student/online_student_total_charge.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/Tutor/online_tutor_total_charge.dart';
+import 'package:tutorx/screens/student/tutor_chosen_bid.dart';
 import 'package:tutorx/utils/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:tutorx/firebase_options.dart';
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               primarySwatch: Colors.indigo,
               brightness: Brightness.dark,
             ),
-            // home: ChargePageStd(tuition_id: 'dasd',topic: 'test',subject: 'faf',rate: 1213,),
+            // home: ExamplePage(tuition_id: 'dasd'),
 
             home: FutureBuilder<bool>(
               future: SharedPreferencesUtils.getisLoggedIn(),
@@ -90,6 +91,7 @@ class _MyAppState extends State<MyApp> {
                 }
               },
             ),
+          
           );
         }
         return CircularProgressIndicator(
