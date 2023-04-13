@@ -23,6 +23,8 @@ class _StudentSignInState extends State<StudentSignIn> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: false,
@@ -34,7 +36,7 @@ class _StudentSignInState extends State<StudentSignIn> {
             left: 0,
             right: 0,
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: screenHeight * 0.7,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     hexStringToColor("583BE8"),
@@ -47,41 +49,41 @@ class _StudentSignInState extends State<StudentSignIn> {
                 ),
                 child: Column(children: <Widget>[
                   SizedBox(
-                    height: 40,
+                    height: screenHeight * 0.05,
                   ),
                   Text(
                     "Let's sign you in",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xFFF2FF53),
-                        fontSize: 32,
+                        fontSize: screenWidth * 0.09,
                         fontFamily: 'JakartaSans',
                         fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: screenHeight * 0.03,
                   ),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      width: screenWidth * 0.85,
+                      height: screenHeight * 0.08,
                       child: reusableTextField("Email or Phone Number",
                           Icons.person_2_outlined, false, _emailController)),
                   SizedBox(
-                    height: 20,
+                    height: screenHeight * 0.02,
                   ),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      width: screenWidth * 0.85,
+                      height: screenHeight * 0.08,
                       child: reusableTextField("Password", Icons.lock_outline,
                           true, _passwordController)),
                   SizedBox(
-                    height: 30,
+                    height: screenHeight * 0.03,
                   ),
                   _isLoading
                       ? CircularProgressIndicator()
                       : SizedBox(
-                          width: 200,
-                          height: 50,
+                          width: screenWidth * 0.5,
+                          height: screenHeight * 0.06,
                           child: ElevatedButton(
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all<
@@ -123,6 +125,7 @@ class _StudentSignInState extends State<StudentSignIn> {
                                     ),
                                   );
                                 } else {
+
                                   await Authentication.signOut(
                                       context: context);
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -137,15 +140,15 @@ class _StudentSignInState extends State<StudentSignIn> {
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                vertical: 16.0,
-                                horizontal: 32.0,
+                                vertical: screenHeight * 0.01,
+                                horizontal: screenWidth * 0.01,
                               ),
                               child: Text(
                                 'Sign In',
                                 style: TextStyle(
                                   fontFamily: 'JakartaSans',
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14,
+                                  fontSize: screenWidth * 0.04,
                                 ),
                               ),
                             ),
@@ -164,12 +167,12 @@ class _StudentSignInState extends State<StudentSignIn> {
                       style: TextStyle(
                         color: Color(0xFFF2FF53),
                         fontFamily: 'JakartaSans',
-                        fontSize: 12,
+                        fontSize: screenWidth * 0.03,
                       ),
                     ),
                   )),
                   SizedBox(
-                    height: 30,
+                    height: screenHeight*0.025,
                   ),
                   SizedBox(
                     child: GoogleSignInButton(),
