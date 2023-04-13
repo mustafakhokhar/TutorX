@@ -16,6 +16,8 @@ import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:restart_app/restart_app.dart';
 
+
+
 class BidWidgetStd extends StatefulWidget {
   // final Bid bid;
   final tuition_id;
@@ -34,6 +36,7 @@ class BidWidgetStd extends StatefulWidget {
 
 class CustomObjectId {
   late mong.ObjectId _objectId;
+  
 
   // Constructor to generate a new ObjectId
   CustomObjectId() {
@@ -56,6 +59,8 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
   double due_payment = 0.0;
   var imageUrl =
       'https://www.pngkey.com/png/detail/52-523516_empty-profile-picture-circle.png';
+
+  bool isPaid = false;
 
   @override
   void initState() {
@@ -96,122 +101,114 @@ class _BidWidgetStdState extends State<BidWidgetStd> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 81, 81, 81),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 32, vertical: 150),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // add the hamburger menu icon here
-
-          SizedBox(height: 16),
-          CircleAvatar(
-            backgroundImage: NetworkImage(imageUrl),
-            radius: 60,
+    final double screenHeight = MediaQuery.of(context).size.height;
+final double screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body: Container(
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 41, 41, 41),
+            borderRadius: BorderRadius.circular(16),
           ),
-          SizedBox(height: 16),
-          Text(
-            name,
-            style: TextStyle(
-                fontFamily: 'JakartaSans',
-                fontSize: 25,
-                fontWeight: FontWeight.w600,
-                color: Color.fromARGB(255, 255, 255, 255)),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 32),
-          Text(
-            'Subject: ${widget.subject}',
-            style: TextStyle(
-                fontFamily: 'JakartaSans',
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
-                color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Topic: ${widget.topic}',
-            style: TextStyle(
-                fontFamily: 'JakartaSans',
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
-                color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          SizedBox(height: 8),
-          Text(
-            'Hourly Rate: RS ${widget.rate}/hr',
-            style: TextStyle(
-                fontFamily: 'JakartaSans',
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
-                color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          SizedBox(height: 35),
-          Text(
-            'Charges Due:',
-            style: TextStyle(
-                fontFamily: 'JakartaSans',
-                fontSize: 25,
-                fontWeight: FontWeight.w600,
-                color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          Text(
-            'Rs:${due_payment.ceil()}',
-            style: TextStyle(
-                fontFamily: 'JakartaSans',
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFFF2FF53)),
-          ),
-          SizedBox(height: 32),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          margin: EdgeInsets.symmetric(horizontal: screenWidth*0.05, vertical: screenWidth*0.4),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth*0.2, vertical: screenWidth*0.045),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  primary: Colors.green,
-                ),
-                child: Text(
-                  'Paid',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+              // add the hamburger menu icon here
+
+              SizedBox(height: screenWidth*0.02),
+              CircleAvatar(
+                backgroundImage: NetworkImage(imageUrl),
+                radius: 60,
               ),
-              ElevatedButton(
-                onPressed: null,
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  backgroundColor: Colors.red,
-                ),
-                child: Text(
-                  'Helpline',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+              SizedBox(height: screenWidth*0.04),
+              Text(
+                name,
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+                textAlign: TextAlign.center,
               ),
+              SizedBox(height: screenWidth*0.07),
+              Text(
+                'Subject: ${widget.subject}',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              SizedBox(height: screenWidth*0.02),
+              Text(
+                'Topic: ${widget.topic}',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              SizedBox(height: screenWidth*0.02),
+              Text(
+                'Hourly Rate: RS ${widget.rate}/hr',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              SizedBox(height: screenWidth*0.08),
+              Text(
+                'Charges Due:',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 255, 255, 255)),
+              ),
+              Text(
+                'Rs:${due_payment.ceil()}',
+                style: TextStyle(
+                    fontFamily: 'JakartaSans',
+                    fontSize: 40,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFFF2FF53)),
+              ),
+              SizedBox(height: screenWidth*0.04),
+              ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isPaid = true;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      primary: Color(0xFF583BE8),
+                    ),
+                    child: Text(
+                      isPaid ? 'Paid' : 'Pay',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+
+                   
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+              )
             ],
-          )
-        ],
-      ),
-    );
+          ),
+        ));
   }
 }
 
@@ -231,6 +228,8 @@ class ChargePageStd extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Color.fromARGB(255, 0, 0, 0),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       child: Scaffold(
         // appBar: AppBar(),
         body: Center(
@@ -244,7 +243,7 @@ class ChargePageStd extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           onPressed: () {
-             Navigator.of(context).push(
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => StudentHompage(),
               ),
@@ -261,8 +260,6 @@ class ChargePageStd extends StatelessWidget {
           ), // add the hamburger menu icon here
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-        
-        
       ),
     );
   }
