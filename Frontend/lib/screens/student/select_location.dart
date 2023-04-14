@@ -138,14 +138,13 @@ class _MapScreenState extends State<MapScreen> {
       });
     }
   }
-double lat = 0;
-    double long = 0;
+
+  double lat = 0;
+  double long = 0;
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   @override
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       key: _scaffoldState,
       body: _center == null
@@ -262,7 +261,7 @@ double lat = 0;
                       }),
                 ),
                 Positioned(
-                  top: 800,
+                  top: 500,
                   left: 0,
                   right: 0,
                   child: SizedBox(
@@ -289,7 +288,8 @@ double lat = 0;
 
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => InpersonStudentFindingTutorLoadingScreen(),
+                            builder: (context) =>
+                                InpersonStudentFindingTutorLoadingScreen(),
                             // builder: (context) => CurrentlyActive(),
                           ),
                         );
