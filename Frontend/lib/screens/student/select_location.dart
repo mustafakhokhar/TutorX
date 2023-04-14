@@ -261,7 +261,11 @@ class _MapScreenState extends State<MapScreen> {
                       }),
                 ),
                 Positioned(
+<<<<<<< Updated upstream
                   top: 500,
+=======
+                  top: 600,
+>>>>>>> Stashed changes
                   left: 0,
                   right: 0,
                   child: SizedBox(
