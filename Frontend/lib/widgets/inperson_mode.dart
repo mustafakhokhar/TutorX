@@ -6,6 +6,8 @@ class InPersonMode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String topic = '';
+    String subject = '';
     return ElevatedButton(
       onPressed: () {
         // Put ROUTE FOR In-Person here
@@ -72,6 +74,8 @@ class InPersonMode extends StatelessWidget {
                       ],
                       onChanged: (value) {
                         // Handle subject selection
+                        subject = value!;
+
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -89,6 +93,9 @@ class InPersonMode extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     TextFormField(
+                      onChanged: (value) {
+                        topic = value;
+                      },
                       decoration: InputDecoration(
                         hintText: 'Enter your topic',
                         hintStyle:
@@ -114,7 +121,7 @@ class InPersonMode extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) =>
                                   // StudentFindingTutorLoadingScreen(),
-                                  MapScreen(),
+                                  MapScreen(topic,subject),
                             ),
                           );
                         },

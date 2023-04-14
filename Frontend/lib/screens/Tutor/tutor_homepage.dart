@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/screens/Tutor/two_buttons.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:tutorx/screens/Tutor/two_buttons.dart';
 import 'package:tutorx/widgets/navbar.dart';
-
+import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'homepage_button_tutor.dart';
 
-class TutorHomepage extends StatelessWidget {
-  // final String user_uid;
+var teaching_mode = 1;
+bool _isOnline = true;
+bool _isInPerson = false;
 
-  // const TutorHomepage({required this.user_uid}) : super();
+class TutorHomepage extends StatefulWidget {
+  const TutorHomepage({super.key});
+
+  @override
+  State<TutorHomepage> createState() => _TutorHomepageState();
+}
+
+class _TutorHomepageState extends State<TutorHomepage> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
   @override
   @override
   Widget build(BuildContext context) {
-    // final User? user = user_uid.user;
-
     final FirebaseAuth _auth = FirebaseAuth.instance;
+    final Size screenSize = MediaQuery.of(context).size;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -24,27 +33,30 @@ class TutorHomepage extends StatelessWidget {
         key: _scaffoldState,
         drawer: NavBar(),
         body: Center(
-            child: Container(
-          margin: EdgeInsets.fromLTRB(0, 150, 0, 200),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Expanded(
-              child: Button(),
-            ),
-            // Expanded(
-            //     child: SizedBox(
-            //   height: 50,
-            // )),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
+          child: Container(
+            margin: EdgeInsets.fromLTRB(
+                0, screenSize.height * 0.15, 0, screenSize.height * 0.4),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyButton(),
+                Expanded(
+                  child: Button(
+                    teaching_mode: teaching_mode,
+                  ),
+                ),
+                SizedBox(
+                  height: screenSize.height * 0.05,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    MyButton(),
+                  ],
+                )
               ],
-            )
-          ]),
-        )),
+            ),
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
           onPressed: () {
@@ -52,54 +64,97 @@ class TutorHomepage extends StatelessWidget {
           },
           shape: RoundedRectangleBorder(
             side: BorderSide(width: 3, color: Colors.white),
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(screenSize.width * 0.1),
           ),
           child: Icon(
             Icons.menu,
-            size: 32,
+            size: screenSize.width * 0.1,
             color: Colors.white,
-          ), // add the hamburger menu icon here
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
         backgroundColor: Colors.black,
       ),
-      // appBar: AppBar(
-      //   title: Text('Welcome $user_uid'),
-      // ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       Text(
-      //         'Welcome $user_uid',
-      //         style: TextStyle(
-      //           fontSize: 24.0,
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //       OutlinedButton(
-      //           onPressed: () {
+    );
+  }
+}
 
-      //             Navigator.of(context).push(
-      //               MaterialPageRoute(
-      //                 builder: (context) =>
-      //                     MapScreen(user_uid: user_uid),
-      //               ),
-      //             );
-      //           },
-      //           child: Text("MAPS PAGE")),
-      //       SizedBox(height: 20.0),
-      //       OutlinedButton(
-      //           onPressed: () async {
-      //             await Authentication.signOut(context: context);
-      //             Navigator.of(context).pushNamedAndRemoveUntil(
-      //                 '/', (Route<dynamic> route) => false);
-      //           },
-      //           child: Text("Sign Out")),
-      //       // child: SignOutButton(),
-      //     ],
-      //   ),
-      // ),
+class MyButton extends StatefulWidget {
+  const MyButton({super.key});
+
+  @override
+  _MyButtonState createState() => _MyButtonState();
+}
+
+class _MyButtonState extends State<MyButton> {
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final buttonWidth = (screenWidth - 30) / 2;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        InkWell(
+          onTap: () {
+            setState(() {
+              _isOnline = true;
+              _isInPerson = false;
+              print('Tutor is ready for Online Tuition');
+              teaching_mode = 1; // 1 for online
+            });
+          },
+          child: Container(
+            width: buttonWidth,
+            height: screenWidth * 0.2,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: _isOnline ? Color(0xFFF2FF53) : Color(0xFF1A1A1A),
+              borderRadius: BorderRadius.circular(screenWidth * 0.1),
+            ),
+            child: Text(
+              'Online',
+              style: TextStyle(
+                color: _isOnline ? Colors.black : Colors.white,
+                fontSize: screenWidth * 0.035,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'JakartaSans',
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: screenWidth * 0.03,
+        ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              _isOnline = false;
+              _isInPerson = true;
+              print('Tutor is ready for Offline Tuition');
+              teaching_mode = 0;
+            });
+          },
+          child: Container(
+            width: buttonWidth,
+            height: screenWidth * 0.2,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: _isInPerson ? Color(0xFFF2FF53) : Color(0xFF1A1A1A),
+              borderRadius: BorderRadius.circular(screenWidth * 0.1),
+            ),
+            child: Text(
+              'In-Person',
+              style: TextStyle(
+                color: _isInPerson ? Colors.black : Colors.white,
+                fontSize: screenWidth * 0.035,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'JakartaSans',
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

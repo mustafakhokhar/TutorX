@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// const String baseUrl = "http://localhost:3000";
-const String baseUrl = "http://10.130.9.65:3000";
+const String baseUrl = "https://backend-seven-hazel.vercel.app";
+// const String baseUrl = "http://10.130.9.65:3000";
 
 class BaseClient {
   var client = http.Client();

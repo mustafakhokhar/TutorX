@@ -3,15 +3,16 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatefulWidget {
-  const MyButton({Key? key}) : super(key: key);
+  const MyButton(teaching_mode, {Key? key}) : super(key: key);
 
   @override
   _MyButtonState createState() => _MyButtonState();
 }
 
 class _MyButtonState extends State<MyButton> {
-  bool _isOnline = false;
+  bool _isOnline = true;
   bool _isInPerson = false;
+  var teaching_mode = 0; // 0 used for in person
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class _MyButtonState extends State<MyButton> {
               _isOnline = true;
               _isInPerson = false;
               print('Tutor is ready for Online Tuition');
+              teaching_mode = 1; // 1 for online
             });
           },
           child: Container(
@@ -54,6 +56,7 @@ class _MyButtonState extends State<MyButton> {
               _isOnline = false;
               _isInPerson = true;
               print('Tutor is ready for Offline Tuition');
+              teaching_mode = 0;
             });
           },
           child: Container(

@@ -6,21 +6,19 @@ const Schema = mongoose.Schema;
 // start time will also be determined then
 const PendingTuitionsSchema = new Schema(
   {
-    tuition_id: { type: Number, required: true, unique: true },
     student_id: { type: String, required: true },
     tutor_id: { type: String},
     topic: { type: String, required: true },
-    student_location: { type: String, required: true },
-    start_time: { type: Date },
-    end_time: { type: Date },
-    tutor_bids: [
-      {
-        tutor_id: { type: String, required: true },
-        bid_amount: { type: Number, required: true },
+    subject: { type: String, required: true },
+    student_location: {
+        type: { type: String, enum: ['Point'], required: true },
+        coordinates: { type: [Number], required: true }
       },
-    ],
+    start_time: { type: Date },
+    bid_amount: {type: Number},
   },
   { timestamps: true }
 );
+PendingTuitionsSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model("pending_tuitions", PendingTuitionsSchema);

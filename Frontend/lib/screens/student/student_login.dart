@@ -1,22 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:tutorx/models/user_model.dart';
-import 'package:tutorx/screens/Tutor/tutor_homepage.dart';
 import 'package:tutorx/screens/common/forget_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:tutorx/screens/student/select_location.dart';
-import 'package:tutorx/screens/student/student_homepage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:tutorx/screens/common/map_temp.dart';
-// import 'package:tutorx/screens/student/select_location.dart';
-// import 'package:tutorx/screens/student/student_homepage.dart';
+import 'package:tutorx/screens/common/sign_in_success.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/widgets/Google_Sign_In_Button.dart';
-
-import '../../utils/base_client.dart';
+import 'package:tutorx/utils/base_client.dart';
 
 class StudentSignIn extends StatefulWidget {
   const StudentSignIn({super.key});
@@ -31,20 +23,11 @@ class _StudentSignInState extends State<StudentSignIn> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    //Function to store in Cache
-    Future<void> StoreUserDetailsInCache(String uid) async {
-      var response = await BaseClient().get("/user/$uid").catchError((err) {});
-      var user = usersFromJson(response);
-      // print('Here: ${user.fullname}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fullname', user.fullname);
-      await prefs.setString('uid', user.uid);
-      await prefs.setBool('student', user.student);
-      await prefs.setBool('isLoggedIn', true);
-    }
-
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Your background widgets here
@@ -53,7 +36,7 @@ class _StudentSignInState extends State<StudentSignIn> {
             left: 0,
             right: 0,
             child: Container(
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: screenHeight * 0.7,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     hexStringToColor("583BE8"),
@@ -66,41 +49,41 @@ class _StudentSignInState extends State<StudentSignIn> {
                 ),
                 child: Column(children: <Widget>[
                   SizedBox(
-                    height: 40,
+                    height: screenHeight * 0.05,
                   ),
                   Text(
                     "Let's sign you in",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Color(0xFFF2FF53),
-                        fontSize: 32,
+                        fontSize: screenWidth * 0.09,
                         fontFamily: 'JakartaSans',
                         fontWeight: FontWeight.w800),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: screenHeight * 0.03,
                   ),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      width: screenWidth * 0.85,
+                      height: screenHeight * 0.08,
                       child: reusableTextField("Email or Phone Number",
                           Icons.person_2_outlined, false, _emailController)),
                   SizedBox(
-                    height: 20,
+                    height: screenHeight * 0.02,
                   ),
                   SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.85,
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      width: screenWidth * 0.85,
+                      height: screenHeight * 0.08,
                       child: reusableTextField("Password", Icons.lock_outline,
                           true, _passwordController)),
                   SizedBox(
-                    height: 30,
+                    height: screenHeight * 0.03,
                   ),
                   _isLoading
                       ? CircularProgressIndicator()
                       : SizedBox(
-                          width: 200,
-                          height: 50,
+                          width: screenWidth * 0.5,
+                          height: screenHeight * 0.06,
                           child: ElevatedButton(
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all<
@@ -135,13 +118,14 @@ class _StudentSignInState extends State<StudentSignIn> {
                                 var user = jsonDecode(response);
 
                                 if (user["student"] == true) {
-                                  await StoreUserDetailsInCache(uid_temp);
+                                  await SharedPreferencesUtils.StoreUserDetailsInCache(uid_temp);
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => StudentHompage(),
+                                      builder: (context) => SignInSuccessful(),
                                     ),
                                   );
                                 } else {
+
                                   await Authentication.signOut(
                                       context: context);
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -156,15 +140,15 @@ class _StudentSignInState extends State<StudentSignIn> {
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(
-                                vertical: 16.0,
-                                horizontal: 32.0,
+                                vertical: screenHeight * 0.01,
+                                horizontal: screenWidth * 0.01,
                               ),
                               child: Text(
                                 'Sign In',
                                 style: TextStyle(
                                   fontFamily: 'JakartaSans',
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 14,
+                                  fontSize: screenWidth * 0.04,
                                 ),
                               ),
                             ),
@@ -183,12 +167,12 @@ class _StudentSignInState extends State<StudentSignIn> {
                       style: TextStyle(
                         color: Color(0xFFF2FF53),
                         fontFamily: 'JakartaSans',
-                        fontSize: 12,
+                        fontSize: screenWidth * 0.03,
                       ),
                     ),
                   )),
                   SizedBox(
-                    height: 30,
+                    height: screenHeight*0.025,
                   ),
                   SizedBox(
                     child: GoogleSignInButton(),

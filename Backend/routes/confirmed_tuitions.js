@@ -4,31 +4,36 @@ const ConfirmedTuitions = require('../models/confirmed_tuitions');
 const PendingTuitions = require('../models/pending_tuitions');
 
 // POST /confirmed-tuitions
+/* format {
+  _id : tuition_id
+}
+*/
 router.post('/', async (req, res) => {
   try {
-    const { tuition_id, tutor_id, student_id } = req.body;
-    const pendingTuition = await PendingTuitions.findById(tuition_id);
+    const { _id} = req.body;
+    const pendingTuition = await PendingTuitions.findById(_id);
     if (!pendingTuition) {
       return res.status(404).json({ message: 'Pending tuition not found' });
     }
-    const duration = (new Date() - pendingTuition.start_time) / 600000; // Duration in minutes
-    const bid = pendingTuition.tutorBids.find((b) => b.tutor_id.equals(tutor_id));
+    const duration = (new Date() - pendingTuition.start_time) / (1000*60*60); // Duration in minutes
+    const bid = pendingTuition.bid_amount;
+    const tid = pendingTuition._id;
     if (!bid) {
       return res.status(404).json({ message: 'Tutor bid not found' });
     }
     const confirmedTuition = new ConfirmedTuitions({
-      tuition_id,
-      tutor_id,
-      student_id,
+      _id,
+      tuition_id:tid,
+      tutor_id: pendingTuition.tutor_id,
+      student_id: pendingTuition.student_id,
       duration,
-      amount: duration * bid.amount
+      amount: duration * bid
     });
     await confirmedTuition.save();
-    await pendingTuition.remove();
+    await PendingTuitions.findByIdAndDelete(_id);
     return res.status(201).json({ message: 'Tuition confirmed successfully and deleted from pending tuitions' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
+    res.status(500).json({ message: err.message });
   }
 });
 

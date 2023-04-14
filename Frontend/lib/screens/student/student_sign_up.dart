@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tutorx/screens/common/sign_up_success.dart';
 // import 'package:tutorx/screens/common/map_temp.dart';
 import 'package:tutorx/screens/student/student_homepage.dart';
 import 'package:tutorx/screens/student/select_location.dart';
@@ -9,6 +10,7 @@ import 'package:tutorx/utils/api.dart';
 import 'package:tutorx/utils/base_client.dart';
 import 'package:tutorx/utils/colors.dart';
 import 'package:tutorx/utils/auth.dart';
+import 'package:tutorx/utils/shared_preferences_utils.dart';
 import 'package:tutorx/widgets/reusable_widgets.dart';
 import 'package:tutorx/models/user_model.dart';
 
@@ -28,19 +30,13 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> StoreUserDetailsInCache(String uid) async {
-      var response = await BaseClient().get("/user/$uid").catchError((err) {});
-      var user = usersFromJson(response);
-      // print('Here: ${user.fullname}');
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fullname', user.fullname);
-      await prefs.setString('uid', user.uid);
-      await prefs.setBool('student', user.student);
-      await prefs.setBool('isLoggedIn', true);
-    }
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenRatio = screenWidth / screenHeight;
 
     return Scaffold(
         backgroundColor: Colors.black,
+        resizeToAvoidBottomInset: false,
         body: Stack(children: [
           // Your background widgets here
           Positioned(
@@ -48,7 +44,7 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
               left: 0,
               right: 0,
               child: Container(
-                  height: MediaQuery.of(context).size.height * 0.9,
+                  height: screenHeight * 0.9,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [
                       hexStringToColor("583BE8"),
@@ -61,80 +57,80 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                   ),
                   child: Column(children: <Widget>[
                     SizedBox(
-                      height: 50,
+                      height: screenHeight * 0.05,
                     ),
                     Text(
                       "Getting Started",
                       style: TextStyle(
-                          fontSize: 32,
+                          fontSize: screenWidth * 0.08,
                           fontFamily: 'JakartaSans',
                           fontWeight: FontWeight.bold,
                           color: Color(0xFFF2FF53)),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: screenHeight * 0.01,
                     ),
                     Text(
                       "Create an account to continue!",
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: screenWidth * 0.03,
                           fontFamily: 'JakartaSans',
                           fontWeight: FontWeight.w600,
                           color: Color(0xFFF2FF53)),
                     ),
                     SizedBox(
-                      height: 30,
+                      height: screenHeight * 0.03,
                     ),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: screenWidth * 0.85,
+                        height: screenHeight * 0.08,
                         child: reusableTextField(
                             "Full Name",
                             Icons.person_2_outlined,
                             false,
                             _fullnameTextController)),
                     SizedBox(
-                      height: 20,
+                      height: screenHeight * 0.03,
                     ),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: screenWidth * 0.85,
+                        height: screenHeight * 0.08,
                         child: reusableTextField(
                             "Phone Number",
                             Icons.person_2_outlined,
                             false,
                             _phonenumberTextController)),
                     SizedBox(
-                      height: 20,
+                      height: screenHeight * 0.03,
                     ),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: screenWidth * 0.85,
+                        height: screenHeight * 0.08,
                         child: reusableTextField(
                             "Email",
                             Icons.person_2_outlined,
                             false,
                             _emailTextController)),
                     SizedBox(
-                      height: 20,
+                      height: screenHeight * 0.03,
                     ),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: screenWidth * 0.85,
+                        height: screenHeight * 0.08,
                         child: reusableTextField("Password", Icons.lock_outline,
                             true, _passwordTextController)),
                     SizedBox(
-                      height: 20,
+                      height: screenHeight * 0.03,
                     ),
                     SizedBox(
-                        width: 200,
-                        height: 50,
+                        width: screenWidth * 0.5,
+                        height: screenHeight * 0.08,
                         child: ElevatedButton(
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
+                                borderRadius: BorderRadius.circular(60.0),
                               ),
                             ),
                             backgroundColor: MaterialStateProperty.all(
@@ -172,7 +168,8 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                                   .post("/user", user)
                                   .catchError((err) {});
                               print("successful working");
-                              await StoreUserDetailsInCache(uid_temp);
+                              await SharedPreferencesUtils
+                                  .StoreUserDetailsInCache(uid_temp);
 
                               // if (response == null) return;
 
@@ -180,28 +177,31 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => StudentHompage(),
+                                  builder: (context) => SignUpSuccessful(),
                                 ),
                               );
                             }
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                              vertical: 16.0,
-                              horizontal: 32.0,
+                              vertical:
+                                  MediaQuery.of(context).size.height * 0.01,
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.1,
                             ),
                             child: Text(
                               'Sign Up',
                               style: TextStyle(
                                 fontFamily: 'JakartaSans',
                                 fontWeight: FontWeight.w600,
-                                fontSize: 14,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
                               ),
                             ),
                           ),
                         )),
                     SizedBox(
-                      height: 20,
+                      height: screenHeight * 0.02,
                     ),
                     Center(
                         child: TextButton(
@@ -214,7 +214,12 @@ class _StudentSignUpScreenState extends State<StudentSignUpScreen> {
                       },
                       child: Text(
                         "Already have an account? Sign In",
-                        style: TextStyle(color: Color(0xFFF2FF53)),
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.03,
+                          fontFamily: 'JakartaSans',
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFF2FF53),
+                        ),
                       ),
                     ))
                   ])))
